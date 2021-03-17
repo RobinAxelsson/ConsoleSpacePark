@@ -2,20 +2,12 @@
 
 Use this file to fill in your documentation
 
-kund som ska identifiera sig
+## 2021-03-22
+*
+*
+*
 
-
-Kolla API varje första kund
-    - Skapa Konto
-
-    Kontrollfråga: Vad är ditt skepp?
-
-
-Identifiera dig:
-id eller namn
-Vilket är ditt skepp?
-********
-
-
-SQL Databasen
-    Code first
+## 2021-03-17
+* Created pseudo code in Google Sheet.
+* Watched and discussed the Youtube tutorial about ERD (Entity Realation Diagram).
+* Created file structure.
