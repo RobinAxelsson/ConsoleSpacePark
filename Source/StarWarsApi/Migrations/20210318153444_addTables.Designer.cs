@@ -10,8 +10,8 @@ using StarWarsApi.Database;
 namespace StarWarsApi.Migrations
 {
     [DbContext(typeof(StarWarsContext))]
-    [Migration("20210318134328_StarWarsMigration")]
-    partial class StarWarsMigration
+    [Migration("20210318153444_addTables")]
+    partial class addTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,15 +64,24 @@ namespace StarWarsApi.Migrations
 
             modelBuilder.Entity("StarWarsApi.Models.User", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Eye_color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.Property<int>("StarWarsID")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });

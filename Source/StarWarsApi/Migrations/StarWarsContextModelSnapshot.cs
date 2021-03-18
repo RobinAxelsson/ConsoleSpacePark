@@ -62,15 +62,24 @@ namespace StarWarsApi.Migrations
 
             modelBuilder.Entity("StarWarsApi.Models.User", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Eye_color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.Property<int>("StarWarsID")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });

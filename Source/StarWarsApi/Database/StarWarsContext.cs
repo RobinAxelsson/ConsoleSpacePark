@@ -14,7 +14,7 @@ namespace StarWarsApi.Database
         public DbSet<User> Users { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsbuilder)
         {
-            optionsbuilder.UseSqlServer(@"Server=90.229.161.68,1433;Database=StarWarsProject;UserId=adminuser;Password=starwars");
+            optionsbuilder.UseSqlServer(@"Data Source=90.229.161.68,1433;Initial Catalog=StarWarsDataBase2.0;user id=adminuser;password=starwars");
         }
     }
 }
