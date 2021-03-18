@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace StarWarsApi.Models
 {
-    class User
+    public class User
     {
+        public string Name { get; set; }
+        public int ID { get; set; }
+        
     }
 }

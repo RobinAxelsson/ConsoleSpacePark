@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace StarWarsApi.Models
 {
-    class SpaceShip
+    public class SpaceShip
     {
+        public string Name { get; set; }
+        public long Weight { get; set; }
     }
 }
