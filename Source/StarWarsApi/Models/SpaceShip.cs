@@ -9,6 +9,7 @@ namespace StarWarsApi.Models
 {
     public class SpaceShip
     {
+        public int SpaceShipID { get; set; }
         public string Name { get; set; }
         public string Model { get; set; }
         public string Manufacturer { get; set; }
@@ -16,7 +17,8 @@ namespace StarWarsApi.Models
         //Noticed SWAPI JSON doesn't contain values for height or width. Will we use our own measurements?
         public class ShipSize
         {
-            public readonly long Width;
+            public int ShipSizeID { get; set; }
+            public long Width { get; private set; }
             public readonly long Length;
             public readonly long Height;
             public ShipSize(long width, long length, long height)
@@ -24,6 +26,11 @@ namespace StarWarsApi.Models
                 Width = width;
                 Length = length;
                 Height = height;
+            }
+
+            public ShipSize()
+            {
+
             }
         }
     }
