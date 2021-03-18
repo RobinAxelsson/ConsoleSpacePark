@@ -8,23 +8,22 @@ namespace StarWarsApi.Models
 {
     public class User
     {
+        public int UserId { get; set; }
         public string Name { get; set; }
-        public int ID { get; set; }
+        public int StarWarsID { get; set; }
         public string Gender { get; set; }
         public string Eye_color { get; set; }
-        public UserSpecies Species { get; set; }
-        public User(string name, int id, UserSpecies species)
+        public User(string name, int id)
         {
             Name = name;
-            ID = id;
-            Species = species;
+            StarWarsID = id;
+            
         }
 
-        public class UserSpecies
+        public User()
         {
-            public readonly string Name;
-            public readonly string Classification;
-            public readonly string Language;
+            
         }
+       
     }
 }

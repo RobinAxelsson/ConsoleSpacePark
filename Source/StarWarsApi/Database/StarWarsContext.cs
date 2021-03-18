@@ -12,11 +12,6 @@ namespace StarWarsApi.Database
     {
         public DbSet<SpaceShip> SpaceShips { get; set; }
         public DbSet<User> Users { get; set; }
-        //public StarWarsContext(long width, long height, long length)
-        //{
-        //    SpaceShip = new SpaceShip();
-        //}
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsbuilder)
         {
             optionsbuilder.UseSqlServer(@"Server=90.229.161.68,1433;Database=StarWarsProject;UserId=adminuser;Password=starwars");

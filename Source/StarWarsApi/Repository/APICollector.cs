@@ -27,7 +27,7 @@ namespace StarWarsApi.Repository
             {
                 var parsedUser = JsonConvert.DeserializeObject<User>(jsonResult);
                 var tempURL = JsonConvert.DeserializeObject<TempHolder>(jsonResult);
-                parsedUser.ID = int.Parse(Regex.Replace(URL,@"[^\d]", string.Empty));
+                parsedUser.StarWarsID = int.Parse(Regex.Replace(URL,@"[^\d]", string.Empty));
                 return parsedUser;
             }
             else
