@@ -14,7 +14,7 @@ namespace StarWarsTerminal.Main
 
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
-        private static IntPtr ThisConsole = GetConsoleWindow();
+        private static readonly IntPtr ThisConsole = GetConsoleWindow();
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
 
@@ -23,7 +23,8 @@ namespace StarWarsTerminal.Main
         private const int MAXIMIZE = 3;
         private const int MINIMIZE = 6;
         private const int RESTORE = 9;
-        static void Main(string[] args)
+
+        private static void Main(string[] args)
         {
             ShowWindow(ThisConsole, MAXIMIZE);
             Thread.Sleep(500);
@@ -35,10 +36,10 @@ namespace StarWarsTerminal.Main
             var credScreen = CredentialsScreen();
             var dollar1 = credScreen.Frames[2].Drawables.Find(x => x.Chars == ":");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.SetCursorPosition(dollar1.CoordinateX + 3, dollar1.CoordinateY);
+            if (dollar1 != null) Console.SetCursorPosition(dollar1.CoordinateX + 3, dollar1.CoordinateY);
             Console.ReadLine();
             var dollar2 = credScreen.Frames[2].Drawables.FindLast(x => x.Chars == ":");
-            Console.SetCursorPosition(dollar2.CoordinateX + 3, dollar2.CoordinateY);
+            if (dollar2 != null) Console.SetCursorPosition(dollar2.CoordinateX + 3, dollar2.CoordinateY);
 
             var keyInfo = Console.ReadKey(true);
             string password = "";
@@ -59,16 +60,16 @@ namespace StarWarsTerminal.Main
                     }
                     continue;
                 }
-                if (password.Length <43)
-                {
-                    password += keyInfo.KeyChar;
-                    Console.Write("*");
-                }
+
+                if (password.Length >= 43) continue;
+                password += keyInfo.KeyChar;
+                Console.Write("*");
             }
             Console.WriteLine(password);
             Console.ReadLine();
         }
-        public static Screen CredentialsScreen()
+
+        private static Screen CredentialsScreen()
         {
             var credFrame = new TextFrame(@"UI/TextFrames/2.1_enter.txt", ConsoleColor.DarkYellow);
             var credFrame2 = new TextFrame(@"UI/TextFrames/2.2_credentials.txt", ConsoleColor.DarkYellow);
@@ -85,7 +86,8 @@ namespace StarWarsTerminal.Main
 
             return credScreen;
         }
-        public static Screen SetUpWelcomeScreen()
+
+        private static Screen SetUpWelcomeScreen()
         {
             var welcomeFrame = new TextFrame(@"UI/TextFrames/1.1_welcome-text.txt", ConsoleColor.DarkYellow);
             var welcomeFrame2 = new TextFrame(@"UI/TextFrames/1.2_welcome-text.txt", ConsoleColor.DarkYellow);
