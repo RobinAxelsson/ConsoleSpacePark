@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using StarWarsApi.Models;
 using StarWarsApi.Repository;
 using StarWarsApi.Database;
