@@ -15,9 +15,13 @@
     <None Remove="UI\TextFrames\2.1_Enter.txt" />
     <None Remove="UI\TextFrames\2.2_credentials.txt" />
     <None Remove="UI\TextFrames\2.2_Form.txt" />
+    <None Remove="UI\TextFrames\Welcome.Full.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="UI\TextFrames\Welcome.Full.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="UI\TextFrames\2.2_Form.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

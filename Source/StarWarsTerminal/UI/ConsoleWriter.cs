@@ -7,9 +7,25 @@ namespace StarWarsTerminal.UI
 {
     public static class ConsoleWriter
     {
-        public static void Write(IDrawable drawable)
+        private static List<IDrawable> ScreenMemory = new List<IDrawable>();
+        public static void TryAdd(IDrawable drawable) { }
+        public static void TryAdd(List<IDrawable> drawables) { }
+        public static void TryAdd(IDrawContainer container) { }
+        public static void Update()
         {
-            //if (drawable.IsDrawn == true) return;
+            foreach (var drawable in ScreenMemory)
+            {
+                if(drawable.IsErased == false && drawable.IsDrawn == false)
+                    Write(drawable);
+                else if(drawable.IsErased == true)
+                {
+                    Erase(drawable);
+                    ScreenMemory.Remove(drawable);
+                }
+            }
+        }
+        private static void Write(IDrawable drawable)
+        {
             Console.ForegroundColor = drawable.ForegroundColor;
             Console.BackgroundColor = drawable.BackgroundColor;
             Console.SetCursorPosition(drawable.CoordinateX, drawable.CoordinateY);
@@ -17,14 +33,13 @@ namespace StarWarsTerminal.UI
             drawable.IsDrawn = true;
             Console.ForegroundColor = ConsoleColor.White;
         }
-        public static void Erase(IDrawable drawable)
+        private static void Erase(IDrawable drawable)
         {
             if (drawable.IsDrawn == false) return;
 
             Console.BackgroundColor = ConsoleColor.Black;
             Console.SetCursorPosition(drawable.CoordinateX, drawable.CoordinateY);
             Console.Write(" ");
-            drawable.IsErased = true;
             Console.ForegroundColor = ConsoleColor.White;
         }
     }

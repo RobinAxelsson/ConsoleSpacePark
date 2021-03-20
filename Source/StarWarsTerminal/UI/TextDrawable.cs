@@ -11,7 +11,6 @@ namespace StarWarsTerminal.UI
         public ConsoleColor ForegroundColor { get; set; } = ConsoleColor.White;
         public bool IsDrawn { get; set; }
         public bool IsErased { get; set; }
-
         public bool IsSame(IDrawable drawable) { return false; }
     }
 }
