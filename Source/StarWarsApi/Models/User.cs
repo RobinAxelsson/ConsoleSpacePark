@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
+using StarWarsApi.Interfaces;
 
 namespace StarWarsApi.Models
 {
-    public class User
+    public class User : IStarwarsItem
     {
         public int UserId { get; set; }
         public string Name { get; set; }
