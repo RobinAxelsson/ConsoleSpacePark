@@ -10,7 +10,7 @@ namespace StarWarsTerminal.UI
         public ConsoleColor BackgroundColor { get; set; }
         public ConsoleColor ForegroundColor { get; set; }
         public bool IsDrawn { get; set; }
-        public bool IsErased { get; set; }
+        public bool Erase { get; set; }
         public bool IsSame(IDrawable drawable);
     }
 }

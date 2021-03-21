@@ -6,6 +6,7 @@ using StarWarsTerminal.UI;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Threading;
+using System.IO;
 
 namespace StarWarsTerminal.Main
 {
@@ -23,87 +24,61 @@ namespace StarWarsTerminal.Main
         private const int MAXIMIZE = 3;
         private const int MINIMIZE = 6;
         private const int RESTORE = 9;
+
+        public const ConsoleColor ForegroundColor = ConsoleColor.Green;
+      
         static void Main(string[] args)
         {
             ShowWindow(ThisConsole, MAXIMIZE);
+            Console.CursorVisible = false;
             Thread.Sleep(500);
 
-            var welcomeScreen = SetUpWelcomeScreen();
-            Thread.Sleep(2000);
-            welcomeScreen.Clear();
-
-            var credScreen = CredentialsScreen();
-            var dollar1 = credScreen.Frames[2].Drawables.Find(x => x.Chars == ":");
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.SetCursorPosition(dollar1.CoordinateX + 3, dollar1.CoordinateY);
-            Console.ReadLine();
-            var dollar2 = credScreen.Frames[2].Drawables.FindLast(x => x.Chars == ":");
-            Console.SetCursorPosition(dollar2.CoordinateX + 3, dollar2.CoordinateY);
-
-            var keyInfo = Console.ReadKey(true);
-            string password = "";
-            while(keyInfo.Key != ConsoleKey.Enter)
+            var list = new string[]
             {
-                Console.CursorVisible = false;
-                keyInfo = Console.ReadKey(true);
+                "bobba",
+                "Yabba",
+                "Yoda",
+                "Tatoine",
+                "Jedi"
+            };
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/list-container.txt");
+            var listText = new TextContainer(lines, ForegroundColor);
+            listText.AddLines(list, 3);
+            listText.CenterUnitsXDir(Console.WindowWidth);
+            listText.CenterUnitsYDir(Console.WindowHeight);
+            ConsoleWriter.TryAppend(listText);
+            ConsoleWriter.Update();
 
-                if(keyInfo.Key == ConsoleKey.Backspace)
-                {
-                    if(password.Length > 0)
-                    {
-                        password = password.Remove(password.Length - 1);
-                        int x = Console.CursorLeft;
-                        Console.CursorLeft = x - 1;
-                        Console.Write(" ");
-                        Console.CursorLeft = x - 1;
-                    }
-                    continue;
-                }
-                if (password.Length <43)
-                {
-                    password += keyInfo.KeyChar;
-                    Console.Write("*");
-                }
-            }
-            Console.WriteLine(password);
             Console.ReadLine();
         }
-        public static Screen CredentialsScreen()
+
+        public static (string FullName, string Password) GetNamePass(TextContainer credScreen)
         {
-            var credFrame = new TextFrame(@"UI/TextFrames/2.1_enter.txt", ConsoleColor.DarkYellow);
-            var credFrame2 = new TextFrame(@"UI/TextFrames/2.2_credentials.txt", ConsoleColor.DarkYellow);
-            var credLines = new TextFrame(@"UI/TextFrames/2.2_Form.txt", ConsoleColor.DarkYellow);
-            var credScreen = new Screen(new List<IFrame> { credFrame, credFrame2, credLines });
-            int width = Console.WindowWidth;
-
-            int totalHeight = credScreen.GetFramesTotalHeight();
-            int consoleHeight = Console.WindowHeight;
-            int startRow = consoleHeight/8;
-            var lastRow = credFrame.DrawCentered(startRow, width);
-            lastRow = credFrame2.DrawCentered(firstRow: lastRow.Y + 2, width);
-            lastRow = credLines.DrawCentered(firstRow: lastRow.Y + 5, width);
-
-            return credScreen;
+            var fullNameInput = new InputLine(credScreen.Drawables.Find(x => x.Chars == ":"), 50, ForegroundColor);
+            string fullname = fullNameInput.GetInputString(false);
+            var passwordInput = new InputLine(credScreen.Drawables.FindLast(x => x.Chars == ":"), 50, ForegroundColor);
+            string password = passwordInput.GetInputString(isPassword: true);
+            return (fullname, password);
         }
-        public static Screen SetUpWelcomeScreen()
+        public static TextContainer SetupWelcomeScreen()
         {
-            var welcomeFrame = new TextFrame(@"UI/TextFrames/1.1_welcome-text.txt", ConsoleColor.DarkYellow);
-            var welcomeFrame2 = new TextFrame(@"UI/TextFrames/1.2_welcome-text.txt", ConsoleColor.DarkYellow);
-            var welcomeFrame3 = new TextFrame(@"UI/TextFrames/1.3_welcome-text.txt", ConsoleColor.DarkYellow);
-
-            var welcomeScreen = new Screen(new List<IFrame> {welcomeFrame, welcomeFrame2, welcomeFrame3 });
-
-            int width = Console.WindowWidth;
-
-            int totalHeight = welcomeScreen.GetFramesTotalHeight();
-            int consoleHeight = Console.WindowHeight;
-            int startRow = consoleHeight - (totalHeight + 4);
-            startRow /= 2;
-            var lastRow = welcomeFrame.DrawCentered(startRow, width);
-            lastRow = welcomeFrame2.DrawCentered(firstRow: lastRow.Y + 2, width);
-            welcomeFrame3.DrawCentered(firstRow: lastRow.Y + 2, width);
-
-            return welcomeScreen;
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/welcome-screen.txt");
+            var welcomeText = new TextContainer(lines, ForegroundColor);
+            welcomeText.CenterUnitsXDir(Console.WindowWidth);
+            welcomeText.CenterUnitsYDir(Console.WindowHeight);
+            ConsoleWriter.TryAppend(welcomeText);
+            ConsoleWriter.Update();
+            return welcomeText;
+        }
+        public static TextContainer SetupCredentialsScreen()
+        {
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/enter-credentials.txt");
+            var credentialText = new TextContainer(lines, ForegroundColor);
+            credentialText.CenterUnitsXDir(Console.WindowWidth);
+            credentialText.CenterUnitsYDir((int)Math.Round(Console.WindowHeight * 0.8));
+            ConsoleWriter.TryAppend(credentialText);
+            ConsoleWriter.Update();
+            return credentialText;
         }
     }
 }

@@ -7,46 +7,21 @@
 
   <ItemGroup>
     <None Remove="UI\TextFrames\1.1WelcomeText.txt" />
-    <None Remove="UI\TextFrames\1.1_welcome-text.txt" />
     <None Remove="UI\TextFrames\1.2WelcomeText.txt" />
-    <None Remove="UI\TextFrames\1.2_welcome-text.txt" />
-    <None Remove="UI\TextFrames\1.3_welcome-text.txt" />
     <None Remove="UI\TextFrames\1.4WelcomeText.txt" />
-    <None Remove="UI\TextFrames\2.1_Enter.txt" />
-    <None Remove="UI\TextFrames\2.2_credentials.txt" />
-    <None Remove="UI\TextFrames\2.2_Form.txt" />
-    <None Remove="UI\TextFrames\Welcome.Full.txt" />
+    <None Remove="UI\TextFrames\enter-credentials.txt" />
+    <None Remove="UI\TextFrames\list-container.txt" />
+    <None Remove="UI\TextFrames\welcome-screen.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="UI\TextFrames\Welcome.Full.txt">
+    <Content Include="UI\TextFrames\enter-credentials.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\2.2_Form.txt">
+    <Content Include="UI\TextFrames\list-container.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\2.2_credentials.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UI\TextFrames\2.1_enter.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UI\TextFrames\1.1_welcome-text.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UI\TextFrames\1.2_welcome-text.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UI\TextFrames\1.3_welcome-text.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UI\TextFrames\Archived\1.2WelcomeText.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UI\TextFrames\Archived\1.1WelcomeText.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UI\TextFrames\Archived\1.4WelcomeText.txt">
+    <Content Include="UI\TextFrames\welcome-screen.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
