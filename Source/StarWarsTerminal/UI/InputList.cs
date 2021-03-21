@@ -1,25 +1,21 @@
-﻿using System;
+﻿using StarWarsApi.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StarWarsTerminal.UI
 {
-    public class InputList
+    public class Selector
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        private string[] InputStrings { get; set; }
-        private ConsoleColor ForegroundColor { get; set; }
-        public InputList(string[] inputStrings, ConsoleColor foregroundColor)
+        public int CurrentChoice { get; set; }
+        public char SelectChar { get; set; }
+        public List<int> Ys { get; set; }
+        public int xColumn { get; set; }
+        public ConsoleColor ForegroundColor { get; set; }
+        public Selector(ConsoleColor foregroundColor, char selectChar)
         {
-            InputStrings = InputStrings;
             ForegroundColor = foregroundColor;
-        }
-        public string GetListChoice()
-        {
-            return "";
-        }
-        public void Clear()
-        {
-         
+            SelectChar = selectChar;
         }
 
     }
