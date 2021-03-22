@@ -9,19 +9,39 @@
     <None Remove="UI\TextFrames\1.1WelcomeText.txt" />
     <None Remove="UI\TextFrames\1.2WelcomeText.txt" />
     <None Remove="UI\TextFrames\1.4WelcomeText.txt" />
-    <None Remove="UI\TextFrames\enter-credentials.txt" />
-    <None Remove="UI\TextFrames\list-container.txt" />
-    <None Remove="UI\TextFrames\welcome-screen.txt" />
+    <None Remove="UI\TextFrames\1.welcome-screen.txt" />
+    <None Remove="UI\TextFrames\2.menu.txt" />
+    <None Remove="UI\TextFrames\3a.Identification.txt" />
+    <None Remove="UI\TextFrames\3b.login.txt" />
+    <None Remove="UI\TextFrames\4a.register-account.txt" />
+    <None Remove="UI\TextFrames\5a.choose-your-ship.txt" />
+    <None Remove="UI\TextFrames\6.logged-in-menu.txt" />
+    <None Remove="UI\TextFrames\defaultShips.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="UI\TextFrames\enter-credentials.txt">
+    <Content Include="UI\TextFrames\3a.Identification.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\list-container.txt">
+    <Content Include="UI\TextFrames\2.menu.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\welcome-screen.txt">
+    <Content Include="UI\TextFrames\4a.register-account.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\TextFrames\3b.login.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\TextFrames\5a.choose-your-ship.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\TextFrames\6.logged-in-menu.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\TextFrames\defaultShips.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\TextFrames\1.welcome-screen.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

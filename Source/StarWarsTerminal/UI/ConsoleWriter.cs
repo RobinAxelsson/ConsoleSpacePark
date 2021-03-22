@@ -28,7 +28,6 @@ namespace StarWarsTerminal.UI
             ScreenMemory.Add(tryUnit);
         }
         public static void TryAppend(List<IDrawable> drawables) => drawables.ForEach(x => TryAppend(x));
-        public static void TryAppend(IDrawContainer container) => container.Drawables.ForEach(x => TryAppend(x));
         public static void Update()
         {
             var toRemove = new List<IDrawable>();
@@ -62,6 +61,15 @@ namespace StarWarsTerminal.UI
             Console.ForegroundColor = ConsoleColor.White;
             drawable.IsDrawn = false;
             drawable.Erase = false;
+        }
+        public static void ClearScreen()
+        {
+            foreach (var drawable in ScreenMemory)
+            {
+                Erase(drawable);
+            }
+            ScreenMemory.Clear();
+            Update();
         }
     }
 }

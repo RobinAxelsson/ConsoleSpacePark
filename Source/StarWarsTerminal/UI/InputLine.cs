@@ -36,7 +36,6 @@ namespace StarWarsTerminal.UI
 
             while (keyInfo.Key != ConsoleKey.Enter)
             {
-
                 if (keyInfo.Key == ConsoleKey.Backspace)
                 {
                     if (inputString.Length > 0)
@@ -47,6 +46,7 @@ namespace StarWarsTerminal.UI
                         Console.CursorLeft--;
                     }
                 }
+                else if (keyInfo.Key == ConsoleKey.Tab || keyInfo.Key == ConsoleKey.Spacebar) { }
                 else if (inputString.Length < MaxChars)
                 {
                     inputString += keyInfo.KeyChar;
