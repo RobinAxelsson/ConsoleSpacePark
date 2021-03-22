@@ -17,11 +17,9 @@ namespace StarWarsApi.Database
         public DbSet<Receipt> Receipts { get; set; }
         public DbSet<User.Homeworld> Homeworlds { get; set; }
 
-
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsbuilder)
         {
-            optionsbuilder.UseSqlServer(@"");
+            optionsbuilder.UseSqlServer(@"Server=;Database=;User Id=;Password=");
         }
     }
 }
