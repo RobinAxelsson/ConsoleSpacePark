@@ -11,9 +11,11 @@ Nice to see you back again ¤
 
 Registered Ship: ¤
 
-$ Look for parking ("Im sorry there is no room")
+$ Park
 
 $ Check Receipts 
+
+$ Re-register ship
 
 $ Go to homeplanet
 

@@ -16,6 +16,8 @@
     <None Remove="UI\TextFrames\4a.register-account.txt" />
     <None Remove="UI\TextFrames\5a.choose-your-ship.txt" />
     <None Remove="UI\TextFrames\6.logged-in-menu.txt" />
+    <None Remove="UI\TextFrames\7.parking-menu.txt" />
+    <None Remove="UI\TextFrames\8.exit-screen.txt" />
     <None Remove="UI\TextFrames\defaultShips.json" />
   </ItemGroup>
 
@@ -33,6 +35,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\TextFrames\5a.choose-your-ship.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\TextFrames\8.exit-screen.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\TextFrames\7.parking-menu.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\TextFrames\6.logged-in-menu.txt">
