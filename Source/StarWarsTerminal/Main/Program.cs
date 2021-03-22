@@ -1,6 +1,6 @@
 using System;
 using StarWarsApi.Models;
-using StarWarsApi.Networking;
+using StarWarsApi.Repository;
 using StarWarsApi.Database;
 using StarWarsTerminal.UI;
 using System.Runtime.InteropServices;
@@ -16,7 +16,7 @@ namespace StarWarsTerminal.Main
 
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
-        private static readonly IntPtr ThisConsole = GetConsoleWindow();
+        private static IntPtr ThisConsole = GetConsoleWindow();
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
 
