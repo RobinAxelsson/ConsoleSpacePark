@@ -12,9 +12,14 @@ namespace StarWarsApi.Database
     {
         public DbSet<SpaceShip> SpaceShips { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Hangar> Hangars { get; set; }
+        public DbSet<Receipt> Receipts { get; set; }
+        public DbSet<User.Homeworld> Homeworlds { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsbuilder)
         {
-            optionsbuilder.UseSqlServer(@"Data Source=90.229.161.68,1433;Initial Catalog=StarWarsDataBase2.0;user id=adminuser;password=starwars");
+            optionsbuilder.UseSqlServer(@"Server=;Database=;User Id=;Password=");
         }
     }
 }
