@@ -6,9 +6,11 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace StarWarsApi.Repository
+namespace StarWarsApi.Networking
 {
     public static class APICollector
     {
@@ -75,6 +77,24 @@ namespace StarWarsApi.Repository
                 throw new Exception("Could not find a user based on " + name + ". Did you enter the name correctly?");
             }
         }
+
+        public static User ParseUserAsync(string name) //This contains a threadstart for the private corresponding method
+        {
+            var user = new User();
+            var thread = new Thread(() => { user = ParseUser(name);});
+            thread.Start();
+            thread.Join(); //By doing join it will wait for the method to finish
+            return user;
+        } 
+        public static User ParseUserAsync(Uri URL) //This contains a threadstart for the private corresponding method
+        {
+            var user = new User();
+            var thread = new Thread(() => { user = ParseUser(URL);});
+            thread.Start();
+            thread.Join(); //By doing join it will wait for the method to finish
+            return user;
+     
+        } 
         public static SpaceShip ParseShip(Uri URL)
         {
             var jsonResult = "";
@@ -130,6 +150,22 @@ namespace StarWarsApi.Repository
                 return ship;
             }
         }
+        public static SpaceShip ParseShipAsync(Uri URL) //This contains a threadstart for the private corresponding method
+        {
+            var spaceShip = new SpaceShip();
+            var thread = new Thread(() => { spaceShip = ParseShip(URL);});
+            thread.Start();
+            thread.Join(); //By doing join it will wait for the method to finish
+            return spaceShip;
+        }
+        public static SpaceShip ParseShipAsync(string name) //This contains a threadstart for the private corresponding method
+        {
+            var spaceShip = new SpaceShip();
+            var thread = new Thread(() => { spaceShip = ParseShip(name);});
+            thread.Start();
+            thread.Join(); //By doing join it will wait for the method to finish
+            return spaceShip;
+        }
         public static SpaceShip[] ReturnShips()
         {
             List<SpaceShip> spaceShips = new List<SpaceShip>();
@@ -141,6 +177,14 @@ namespace StarWarsApi.Repository
             }
 
             return spaceShips.ToArray();
+        }
+        public static SpaceShip[] ReturnShipAsync() //This contains a threadstart for the private corresponding method
+        {
+            var spaceShips = Array.Empty<SpaceShip>();
+            var thread = new Thread(() => { spaceShips = ReturnShips();});
+            thread.Start();
+            thread.Join(); //By doing join it will wait for the method to finish
+            return spaceShips;
         }
         private static User.Homeworld returnHomeworld(string URL)
         {

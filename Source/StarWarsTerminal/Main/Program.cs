@@ -1,6 +1,6 @@
 using System;
 using StarWarsApi.Models;
-using StarWarsApi.Repository;
+using StarWarsApi.Networking;
 using StarWarsApi.Database;
 using StarWarsTerminal.UI;
 using System.Runtime.InteropServices;
@@ -24,7 +24,7 @@ namespace StarWarsTerminal.Main
         private const int MINIMIZE = 6;
         private const int RESTORE = 9;
 
-        private static void Main(string[] args)
+        private static void Main2(string[] args)
         {
             ShowWindow(ThisConsole, MAXIMIZE);
             Thread.Sleep(500);
