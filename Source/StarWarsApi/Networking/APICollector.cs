@@ -37,7 +37,6 @@ namespace StarWarsApi.Networking
                         parsedUser.Homeplanet = returnHomeworld(property.Value.ToString());
                     }
                 }
-                parsedUser.StarWarsID = int.Parse(Regex.Replace(URL.ToString(),@"[^\d]", string.Empty));
                 return parsedUser;
             }
             else
@@ -115,8 +114,7 @@ namespace StarWarsApi.Networking
                 {
                     if (property.Name == "length")
                     {
-                        parsedShip.Size = new SpaceShip.ShipSize(0,
-                            int.Parse(property.Value.ToString().Replace(",", "").Replace(".", "")), 0);
+                        parsedShip.ShipLength = property.Value.ToString().Replace(",", "").Replace(".", "");
                     }
                 }
                 return parsedShip;
@@ -129,7 +127,7 @@ namespace StarWarsApi.Networking
         public static SpaceShip ParseShip(string name)
         {
             var foundShip = false; //A check to verify a ship has been found by name
-            SpaceShip ship = new SpaceShip(); //Had to initialize because code didn't realize it was bound to the foundShip bool and i got build errors.
+            var ship = new SpaceShip(); //Had to initialize because code didn't realize it was bound to the foundShip bool and i got build errors.
             for (var i = 1; i <= 4; i++)
             {
                 var tempShips =
@@ -168,7 +166,7 @@ namespace StarWarsApi.Networking
         }
         public static SpaceShip[] ReturnShips()
         {
-            List<SpaceShip> spaceShips = new List<SpaceShip>();
+            var spaceShips = new List<SpaceShip>();
             for (int i = 1; i <= 4; i++)
             {
                 IEnumerable<SpaceShip> tempShips =
@@ -178,7 +176,7 @@ namespace StarWarsApi.Networking
 
             return spaceShips.ToArray();
         }
-        public static SpaceShip[] ReturnShipAsync() //This contains a threadstart for the private corresponding method
+        public static SpaceShip[] ReturnShipsAsync() //This contains a threadstart for the private corresponding method
         {
             var spaceShips = Array.Empty<SpaceShip>();
             var thread = new Thread(() => { spaceShips = ReturnShips();});
@@ -210,7 +208,7 @@ namespace StarWarsApi.Networking
         }
         private static IEnumerable<SpaceShip> returnSpaceShipsFromList(string URL)
         {
-            List<SpaceShip> spaceShips = new List<SpaceShip>();
+            var spaceShips = new List<SpaceShip>();
             var jsonResult = "";
             using (var httpclient = new HttpClient())
             {
@@ -228,14 +226,14 @@ namespace StarWarsApi.Networking
                   .Children<JObject>();
               foreach (var result in resultObjects) {
                   
-                  SpaceShip spaceShip = result.ToObject<SpaceShip>();
+                  var spaceShip = result.ToObject<SpaceShip>();
                   foreach (var property in result.Properties())
                   {
                       if (property.Name == "length")
                       {
                           try
                           {
-                              spaceShip.Size = new SpaceShip.ShipSize(0, long.Parse(property.Value.ToString().Replace(",", "").Replace(".","")), 0);
+                              spaceShip.ShipLength = property.Value.ToString().Replace(",", "").Replace(".", "");
                           }
                           catch
                           {
