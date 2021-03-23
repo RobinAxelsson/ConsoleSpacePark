@@ -28,7 +28,7 @@ namespace StarWarsTerminal.Main
 
         public const ConsoleColor ForegroundColor = ConsoleColor.Green;
       
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             ShowWindow(ThisConsole, MAXIMIZE);
             Console.CursorVisible = false;
