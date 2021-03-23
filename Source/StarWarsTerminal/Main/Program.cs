@@ -11,7 +11,7 @@ using StarWarsApi.Interfaces;
 
 namespace StarWarsTerminal.Main
 {
-    class Program
+    static class Program
     {
 
         [DllImport("kernel32.dll", ExactSpelling = true)]
