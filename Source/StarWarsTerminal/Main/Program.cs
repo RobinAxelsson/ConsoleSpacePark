@@ -1,13 +1,13 @@
 using System;
 using StarWarsApi.Models;
-using StarWarsApi.Networking;
-using StarWarsApi.Database;
 using StarWarsTerminal.UI;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using StarWarsApi.Interfaces;
+using StarWarsApi.Networking;
+using Newtonsoft.Json;
 
 namespace StarWarsTerminal.Main
 {
@@ -34,23 +34,72 @@ namespace StarWarsTerminal.Main
             Console.CursorVisible = false;
             Thread.Sleep(500);
 
-            SetupWelcomeScreen();
+            WelcomeScreen();
+            //Console.ReadLine();
+            //ConsoleWriter.ClearScreen();            
+
+            StartMenu();
             Console.ReadLine();
-            ConsoleWriter.ClearScreen();
+            //menu:
+            //register
+            //login
+            //exit
 
-            var accountPass = SetupLoginScreen();
-            ConsoleWriter.ClearScreen();
+            //input name
+            //security question
 
-            var spaceShips = new SpaceShip[]
-            {
-                new SpaceShip(){Name = "millenium falcon" },
-                new SpaceShip(){Name = "star destroyer" },
-                new SpaceShip(){Name = "Death star" },
-                new SpaceShip(){Name = "X-wing" },
-            };
-            var output = CreateListPage(spaceShips);
+            //Registration
 
-            Console.ReadLine();
+            //Choose ship
+            //var ships = GetLocalShips();
+            //var output = CreateListPage(ships);
+
+            //login
+            //var accountPass = SetupLoginScreen();
+            //ConsoleWriter.ClearScreen();
+
+            //login-page
+
+            //parking
+
+            //home planet
+            //view info
+            //back to main
+
+            //check receipts
+            //view info
+            //back to main
+
+            //re-register ship
+            //choose-ship
+
+            //exit
+
+            //Exit
+
+        }
+        public static SpaceShip[] GetLocalShips()
+        {
+            string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
+            return JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
+        }
+        public enum StartMenuOptions
+        {
+            Login,
+            Register,
+            Exit
+        }
+        public static StartMenuOptions StartMenu()
+        {
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/2.menu.txt");
+            var drawables = TextEditor.Add.DrawablesAt(lines, 0);
+            TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
+            var selectionList = new SelectionList<StartMenuOptions>(ForegroundColor, '$');
+            selectionList.GetCharPositions(drawables);
+            selectionList.AddSelections(new StartMenuOptions[] { StartMenuOptions.Login, StartMenuOptions.Register, StartMenuOptions.Exit });
+            ConsoleWriter.TryAppend(drawables);
+            ConsoleWriter.Update();
+            return selectionList.GetSelection();
         }
         public static IStarwarsItem CreateListPage(IStarwarsItem[] starwarsItems)
         {
@@ -58,31 +107,31 @@ namespace StarWarsTerminal.Main
             var addLines = selector.ConvertIStarwarsItems(starwarsItems);
 
             string[] lines = File.ReadAllLines(@"UI/TextFrames/5a.choose-your-ship.txt");
-            var listTitleDraws = TextEditor.DrawablesAt(lines, 0);
-            TextEditor.AddWithSpacing(listTitleDraws, addLines, 2);
-            TextEditor.CenterAllUnitsInXDir(listTitleDraws, Console.WindowWidth);
-            TextEditor.CenterInYDir(listTitleDraws, Console.WindowHeight);
+            var listTitleDraws = TextEditor.Add.DrawablesAt(lines, 0);
+            TextEditor.Add.DrawablesWithSpacing(listTitleDraws, addLines, 5);
+            TextEditor.Center.AllUnitsInXDir(listTitleDraws, Console.WindowWidth);
+            TextEditor.Center.InYDir(listTitleDraws, Console.WindowHeight);
             selector.GetCharPositions(listTitleDraws);
             ConsoleWriter.TryAppend(listTitleDraws);
             ConsoleWriter.Update();
             return selector.GetSelection();
         }
         
-        public static void SetupWelcomeScreen()
+        public static void WelcomeScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/1.welcome-screen.txt");
-            var welcomeText = TextEditor.DrawablesAt(lines, 0);
-            TextEditor.CenterAllUnitsInXDir(welcomeText, Console.WindowWidth);
-            TextEditor.CenterInYDir(welcomeText, Console.WindowHeight);
+            var welcomeText = TextEditor.Add.DrawablesAt(lines, 0);
+            TextEditor.Center.AllUnitsInXDir(welcomeText, Console.WindowWidth);
+            TextEditor.Center.InYDir(welcomeText, Console.WindowHeight);
             ConsoleWriter.TryAppend(welcomeText);
             ConsoleWriter.Update();
         }
         public static (string FullName, string Password) SetupLoginScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/3b.login.txt");
-            var loginText = TextEditor.DrawablesAt(lines, 0);
-            TextEditor.CenterAllUnitsInXDir(loginText, Console.WindowWidth);
-            TextEditor.CenterInYDir(loginText, Console.WindowHeight);
+            var loginText = TextEditor.Add.DrawablesAt(lines, 0);
+            TextEditor.Center.AllUnitsInXDir(loginText, Console.WindowWidth);
+            TextEditor.Center.InYDir(loginText, Console.WindowHeight);
             ConsoleWriter.TryAppend(loginText);
             ConsoleWriter.Update();
             return GetNamePass(loginText);

@@ -64,12 +64,8 @@ namespace StarWarsTerminal.UI
         }
         public static void ClearScreen()
         {
-            foreach (var drawable in ScreenMemory)
-            {
-                Erase(drawable);
-            }
             ScreenMemory.Clear();
-            Update();
+            Console.Clear();
         }
     }
 }

@@ -233,7 +233,7 @@ namespace StarWarsApi.Networking
                       {
                           try
                           {
-                              spaceShip.ShipLength = property.Value.ToString().Replace(",", "").Replace(".", "");
+                              spaceShip.ShipLength = property.Value.ToString().Replace(",", "");
                           }
                           catch
                           {
