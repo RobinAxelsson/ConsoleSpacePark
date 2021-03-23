@@ -8,6 +8,6 @@
 
 $ Login
 
-$ Register new Account
+$ New Account
 
 $ Exit
