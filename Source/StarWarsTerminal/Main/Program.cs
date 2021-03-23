@@ -27,79 +27,131 @@ namespace StarWarsTerminal.Main
         private const int RESTORE = 9;
 
         public const ConsoleColor ForegroundColor = ConsoleColor.Green;
-      
-        static void Main2(string[] args)
+        public enum StartMenuOptions
+        {
+            Login,
+            NewAccount,
+            Exit
+        }
+        public enum LoginMenuOptions
+        {
+            Park,
+            CheckReceipts,
+            ReRegisterShip,
+            GoToHomeplanet,
+            Exit
+        }
+        static void Main(string[] args)
         {
             ShowWindow(ThisConsole, MAXIMIZE);
             Console.CursorVisible = false;
             Thread.Sleep(500);
 
-            WelcomeScreen();
+            //WelcomeScreen();
             //Console.ReadLine();
-            //ConsoleWriter.ClearScreen();            
-
-            StartMenu();
-            Console.ReadLine();
-            //menu:
-            //register
-            //login
-            //exit
-
-            //input name
-            //security question
-
-            //Registration
-
-            //Choose ship
-            //var ships = GetLocalShips();
-            //var output = CreateListPage(ships);
-
-            //login
-            //var accountPass = SetupLoginScreen();
             //ConsoleWriter.ClearScreen();
 
-            //login-page
+            var startOption = StartMenu();
 
-            //parking
+            switch (startOption)
+            {
+                case StartMenuOptions.Login:
+                    ConsoleWriter.ClearScreen();
+                    var accountPass = SetupLoginScreen();
+                    break;
+                case StartMenuOptions.NewAccount:
+                    ConsoleWriter.ClearScreen();
 
-            //home planet
-            //view info
-            //back to main
+                    break;
+                case StartMenuOptions.Exit:
+                    ConsoleWriter.ClearScreen();
+                    Exit();
+                    break;
+                default:
+                    break;
+            }
 
-            //check receipts
-            //view info
-            //back to main
+            //var loginOption = LoginMenu();
 
-            //re-register ship
-            //choose-ship
-
-            //exit
-
-            //Exit
-
+            //switch (loginOption)
+            //{
+            //    case LoginMenuOptions.Park:
+            //        break;
+            //    case LoginMenuOptions.CheckReceipts:
+            //        break;
+            //    case LoginMenuOptions.ReRegisterShip:
+            //        break;
+            //    case LoginMenuOptions.GoToHomeplanet:
+            //        break;
+            //    case LoginMenuOptions.Exit:
+            //        ConsoleWriter.ClearScreen();
+            //        Exit();
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
+        //menu:
+        //register
+        //login
+        //exit
+
+        //input name
+        //security question
+
+        //Registration
+
+        //Choose ship
+        //var ships = GetLocalShips();
+        //var output = CreateListPage(ships);
+
+        //login
+
+
+        //login-page
+
+        //parking
+
+        //home planet
+        //view info
+        //back to main
+
+        //check receipts
+        //view info
+        //back to main
+
+        //re-register ship
+        //choose-ship
+
+        //exit
+
+        //Exit
+
+
         public static SpaceShip[] GetLocalShips()
         {
             string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
             return JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
         }
-        public enum StartMenuOptions
+        public static void IdentificationScreen()
         {
-            Login,
-            Register,
-            Exit
-        }
-        public static StartMenuOptions StartMenu()
-        {
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/2.menu.txt");
-            var drawables = TextEditor.Add.DrawablesAt(lines, 0);
-            TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
-            var selectionList = new SelectionList<StartMenuOptions>(ForegroundColor, '$');
-            selectionList.GetCharPositions(drawables);
-            selectionList.AddSelections(new StartMenuOptions[] { StartMenuOptions.Login, StartMenuOptions.Register, StartMenuOptions.Exit });
-            ConsoleWriter.TryAppend(drawables);
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/4a.register-account.txt");
+            var welcomeText = TextEditor.Add.DrawablesAt(lines, 0);
+            TextEditor.Center.AllUnitsInXDir(welcomeText, Console.WindowWidth);
+            TextEditor.Center.InYDir(welcomeText, Console.WindowHeight);
+            ConsoleWriter.TryAppend(welcomeText);
             ConsoleWriter.Update();
-            return selectionList.GetSelection();
+            Console.ReadLine();
+        }
+        public static void RegistrationScreen()
+        {
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/4a.register-account.txt");
+            var welcomeText = TextEditor.Add.DrawablesAt(lines, 0);
+            TextEditor.Center.AllUnitsInXDir(welcomeText, Console.WindowWidth);
+            TextEditor.Center.InYDir(welcomeText, Console.WindowHeight);
+            ConsoleWriter.TryAppend(welcomeText);
+            ConsoleWriter.Update();
+            Console.ReadLine();
         }
         public static IStarwarsItem CreateListPage(IStarwarsItem[] starwarsItems)
         {
@@ -116,7 +168,7 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.Update();
             return selector.GetSelection();
         }
-        
+
         public static void WelcomeScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/1.welcome-screen.txt");
@@ -151,6 +203,40 @@ namespace StarWarsTerminal.Main
             foreach (char chr in password)
                 Console.Write(" ");
             return (fullname, password);
+        }
+        public static StartMenuOptions StartMenu()
+        {
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/2.menu.txt");
+            var drawables = TextEditor.Add.DrawablesAt(lines, 0);
+            TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
+            var selectionList = new SelectionList<StartMenuOptions>(ForegroundColor, '$');
+            selectionList.GetCharPositions(drawables);
+            selectionList.AddSelections(new StartMenuOptions[] { StartMenuOptions.Login, StartMenuOptions.NewAccount, StartMenuOptions.Exit });
+            ConsoleWriter.TryAppend(drawables);
+            ConsoleWriter.Update();
+            return selectionList.GetSelection();
+        }
+        public static LoginMenuOptions LoginMenu()
+        {
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/6.logged-in-menu.txt");
+            var drawables = TextEditor.Add.DrawablesAt(lines, 0);
+            TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
+            var selectionList = new SelectionList<LoginMenuOptions>(ForegroundColor, '$');
+            selectionList.GetCharPositions(drawables);
+            selectionList.AddSelections(new LoginMenuOptions[] { LoginMenuOptions.Park, LoginMenuOptions.CheckReceipts, LoginMenuOptions.ReRegisterShip, LoginMenuOptions.GoToHomeplanet, LoginMenuOptions.Exit });
+            ConsoleWriter.TryAppend(drawables);
+            ConsoleWriter.Update();
+            return selectionList.GetSelection();
+        }
+        public static void Exit()
+        {
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/8.exit-screen.txt");
+            var drawables = TextEditor.Add.DrawablesAt(lines, 0);
+            TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
+            ConsoleWriter.TryAppend(drawables);
+            ConsoleWriter.Update();
+            Thread.Sleep(2000);
+            Environment.Exit(0);
         }
     }
 }

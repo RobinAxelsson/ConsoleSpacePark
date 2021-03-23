@@ -6,7 +6,7 @@ namespace StarWarsTerminal.Main
 {
     static class ProgramHandicapLinuxEdition
     {
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             Console.WriteLine("Please enter your name:");
             var username = Console.ReadLine();
