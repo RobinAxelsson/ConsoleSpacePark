@@ -57,7 +57,7 @@ namespace StarWarsTerminal.Main
             var selector = new ListSelection(ForegroundColor, '$');
             var addLines = selector.ConvertIStarwarsItems(starwarsItems);
 
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/4a.choose-your-ship.txt");
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/5a.choose-your-ship.txt");
             var listTitleDraws = TextEditor.DrawablesAt(lines, 0);
             TextEditor.AddWithSpacing(listTitleDraws, addLines, 2);
             TextEditor.CenterAllUnitsInXDir(listTitleDraws, Console.WindowWidth);
