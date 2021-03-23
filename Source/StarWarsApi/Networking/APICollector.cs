@@ -5,6 +5,7 @@ using StarWarsApi.Models;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -233,7 +234,7 @@ namespace StarWarsApi.Networking
                       {
                           try
                           {
-                              spaceShip.ShipLength = property.Value.ToString().Replace(",", "").Replace(".", "");
+                              spaceShip.ShipLength = property.Value.ToString().Replace(",", "");
                           }
                           catch
                           {
@@ -287,6 +288,7 @@ namespace StarWarsApi.Networking
             return users.ToArray();
         }
 
+        
         private static Exception ParseFailedIncorrectURL(string URL)
         {
             throw new Exception($"Parse was empty; Is the URL in correct format? Input: {URL}");
