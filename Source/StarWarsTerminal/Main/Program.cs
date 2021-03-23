@@ -1,6 +1,6 @@
 using System;
 using StarWarsApi.Models;
-using StarWarsApi.Repository;
+using StarWarsApi.Networking;
 using StarWarsApi.Database;
 using StarWarsTerminal.UI;
 using System.Runtime.InteropServices;

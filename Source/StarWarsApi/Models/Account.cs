@@ -1,9 +1,14 @@
-﻿using Newtonsoft.Json;
-using StarWarsApi.Interfaces;
-
+using Newtonsoft.Json;
 namespace StarWarsApi.Models
 {
-    public class User : IStarwarsItem
+    public class Account
+    {
+        public int AccountID { get; set; }
+        public User User { get; set; }
+        public string AccountName { get; set; }
+        public string Password { get; set; }
+    }
+    public class User
     {
         public int UserId { get; set; }
         public string Name { get; set; }
@@ -20,12 +25,14 @@ namespace StarWarsApi.Models
         public string Gender { get; set; }
         public string URL { get; set; }
         public Homeworld Homeplanet { get; set; }
-        public int StarWarsID { get; set; } //The ID in the URL used to parse the person in mind. Used to store data in our local database
         public class Homeworld
         {
+            public int HomeworldID { get; set; }
             public string Name { get; set; }
+            [JsonProperty("Rotation_Period")]
             public string RotationPeriod { get; set; }
-            public string Orbital_Period { get; set; }
+            [JsonProperty("Orbital_Period")]
+            public string OrbitalPeriod { get; set; }
             public string Diameter { get; set; }
             public string Climate { get; set; }
             public string Terrain { get; set; }
