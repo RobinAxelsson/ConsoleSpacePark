@@ -30,7 +30,7 @@ namespace StarWarsApi.Database
                 inputUser.Homeplanet = dbHandler.Homeworlds.FirstOrDefault(g => g.Name == inputUser.Homeplanet.Name) ??
                                        inputUser.Homeplanet;
                 dbHandler.Accounts.Add(outputAccount);
-                dbHandler.SaveChangesAsync(); //Running asyncronously to avoid freezing thread
+                dbHandler.SaveChanges();
             }
 
             public bool Exists(User inputUser)

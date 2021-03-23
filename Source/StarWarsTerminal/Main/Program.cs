@@ -8,6 +8,7 @@ using System.IO;
 using StarWarsApi.Interfaces;
 using StarWarsApi.Networking;
 using Newtonsoft.Json;
+using StarWarsApi.Database;
 
 namespace StarWarsTerminal.Main
 {
@@ -41,108 +42,141 @@ namespace StarWarsTerminal.Main
             GoToHomeplanet,
             Exit
         }
+        public enum ParkingMenuOptions
+        {
+            PurchaseTicket,
+            ReEnterhours,
+            BackToLogin
+
+        }
         static void Main(string[] args)
         {
             ShowWindow(ThisConsole, MAXIMIZE);
             Console.CursorVisible = false;
             Thread.Sleep(500);
+            IdentificationScreen();
 
-            //WelcomeScreen();
-            //Console.ReadLine();
-            //ConsoleWriter.ClearScreen();
+            LoginFlow();
+
+            WelcomeScreen();
+            Console.ReadLine();
+            ConsoleWriter.ClearScreen();
 
             var startOption = StartMenu();
+            ConsoleWriter.ClearScreen();
 
             switch (startOption)
             {
                 case StartMenuOptions.Login:
-                    ConsoleWriter.ClearScreen();
-                    var accountPass = SetupLoginScreen();
+                    var accountPass = LoginPasswordScreen();
                     break;
                 case StartMenuOptions.NewAccount:
-                    ConsoleWriter.ClearScreen();
-
+                    IdentificationScreen();
                     break;
                 case StartMenuOptions.Exit:
-                    ConsoleWriter.ClearScreen();
                     Exit();
                     break;
                 default:
                     break;
             }
-
-            //var loginOption = LoginMenu();
-
-            //switch (loginOption)
-            //{
-            //    case LoginMenuOptions.Park:
-            //        break;
-            //    case LoginMenuOptions.CheckReceipts:
-            //        break;
-            //    case LoginMenuOptions.ReRegisterShip:
-            //        break;
-            //    case LoginMenuOptions.GoToHomeplanet:
-            //        break;
-            //    case LoginMenuOptions.Exit:
-            //        ConsoleWriter.ClearScreen();
-            //        Exit();
-            //        break;
-            //    default:
-            //        break;
-            //}
         }
-        //menu:
-        //register
-        //login
-        //exit
+        public static void LoginFlow()
+        {
 
-        //input name
-        //security question
+            var option = LoginMenu();
+            ConsoleWriter.ClearScreen();
 
-        //Registration
+            switch (option)
+            {
+                case LoginMenuOptions.Park:
+                    break;
+                case LoginMenuOptions.CheckReceipts:
+                    break;
+                case LoginMenuOptions.ReRegisterShip:
+                    break;
+                case LoginMenuOptions.GoToHomeplanet:
+                    break;
+                case LoginMenuOptions.Exit:
+                    Exit();
+                    break;
+                default:
+                    break;
+            }
+        }
+        public static void ParkingFlow()
+        {
+            var option = ParkingScreen();
+            ConsoleWriter.ClearScreen();
+            switch (option)
+            {
+                case ParkingMenuOptions.PurchaseTicket:
+                    break;
+                case ParkingMenuOptions.ReEnterhours:
+                    break;
+                case ParkingMenuOptions.BackToLogin:
+                    LoginFlow();
+                    break;
+                default:
+                    break;
+            }
+        }
+        public static ParkingMenuOptions ParkingScreen()
+        {
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/6.logged-in-menu.txt");
+            var drawables = TextEditor.Add.DrawablesAt(lines, 0);
+            TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
+            var selectionList = new SelectionList<ParkingMenuOptions>(ForegroundColor, '$');
+            selectionList.GetCharPositions(drawables);
+            selectionList.AddSelections(new ParkingMenuOptions[] { ParkingMenuOptions.PurchaseTicket, ParkingMenuOptions.ReEnterhours, ParkingMenuOptions.BackToLogin });
+            ConsoleWriter.TryAppend(drawables);
+            ConsoleWriter.Update();
+            return selectionList.GetSelection();
+        }
+        public static void IdentificationScreen()
+        {
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/3a.Identification.txt");
+            var drawables = TextEditor.Add.DrawablesAt(lines, 0);
+            TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
+            ConsoleWriter.TryAppend(drawables);
+            ConsoleWriter.Update();
+            var drawable = drawables.Find(x => x.Chars == ":");
+            Console.SetCursorPosition(drawable.CoordinateX + 2, drawable.CoordinateY);
+            Console.ForegroundColor = ConsoleColor.Green;
+            var username = Console.ReadLine();
+            var inputUser = APICollector.ParseUserAsync(username);
+            var security = DatabaseManagement.AccountManagement.GetSecurityQuestion(inputUser);
+            Console.WriteLine(security.question);
+            var inputAnswer = Console.ReadLine();
+            if (inputAnswer.ToLower() == security.answer.ToLower())
+            {
+                Console.WriteLine("Correct!");
+                DatabaseManagement.ConnectionString = @"Server=90.229.161.68,52578;Database=StarWarsProject2.1;User Id=adminuser;Password=starwars;";
+                var am = new DatabaseManagement.AccountManagement();
 
-        //Choose ship
-        //var ships = GetLocalShips();
-        //var output = CreateListPage(ships);
+                if (!am.Exists(inputUser))
+                {
+                    var userpass = LoginPasswordScreen();
+                    
+                    am.Register(inputUser, userpass.AccountName, userpass.Password);
+                    Console.WriteLine("Successfully Registered!");
+                    //Load register screen which contains only Account Name and Password
+                    //Input userObject, string accountName, string password > Register method
+                    //Then please login
+                }
+                else
+                {
+                    Console.WriteLine("This user is already registered!");
+                }
 
-        //login
-
-
-        //login-page
-
-        //parking
-
-        //home planet
-        //view info
-        //back to main
-
-        //check receipts
-        //view info
-        //back to main
-
-        //re-register ship
-        //choose-ship
-
-        //exit
-
-        //Exit
-
+            }
+        }
 
         public static SpaceShip[] GetLocalShips()
         {
             string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
             return JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
         }
-        public static void IdentificationScreen()
-        {
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/4a.register-account.txt");
-            var welcomeText = TextEditor.Add.DrawablesAt(lines, 0);
-            TextEditor.Center.AllUnitsInXDir(welcomeText, Console.WindowWidth);
-            TextEditor.Center.InYDir(welcomeText, Console.WindowHeight);
-            ConsoleWriter.TryAppend(welcomeText);
-            ConsoleWriter.Update();
-            Console.ReadLine();
-        }
+
         public static void RegistrationScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/4a.register-account.txt");
@@ -178,7 +212,7 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.TryAppend(welcomeText);
             ConsoleWriter.Update();
         }
-        public static (string FullName, string Password) SetupLoginScreen()
+        public static (string AccountName, string Password) LoginPasswordScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/3b.login.txt");
             var loginText = TextEditor.Add.DrawablesAt(lines, 0);
@@ -226,6 +260,7 @@ namespace StarWarsTerminal.Main
             selectionList.AddSelections(new LoginMenuOptions[] { LoginMenuOptions.Park, LoginMenuOptions.CheckReceipts, LoginMenuOptions.ReRegisterShip, LoginMenuOptions.GoToHomeplanet, LoginMenuOptions.Exit });
             ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();
+
             return selectionList.GetSelection();
         }
         public static void Exit()
