@@ -1,13 +1,13 @@
 using System;
 using StarWarsApi.Models;
-using StarWarsApi.Networking;
-using StarWarsApi.Database;
 using StarWarsTerminal.UI;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using StarWarsApi.Interfaces;
+using StarWarsApi.Networking;
+using Newtonsoft.Json;
 
 namespace StarWarsTerminal.Main
 {
@@ -34,32 +34,29 @@ namespace StarWarsTerminal.Main
             Console.CursorVisible = false;
             Thread.Sleep(500);
 
-            SetupWelcomeScreen();
-            Console.ReadLine();
-            ConsoleWriter.ClearScreen();
+            //SetupWelcomeScreen();
+            //Console.ReadLine();
+            //ConsoleWriter.ClearScreen();
 
-            var accountPass = SetupLoginScreen();
-            ConsoleWriter.ClearScreen();
+            //var accountPass = SetupLoginScreen();
+            //ConsoleWriter.ClearScreen();
 
-            var spaceShips = new SpaceShip[]
-            {
-                new SpaceShip(){Name = "millenium falcon" },
-                new SpaceShip(){Name = "star destroyer" },
-                new SpaceShip(){Name = "Death star" },
-                new SpaceShip(){Name = "X-wing" },
-            };
-            var output = CreateListPage(spaceShips);
-
-            Console.ReadLine();
+            var ships = GetLocalShips();
+            var output = CreateListPage(ships);
+        }
+        public static SpaceShip[] GetLocalShips()
+        {
+            string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
+            return JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
         }
         public static IStarwarsItem CreateListPage(IStarwarsItem[] starwarsItems)
         {
             var selector = new ListSelection(ForegroundColor, '$');
             var addLines = selector.ConvertIStarwarsItems(starwarsItems);
 
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/4a.choose-your-ship.txt");
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/5a.choose-your-ship.txt");
             var listTitleDraws = TextEditor.DrawablesAt(lines, 0);
-            TextEditor.AddWithSpacing(listTitleDraws, addLines, 2);
+            TextEditor.AddWithSpacing(listTitleDraws, addLines, 5);
             TextEditor.CenterAllUnitsInXDir(listTitleDraws, Console.WindowWidth);
             TextEditor.CenterInYDir(listTitleDraws, Console.WindowHeight);
             selector.GetCharPositions(listTitleDraws);

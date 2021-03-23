@@ -8,10 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Jobjects\smallShips.json" />
     <None Remove="UI\TestText.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Jobjects\smallShips.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="UI\TestText.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

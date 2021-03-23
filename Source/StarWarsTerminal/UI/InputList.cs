@@ -21,21 +21,14 @@ namespace StarWarsTerminal.UI
         {
             var starwarsItems = new List<IStarwarsItem>();
             foreach (var item in itemArray)
-            {
                 if (item.Name.Length < 18)
                     starwarsItems.Add(item);
-            }
+
             starwarsItems = starwarsItems.OrderBy(x => x.Name).ToList();
             StarwarsItems = starwarsItems;
 
             var nameList = starwarsItems.Select(x => SelectChar + " " + x.Name).ToList();
             int spacings = nameList.Count - 1;
-            int insert = 1;
-            for (int i = 0; i < spacings; i++)
-            {
-                nameList.Insert(insert, " ");
-                insert+=2;
-            }
             return nameList.ToArray();
         }
         public void GetCharPositions(List<IDrawable> drawables)

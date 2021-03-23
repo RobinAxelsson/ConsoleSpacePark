@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="UI\smallShips.json" />
     <None Remove="UI\TextFrames\1.1WelcomeText.txt" />
     <None Remove="UI\TextFrames\1.2WelcomeText.txt" />
     <None Remove="UI\TextFrames\1.4WelcomeText.txt" />
@@ -19,10 +20,12 @@
     <None Remove="UI\TextFrames\7.homeplanet-info.txt" />
     <None Remove="UI\TextFrames\7.parking-menu.txt" />
     <None Remove="UI\TextFrames\8.exit-screen.txt" />
-    <None Remove="UI\TextFrames\defaultShips.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="UI\json\small-ships.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="UI\TextFrames\3a.Identification.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -48,9 +51,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\TextFrames\6.logged-in-menu.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UI\TextFrames\defaultShips.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\TextFrames\1.welcome-screen.txt">

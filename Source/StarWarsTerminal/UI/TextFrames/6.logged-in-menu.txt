@@ -13,7 +13,7 @@ Registered Ship: ¤
 
 $ Park
 
-$ Check Receipts 
+$ Check Receipts
 
 $ Re-register ship
 

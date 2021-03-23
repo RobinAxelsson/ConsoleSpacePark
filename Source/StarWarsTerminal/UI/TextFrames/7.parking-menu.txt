@@ -10,12 +10,18 @@
 Parking is available in Hangar ¤ (Parking is not available in Hangar ¤ until 12pm)
 Price is x per hour
 
-  ___________________________________________________
- /                                                   \
-(       Hours:                 Price:                 )
- \___________________________________________________/
+ ____________________________
+|                            |
+| Calculated Price:          |
+|____________________________|
 
+ ____________________________
+|                            |
+|  Enter Hours:              |
+|____________________________|
 
 $ Purchase ticket
 
-$ Exit
+$ Re-enter hours
+
+$ Back to login page
