@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using StarWarsApi.Models;
+using StarWarsApi.Networking;
 
 namespace StarWarsApi.Database
 {
@@ -32,7 +33,6 @@ namespace StarWarsApi.Database
                 dbHandler.Accounts.Add(outputAccount);
                 dbHandler.SaveChanges();
             }
-
             public bool Exists(User inputUser)
             {
                 var result = false;
@@ -41,7 +41,6 @@ namespace StarWarsApi.Database
                 thread.Join(); //By doing join it will wait for the method to finish
                 return result;
             }
-
             private bool exists(User inputUser)
             {
                 var result = false;
@@ -52,7 +51,6 @@ namespace StarWarsApi.Database
 
                 return result;
             }
-
             public bool ValidateLogin(string accountName, string passwordInput)
             {
                 var result = false;
@@ -64,7 +62,6 @@ namespace StarWarsApi.Database
                 thread.Join(); //By doing join it will wait for the method to finish
                 return result;
             }
-
             private bool validateLogin(string accountName, string passwordInput)
             {
                 var result = false;
@@ -73,9 +70,34 @@ namespace StarWarsApi.Database
                     if (account.AccountName == accountName)
                         if (account.Password == passwordInput)
                             result = true;
-                return result;
+                return result; //return user account?
             }
+            public static User IdentifyWithQuestion(string username, Func<string, string> getSecurityAnswer)
+            {
+                var inputUser = APICollector.ParseUserAsync(username);
+                var security = DatabaseManagement.AccountManagement.GetSecurityQuestion(inputUser);
+                var inputAnswer = getSecurityAnswer(security.question);
+                if (inputAnswer.ToLower() == security.answer.ToLower())
+                    return inputUser;
+                else
+                    return null;
+            }
+            public static bool TryRegistrate(User inputUser, Func<(string AccountName, string Password)> registerUserPassword)
+            {
+                DatabaseManagement.ConnectionString = @"Server=90.229.161.68,52578;Database=StarWarsProject2.1;User Id=adminuser;Password=starwars;";
+                var am = new DatabaseManagement.AccountManagement();
 
+                if (!am.Exists(inputUser))
+                {
+                    var userpass = registerUserPassword();
+                    am.Register(inputUser, userpass.AccountName, userpass.Password);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
             public static (string question, string answer) GetSecurityQuestion(User inputUser)
             {
                 var question = "Vad är Calles favoriträtt?";
