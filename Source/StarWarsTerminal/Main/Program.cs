@@ -24,27 +24,6 @@ namespace StarWarsTerminal.Main
         private const int RESTORE = 9;
 
         public const ConsoleColor ForegroundColor = ConsoleColor.Green;
-        public enum StartMenuOptions
-        {
-            Login,
-            NewAccount,
-            Exit
-        }
-        public enum AccountMenuOptions
-        {
-            Park,
-            CheckReceipts,
-            ReRegisterShip,
-            GoToHomeplanet,
-            Exit
-        }
-        public enum ParkingMenuOptions
-        {
-            PurchaseTicket,
-            ReEnterhours,
-            BackToLogin
-
-        }
         static void Main(string[] args)
         {
             ShowWindow(ThisConsole, MAXIMIZE);
@@ -60,6 +39,12 @@ namespace StarWarsTerminal.Main
             AccountScreen();
             //ShipScreen();
             Console.ReadLine();
+        }
+        public enum StartMenuOptions
+        {
+            Login,
+            NewAccount,
+            Exit
         }
         public static void StartFlow()
         {
@@ -80,6 +65,14 @@ namespace StarWarsTerminal.Main
                 default:
                     break;
             }
+        }
+        public enum AccountMenuOptions
+        {
+            Park,
+            CheckReceipts,
+            ReRegisterShip,
+            GoToHomeplanet,
+            Exit
         }
         public static void AccountFlow()
         {
@@ -102,6 +95,13 @@ namespace StarWarsTerminal.Main
                 default:
                     break;
             }
+        }
+        public enum ParkingMenuOptions
+        {
+            PurchaseTicket,
+            ReEnterhours,
+            BackToLogin
+
         }
         public static void ParkingFlow()
         {
