@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Threading;
 using System.IO;
-using StarWarsApi.Interfaces;
 using StarWarsApi.Networking;
 using Newtonsoft.Json;
 using StarWarsApi.Database;
@@ -61,7 +60,7 @@ namespace StarWarsTerminal.Main
             //ConsoleWriter.ClearScreen();
             //ChooseShipScreen(GetLocalShips());
             //StartFlow();
-            AccountScreen();
+            //AccountScreen();
             //ShipScreen();
             Console.ReadLine();
         }

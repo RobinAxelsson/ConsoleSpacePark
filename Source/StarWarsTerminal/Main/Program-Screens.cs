@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Threading;
 using System.IO;
-using StarWarsApi.Interfaces;
 using StarWarsApi.Networking;
 using Newtonsoft.Json;
 using StarWarsApi.Database;
@@ -154,7 +153,7 @@ namespace StarWarsTerminal.Main
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             int nextLine = drawables.Max(x => x.CoordinateY);
             var localShips = GetLocalShips();
-            string[] shipLines = localShips.Select(x => "$ " + x.Name).ToArray();
+            string[] shipLines = localShips.Select(x => "$ " + x.Model).ToArray();
             drawables.AddRange(TextEditor.Add.DrawablesAt(shipLines, nextLine + 3));
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
 
@@ -176,7 +175,7 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.Update();
             return GetNamePass(loginText);
         }
-        public static LoginMenuOptions AccountScreen(Account account)
+        public static LoginMenuOptions AccountScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/6.logged-in-menu.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);

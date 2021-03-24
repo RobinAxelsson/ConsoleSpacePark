@@ -2,7 +2,7 @@
 
 namespace StarWarsApi.Migrations
 {
-    public partial class OneStepForMankind : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,6 +24,24 @@ namespace StarWarsApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Homeworlds", x => x.HomeworldID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SpaceShips",
+                columns: table => new
+                {
+                    SpaceShipID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Manufacturer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Classification = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ShipLength = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    URL = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpaceShips", x => x.SpaceShipID);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,6 +79,7 @@ namespace StarWarsApi.Migrations
                     AccountID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: true),
+                    SpaceShipID = table.Column<int>(type: "int", nullable: true),
                     AccountName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -68,57 +87,16 @@ namespace StarWarsApi.Migrations
                 {
                     table.PrimaryKey("PK_Accounts", x => x.AccountID);
                     table.ForeignKey(
+                        name: "FK_Accounts_SpaceShips_SpaceShipID",
+                        column: x => x.SpaceShipID,
+                        principalTable: "SpaceShips",
+                        principalColumn: "SpaceShipID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Accounts_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SpaceShips",
-                columns: table => new
-                {
-                    SpaceShipID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Manufacturer = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Classification = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ShipLength = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    URL = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SpaceShips", x => x.SpaceShipID);
-                    table.ForeignKey(
-                        name: "FK_SpaceShips_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Hangars",
-                columns: table => new
-                {
-                    HangarID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AccountID = table.Column<int>(type: "int", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Hangars", x => x.HangarID);
-                    table.ForeignKey(
-                        name: "FK_Hangars_Accounts_AccountID",
-                        column: x => x.AccountID,
-                        principalTable: "Accounts",
-                        principalColumn: "AccountID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -145,24 +123,19 @@ namespace StarWarsApi.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Accounts_SpaceShipID",
+                table: "Accounts",
+                column: "SpaceShipID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Accounts_UserId",
                 table: "Accounts",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hangars_AccountID",
-                table: "Hangars",
-                column: "AccountID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Receipts_AccountID",
                 table: "Receipts",
                 column: "AccountID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SpaceShips_UserId",
-                table: "SpaceShips",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_HomeplanetHomeworldID",
@@ -173,16 +146,13 @@ namespace StarWarsApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Hangars");
-
-            migrationBuilder.DropTable(
                 name: "Receipts");
 
             migrationBuilder.DropTable(
-                name: "SpaceShips");
+                name: "Accounts");
 
             migrationBuilder.DropTable(
-                name: "Accounts");
+                name: "SpaceShips");
 
             migrationBuilder.DropTable(
                 name: "Users");

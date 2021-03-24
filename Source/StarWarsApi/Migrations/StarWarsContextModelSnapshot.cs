@@ -32,37 +32,19 @@ namespace StarWarsApi.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SpaceShipID")
+                        .HasColumnType("int");
+
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("AccountID");
 
+                    b.HasIndex("SpaceShipID");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Accounts");
-                });
-
-            modelBuilder.Entity("StarWarsApi.Models.Hangar", b =>
-                {
-                    b.Property<int>("HangarID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AccountID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("Price")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("HangarID");
-
-                    b.HasIndex("AccountID");
-
-                    b.ToTable("Hangars");
                 });
 
             modelBuilder.Entity("StarWarsApi.Models.Receipt", b =>
@@ -107,9 +89,6 @@ namespace StarWarsApi.Migrations
                     b.Property<string>("Model")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Price")
                         .HasColumnType("nvarchar(max)");
 
@@ -119,12 +98,7 @@ namespace StarWarsApi.Migrations
                     b.Property<string>("URL")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("SpaceShipID");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("SpaceShips");
                 });
@@ -211,20 +185,17 @@ namespace StarWarsApi.Migrations
 
             modelBuilder.Entity("StarWarsApi.Models.Account", b =>
                 {
+                    b.HasOne("StarWarsApi.Models.SpaceShip", "SpaceShip")
+                        .WithMany()
+                        .HasForeignKey("SpaceShipID");
+
                     b.HasOne("StarWarsApi.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
+                    b.Navigation("SpaceShip");
+
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("StarWarsApi.Models.Hangar", b =>
-                {
-                    b.HasOne("StarWarsApi.Models.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountID");
-
-                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("StarWarsApi.Models.Receipt", b =>
@@ -234,15 +205,6 @@ namespace StarWarsApi.Migrations
                         .HasForeignKey("AccountID");
 
                     b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("StarWarsApi.Models.SpaceShip", b =>
-                {
-                    b.HasOne("StarWarsApi.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("StarWarsApi.Models.User", b =>
