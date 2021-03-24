@@ -90,7 +90,7 @@ namespace StarWarsApi.Database
             }
             public static bool IsRegistrated()
             {
-                DatabaseManagement.ConnectionString = @"Server=90.229.161.68,52578;Database=StarWarsProject2.1;User Id=adminuser;Password=starwars;";
+                DatabaseManagement.ConnectionString = @"Server=90.229.161.68,52578;Database=StarWarsProject2.2;User Id=adminuser;Password=starwars;";
                 var am = new DatabaseManagement.AccountManagement();
 
                 return am.Exists(testAccount.User);
