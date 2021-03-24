@@ -21,12 +21,13 @@ namespace StarWarsApi.Database
                             "Please assign a value to the static property ConnectionString before calling any methods"));
             }
 
-            public void Register(User inputUser, string accountName, string password)
+            public void Register(User inputUser, SpaceShip inputShip, string accountName, string password)
             {
                 var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
                 var outputAccount = new Account
                 {
-                    AccountName = accountName, Password = PasswordHashing.HashPassword(password), User = inputUser
+                    AccountName = accountName, Password = PasswordHashing.HashPassword(password), User = inputUser,
+                    SpaceShip = inputShip
                 };
                 inputUser.Homeplanet = dbHandler.Homeworlds.FirstOrDefault(g => g.Name == inputUser.Homeplanet.Name) ??
                                        inputUser.Homeplanet;
@@ -102,7 +103,7 @@ namespace StarWarsApi.Database
                 var userName = userinput.accountName;
                 var password = userinput.password;
                 var am = new DatabaseManagement.AccountManagement();
-                am.Register(testAccount.User, userName, password); //add spaceship
+                am.Register(testAccount.User,testAccount.SpaceShip, userName, password); //add spaceship
             }
             public static (string question, string answer) GetSecurityQuestion(User inputUser)
             {

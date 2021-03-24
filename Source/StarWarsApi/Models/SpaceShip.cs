@@ -5,7 +5,6 @@ namespace StarWarsApi.Models
 {
     public class SpaceShip : IStarwarsItem
     {
-        public User User { get; set; }
         public int SpaceShipID { get; set; }
         public string Name { get; set; }
         public string Model { get; set; }
