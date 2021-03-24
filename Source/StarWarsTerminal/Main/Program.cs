@@ -54,12 +54,12 @@ namespace StarWarsTerminal.Main
             ShowWindow(ThisConsole, MAXIMIZE);
             Console.CursorVisible = false;
             Thread.Sleep(500);
-            IdentificationScreen();
+            //IdentificationScreen();
             //RegistrationScreen();
             //WelcomeScreen();
             //Console.ReadLine();
             //ConsoleWriter.ClearScreen();
-            //StartFlow();
+            StartFlow();
             Console.ReadLine();
         }
         public static void StartFlow()
@@ -82,9 +82,9 @@ namespace StarWarsTerminal.Main
                     break;
             }
         }
-        public static void LoginFlow()
+        public static void AccountFlow()
         {
-            var option = LoginMenu();
+            var option = AccountMenu();
             ConsoleWriter.ClearScreen();
 
             switch (option)
@@ -115,7 +115,7 @@ namespace StarWarsTerminal.Main
                 case ParkingMenuOptions.ReEnterhours:
                     break;
                 case ParkingMenuOptions.BackToLogin:
-                    LoginFlow();
+                    AccountFlow();
                     break;
                 default:
                     break;

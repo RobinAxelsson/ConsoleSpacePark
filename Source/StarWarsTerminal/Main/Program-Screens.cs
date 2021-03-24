@@ -209,7 +209,7 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.Update();
             return GetNamePass(loginText);
         }
-        public static LoginMenuOptions LoginMenu()
+        public static LoginMenuOptions AccountMenu()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/6.logged-in-menu.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
