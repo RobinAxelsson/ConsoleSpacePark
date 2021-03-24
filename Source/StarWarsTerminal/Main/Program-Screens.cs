@@ -9,6 +9,8 @@ using StarWarsApi.Interfaces;
 using StarWarsApi.Networking;
 using Newtonsoft.Json;
 using StarWarsApi.Database;
+using System.Linq;
+
 namespace StarWarsTerminal.Main
 {
     static partial class Program
@@ -22,7 +24,7 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.TryAppend(welcomeText);
             ConsoleWriter.Update();
         }
-        public static StartMenuOptions StartMenu()
+        public static StartMenuOptions StartScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/2.menu.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
@@ -88,7 +90,7 @@ namespace StarWarsTerminal.Main
                 if (registrationExists == false)
                 {
                     ConsoleWriter.ClearScreen();
-                    var ship = ChooseShipScreen(GetLocalShips());
+                    var ship = ShipScreen();
                     DatabaseManagement.AccountManagement.Register(ship, RegistrationScreen);
                     ConsoleWriter.ClearScreen();
                     //Takes user and ship
@@ -146,20 +148,23 @@ namespace StarWarsTerminal.Main
 
             return (accountName, password2);
         }
-        public static SpaceShip ChooseShipScreen(IStarwarsItem[] starwarsItems)
+        public static SpaceShip ShipScreen()
         {
-            var selector = new ListSelection(ForegroundColor, '$');
-            var addLines = selector.ConvertIStarwarsItems(starwarsItems);
-
             string[] lines = File.ReadAllLines(@"UI/TextFrames/5a.choose-your-ship.txt");
-            var listTitleDraws = TextEditor.Add.DrawablesAt(lines, 0);
-            TextEditor.Add.DrawablesWithSpacing(listTitleDraws, addLines, 5);
-            TextEditor.Center.AllUnitsInXDir(listTitleDraws, Console.WindowWidth);
-            TextEditor.Center.InYDir(listTitleDraws, Console.WindowHeight);
-            selector.GetCharPositions(listTitleDraws);
-            ConsoleWriter.TryAppend(listTitleDraws);
+            var drawables = TextEditor.Add.DrawablesAt(lines, 0);
+            int nextLine = drawables.Max(x => x.CoordinateY);
+            var localShips = GetLocalShips();
+            string[] shipLines = localShips.Select(x => "$ " + x.Name).ToArray();
+            drawables.AddRange(TextEditor.Add.DrawablesAt(shipLines, nextLine + 3));
+            TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
+
+            var selectionList = new SelectionList<SpaceShip>(ForegroundColor, '$');
+            selectionList.GetCharPositions(drawables);
+            selectionList.AddSelections(localShips);
+            ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();
-            return (SpaceShip)selector.GetSelection();
+
+            return selectionList.GetSelection();
         }
         public static (string AccountName, string Password) LoginPasswordScreen()
         {
@@ -171,16 +176,24 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.Update();
             return GetNamePass(loginText);
         }
-        public static LoginMenuOptions AccountMenu()
+        public static LoginMenuOptions AccountScreen(Account account)
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/6.logged-in-menu.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
+            var parameterCoords = drawables.FindAll(x => x.Chars == "¤").ToList().Select(x => (x.CoordinateX, x.CoordinateY)).ToList();
+
+            var nameCoord = parameterCoords[0];
+            var shipCoord = parameterCoords[1];
+
             var selectionList = new SelectionList<LoginMenuOptions>(ForegroundColor, '$');
             selectionList.GetCharPositions(drawables);
             selectionList.AddSelections(new LoginMenuOptions[] { LoginMenuOptions.Park, LoginMenuOptions.CheckReceipts, LoginMenuOptions.ReRegisterShip, LoginMenuOptions.GoToHomeplanet, LoginMenuOptions.Exit });
             ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();
+
+            LineTools.SetCursor(nameCoord);
+            Console.Write("");
 
             return selectionList.GetSelection();
         }
@@ -196,7 +209,7 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.Update();
             return selectionList.GetSelection();
         }
-        public static void Exit()
+        public static void ExitScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/8.exit-screen.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
