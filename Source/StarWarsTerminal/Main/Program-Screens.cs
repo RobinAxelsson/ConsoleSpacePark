@@ -99,7 +99,7 @@ namespace StarWarsTerminal.Main
                 {
                     ConsoleWriter.ClearScreen();
                     var ship = ChooseShipScreen(GetLocalShips());
-                    DatabaseManagement.AccountManagement.Register(ship);
+                    DatabaseManagement.AccountManagement.Register(ship, RegistrationScreen);
                     ConsoleWriter.ClearScreen();
                     //Takes user and ship
 
