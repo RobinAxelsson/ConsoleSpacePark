@@ -80,26 +80,26 @@ namespace StarWarsTerminal.Main
                 return Console.ReadLine();
             };
 
-            var tryUser = DatabaseManagement.AccountManagement.IdentifyWithQuestion(username, getSecurityAnswer);
+            var userExists = DatabaseManagement.AccountManagement.IdentifyWithQuestion(username, getSecurityAnswer);
 
             ResetCursor(fCoord);
             Clear("Security question loading... plus the long answer that i cleared now!");
             ResetCursor(fCoord);
 
-            if (tryUser == null)
+            if (userExists == false)
             {
-
                 Console.WriteLine("Wrong answer");
             }
             else
             {
                 ConsoleWriter.ClearScreen();
 
-                bool IsNewRegistration = DatabaseManagement.AccountManagement.TryRegistrate(tryUser, RegistrationScreen);
-                if (IsNewRegistration == true)
+                bool registrationExists = DatabaseManagement.AccountManagement.IsRegistrated();
+                if (registrationExists == false)
                 {
                     ConsoleWriter.ClearScreen();
                     var ship = ChooseShipScreen(GetLocalShips());
+                    DatabaseManagement.AccountManagement.Register(ship);
                     ConsoleWriter.ClearScreen();
                     //Takes user and ship
 
@@ -183,7 +183,7 @@ namespace StarWarsTerminal.Main
         {
             return ("BobaFett", "bfett123");
         }
-        public static IStarwarsItem ChooseShipScreen(IStarwarsItem[] starwarsItems)
+        public static SpaceShip ChooseShipScreen(IStarwarsItem[] starwarsItems)
         {
             var selector = new ListSelection(ForegroundColor, '$');
             var addLines = selector.ConvertIStarwarsItems(starwarsItems);
@@ -196,7 +196,7 @@ namespace StarWarsTerminal.Main
             selector.GetCharPositions(listTitleDraws);
             ConsoleWriter.TryAppend(listTitleDraws);
             ConsoleWriter.Update();
-            return selector.GetSelection();
+            return (SpaceShip)selector.GetSelection();
         }
 
         public static (string AccountName, string Password) LoginPasswordScreen()

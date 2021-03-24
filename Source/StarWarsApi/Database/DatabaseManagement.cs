@@ -72,31 +72,37 @@ namespace StarWarsApi.Database
                             result = true;
                 return result; //return user account?
             }
-            public static User IdentifyWithQuestion(string username, Func<string, string> getSecurityAnswer)
+
+            private static Account testAccount;
+            public static bool IdentifyWithQuestion(string username, Func<string, string> getSecurityAnswer)
             {
                 var inputUser = APICollector.ParseUserAsync(username);
                 var security = DatabaseManagement.AccountManagement.GetSecurityQuestion(inputUser);
                 var inputAnswer = getSecurityAnswer(security.question);
                 if (inputAnswer.ToLower() == security.answer.ToLower())
-                    return inputUser;
+                {
+                    testAccount.User = inputUser;
+                    return true;
+                }
                 else
-                    return null;
+                    return false;
             }
-            public static bool TryRegistrate(User inputUser, Func<(string AccountName, string Password)> registerUserPassword)
+            public static bool IsRegistrated()
             {
                 DatabaseManagement.ConnectionString = @"Server=90.229.161.68,52578;Database=StarWarsProject2.1;User Id=adminuser;Password=starwars;";
                 var am = new DatabaseManagement.AccountManagement();
 
-                if (!am.Exists(inputUser))
-                {
-                    var userpass = registerUserPassword();
-                    am.Register(inputUser, userpass.AccountName, userpass.Password);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return am.Exists(testAccount.User);
+            }
+            public static void Register(SpaceShip ship, Func<(string accountName, string password)> registerScreen)
+            {
+                //testAccount add ship
+                var userinput = registerScreen();
+                //testAccount 
+                var userName = userinput.accountName;
+                var password = userinput.password;
+                var am = new DatabaseManagement.AccountManagement();
+                am.Register(testAccount.User, userName, password); //add spaceship
             }
             public static (string question, string answer) GetSecurityQuestion(User inputUser)
             {
