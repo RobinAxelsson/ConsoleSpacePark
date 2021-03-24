@@ -49,10 +49,6 @@ namespace StarWarsTerminal.Main
                 var drawable = drawables.Find(x => x.Chars == chr);
                 return (drawable.CoordinateX, drawable.CoordinateY);
             };
-            Action<(int X, int Y)> ResetCursor = (coord) =>
-            {
-                Console.SetCursorPosition(coord.X, coord.Y);
-            };
             Action<string> Clear = (clear) =>
             {
                 Console.CursorVisible = false;
@@ -63,28 +59,22 @@ namespace StarWarsTerminal.Main
             var fCoord = GetCoord("F");
             var nameEndCoord = GetCoord(":");
 
-            ResetCursor((nameEndCoord.X + 2, nameEndCoord.Y));
+            LineTools.SetCursor((nameEndCoord.X + 2, nameEndCoord.Y));
             var username = Console.ReadLine();
 
-            ResetCursor(fCoord);
-            Clear("First name: " + username);
-            ResetCursor(fCoord);
+            LineTools.ClearAt(fCoord, "First name: " + username);
             Console.Write("Security question loading...");
 
             Func<string, string> getSecurityAnswer = (securityQuestion) =>
             {
-                ResetCursor(fCoord);
-                Clear("Security question loading...");
-                ResetCursor(fCoord);
+                LineTools.ClearAt(fCoord, "Security question loading...");
                 Console.Write(securityQuestion + " ");
                 return Console.ReadLine();
             };
 
             var userExists = DatabaseManagement.AccountManagement.IdentifyWithQuestion(username, getSecurityAnswer);
 
-            ResetCursor(fCoord);
-            Clear("Security question loading... plus the long answer that i cleared now!");
-            ResetCursor(fCoord);
+            LineTools.ClearAt(fCoord, "Security question loading... plus the long answer that i cleared now!");
 
             if (userExists == false)
             {
@@ -106,7 +96,7 @@ namespace StarWarsTerminal.Main
                 }
                 else
                 {
-                    ResetCursor(fCoord);
+                    LineTools.SetCursor(fCoord);
                     Console.WriteLine("User is already registered");
                     Thread.Sleep(500);
                     ConsoleWriter.ClearScreen();
@@ -127,61 +117,34 @@ namespace StarWarsTerminal.Main
 
             var colons = drawables.FindAll(x => x.Chars == ":");
 
-            var accountStart = getCoord(colons[0]);
-            var pass1 = getCoord(colons[1]);
-            var pass2 = getCoord(colons[2]);
-
-            Action<(int X, int Y)> ResetCursor = (coord) =>
-            {
-                Console.SetCursorPosition(coord.X, coord.Y);
-            };
+            var nameCoord = getCoord(colons[0]);
+            var pass1Coord = getCoord(colons[1]);
+            var pass2Coord = getCoord(colons[2]);
 
             Console.ForegroundColor = ConsoleColor.Green;
-            ResetCursor(accountStart);
+            LineTools.SetCursor(nameCoord);
 
-            var nameLine = new InputLine(accountStart.X, accountStart.Y, 30, ConsoleColor.Green);
-            var pass1Line = new InputLine(pass1.X, pass1.Y, 30, ConsoleColor.Green);
-            var pass2Line = new InputLine(pass2.X, pass2.Y, 30, ConsoleColor.Green);
+            var nameLine = new InputLine(nameCoord.X, nameCoord.Y, 30, ConsoleColor.Green);
+            var pass1Line = new InputLine(pass1Coord.X, pass1Coord.Y, 30, ConsoleColor.Green);
+            var pass2Line = new InputLine(pass2Coord.X, pass2Coord.Y, 30, ConsoleColor.Green);
 
             var accountName = "";
             var password1 = "";
             var password2 = "";
-            bool mistake = false;
 
             do
             {
-                if(mistake == true)
-                {
-                    ResetCursor((pass2.X, pass2.Y + 4));
-                }
                 accountName = nameLine.GetInputString(false);
                 password1 = pass1Line.GetInputString(true);
                 password2 = pass2Line.GetInputString(true);
-                
-                ResetCursor(accountStart);
-                foreach (char c in accountName)
-                    Console.Write(" ");
 
-                ResetCursor(pass1);
-                foreach (char c in password1)
-                    Console.Write(" ");
-
-                ResetCursor(pass2);
-                foreach (char c in password2)
-                    Console.Write(" ");
+                LineTools.ClearAt(nameCoord, accountName);
+                LineTools.ClearAt(pass1Coord, password1);
+                LineTools.ClearAt(pass2Coord, password2);
 
             } while (password1 != password2 || accountName.Length <= 5 || password1.Length <= 5);
 
             return (accountName, password2);
-        }
-        public static string DisplayQuestionGetAnswer(string securityQuestion)
-        {
-            Console.Write(securityQuestion + ": ");
-            return Console.ReadLine();
-        }
-        public static (string AccountName, string Password) GetNewAccountNamePassword()
-        {
-            return ("BobaFett", "bfett123");
         }
         public static SpaceShip ChooseShipScreen(IStarwarsItem[] starwarsItems)
         {
@@ -198,7 +161,6 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.Update();
             return (SpaceShip)selector.GetSelection();
         }
-
         public static (string AccountName, string Password) LoginPasswordScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/3b.login.txt");

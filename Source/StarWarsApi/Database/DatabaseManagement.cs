@@ -99,11 +99,10 @@ namespace StarWarsApi.Database
             {
                 //testAccount add ship
                 var userinput = registerScreen();
-                //testAccount 
                 var userName = userinput.accountName;
                 var password = userinput.password;
                 var am = new DatabaseManagement.AccountManagement();
-                am.Register(testAccount.User,testAccount.SpaceShip, userName, password); //add spaceship
+                am.Register(testAccount.User, ship, userName, password); //add spaceship
             }
             public static (string question, string answer) GetSecurityQuestion(User inputUser)
             {

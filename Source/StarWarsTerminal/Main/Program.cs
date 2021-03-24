@@ -129,17 +129,15 @@ namespace StarWarsTerminal.Main
         public static (string FullName, string Password) GetNamePass(List<IDrawable> drawables)
         {
             var colons = drawables.FindAll(x => x.Chars == ":");
-            var fullNameInput = new InputLine(colons[0], 50, ForegroundColor);
-            string fullname = fullNameInput.GetInputString(false);
-            var passwordInput = new InputLine(colons[1], 50, ForegroundColor);
-            string password = passwordInput.GetInputString(isPassword: true);
-            Console.SetCursorPosition(fullNameInput.X, fullNameInput.Y);
-            foreach (char chr in fullname)
-                Console.Write(" ");
+            var nameLine = new InputLine(colons[0], 50, ForegroundColor);
 
-            Console.SetCursorPosition(passwordInput.X, passwordInput.Y);
-            foreach (char chr in password)
-                Console.Write(" ");
+            string fullname = nameLine.GetInputString(false);
+            var passwordLine = new InputLine(colons[1], 50, ForegroundColor);
+            string password = passwordLine.GetInputString(isPassword: true);
+
+            LineTools.ClearAt((nameLine.X, nameLine.Y), fullname);
+            LineTools.ClearAt((passwordLine.X, passwordLine.Y), password);
+            
             return (fullname, password);
         }
     }

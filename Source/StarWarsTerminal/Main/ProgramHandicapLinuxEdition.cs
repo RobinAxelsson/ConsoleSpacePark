@@ -26,7 +26,7 @@ namespace StarWarsTerminal.Main
                     var accountName = Console.ReadLine();
                     Console.WriteLine("Please enter your desired password:");
                     var password = Console.ReadLine();
-                    am.Register(inputUser, accountName, password);
+                    //am.Register(inputUser, accountName, password);
                     Console.WriteLine("Successfully Registered!");
                     //Load register screen which contains only Account Name and Password
                     //Input userObject, string accountName, string password > Register method
