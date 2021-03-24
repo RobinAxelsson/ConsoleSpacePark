@@ -176,7 +176,7 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.Update();
             return GetNamePass(loginText);
         }
-        public static LoginMenuOptions AccountScreen(Account account)
+        public static LoginMenuOptions AccountScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/6.logged-in-menu.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
@@ -192,8 +192,11 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();
 
+            Console.ForegroundColor = ConsoleColor.Green;
             LineTools.SetCursor(nameCoord);
-            Console.Write("");
+            Console.Write("Test Name");
+            LineTools.SetCursor(shipCoord);
+            Console.Write("Test Ship");
 
             return selectionList.GetSelection();
         }
