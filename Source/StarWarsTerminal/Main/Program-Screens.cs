@@ -191,8 +191,11 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();
 
+            Console.ForegroundColor = ConsoleColor.Green;
             LineTools.SetCursor(nameCoord);
-            Console.Write("");
+            Console.Write("Test Name");
+            LineTools.SetCursor(shipCoord);
+            Console.Write("Test Ship");
 
             return selectionList.GetSelection();
         }
