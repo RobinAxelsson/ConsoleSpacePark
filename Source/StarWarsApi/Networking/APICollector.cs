@@ -125,7 +125,7 @@ namespace StarWarsApi.Networking
                 throw new Exception("Parse was empty; Is the URL in correct format?");
             }
         }
-        public static SpaceShip ParseShip(string name)
+        public static SpaceShip ParseShip(string model)
         {
             var foundShip = false; //A check to verify a ship has been found by name
             var ship = new SpaceShip(); //Had to initialize because code didn't realize it was bound to the foundShip bool and i got build errors.
@@ -135,14 +135,14 @@ namespace StarWarsApi.Networking
                     returnSpaceShipsFromList("https://swapi.dev/api/starships/?page=" + i.ToString());
                 foreach (var s in tempShips)
                 {
-                    if (s.Name != name) continue;
+                    if (s.Model != model) continue;
                     foundShip = true;
                     ship = s;
                 }
             }
             if (!foundShip)
             {
-                throw new Exception("Could not find a ship based on " + name + ". Did you enter the name correctly?");
+                throw new Exception("Could not find a ship based on " + model + ". Did you enter the name correctly?");
             }
             else
             {
@@ -157,10 +157,10 @@ namespace StarWarsApi.Networking
             thread.Join(); //By doing join it will wait for the method to finish
             return spaceShip;
         }
-        public static SpaceShip ParseShipAsync(string name) //This contains a threadstart for the private corresponding method
+        public static SpaceShip ParseShipAsync(string model) //This contains a threadstart for the private corresponding method
         {
             var spaceShip = new SpaceShip();
-            var thread = new Thread(() => { spaceShip = ParseShip(name);});
+            var thread = new Thread(() => { spaceShip = ParseShip(model);});
             thread.Start();
             thread.Join(); //By doing join it will wait for the method to finish
             return spaceShip;

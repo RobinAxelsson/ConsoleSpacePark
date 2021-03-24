@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
-using StarWarsApi.Interfaces;
 
 namespace StarWarsApi.Models
 {
-    public class SpaceShip : IStarwarsItem
+    public class SpaceShip
     {
         public int SpaceShipID { get; set; }
-        public string Name { get; set; }
         public string Model { get; set; }
         public string Manufacturer { get; set; }
         [JsonProperty("cost_in_credits")]
