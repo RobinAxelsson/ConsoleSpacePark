@@ -59,12 +59,15 @@ namespace StarWarsTerminal.Main
             //WelcomeScreen();
             //Console.ReadLine();
             //ConsoleWriter.ClearScreen();
-            StartFlow();
+            //ChooseShipScreen(GetLocalShips());
+            //StartFlow();
+            AccountScreen();
+            //ShipScreen();
             Console.ReadLine();
         }
         public static void StartFlow()
         {
-            var startOption = StartMenu();
+            var startOption = StartScreen();
             ConsoleWriter.ClearScreen();
 
             switch (startOption)
@@ -76,7 +79,7 @@ namespace StarWarsTerminal.Main
                     IdentificationScreen();
                     break;
                 case StartMenuOptions.Exit:
-                    Exit();
+                    ExitScreen();
                     break;
                 default:
                     break;
@@ -84,7 +87,7 @@ namespace StarWarsTerminal.Main
         }
         public static void AccountFlow()
         {
-            var option = AccountMenu();
+            var option = AccountScreen();
             ConsoleWriter.ClearScreen();
 
             switch (option)
@@ -98,7 +101,7 @@ namespace StarWarsTerminal.Main
                 case LoginMenuOptions.GoToHomeplanet:
                     break;
                 case LoginMenuOptions.Exit:
-                    Exit();
+                    ExitScreen();
                     break;
                 default:
                     break;
