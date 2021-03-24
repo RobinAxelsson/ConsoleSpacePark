@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -10,7 +11,42 @@ namespace StarWarsApi.Database
 {
     public class DatabaseManagement
     {
+        public static double PriceMultiplier = 10;
         public static string ConnectionString { get; set; }
+
+        public class ParkingManagement
+        {
+            public double CalculatePrice(SpaceShip ship, double minutes)
+            {
+                var price = (double.Parse(ship.ShipLength) * minutes) / PriceMultiplier;
+                return price;
+            }
+            public Receipt SendInvoice(Account account, double minutes)
+            {
+                var receipt = new Receipt();
+                var thread = new Thread(() => { receipt = sendInvoice(account, minutes); });
+                thread.Start();
+                thread.Join(); //By doing join it will wait for the method to finish
+                return receipt;
+            }
+            private Receipt sendInvoice(Account account, double minutes)
+            {
+                var price = CalculatePrice(account.SpaceShip, minutes);
+                var endTime = DateTime.Now.AddMinutes(minutes);
+                var receipt = new Receipt
+                {
+                    Account = account, Price = price, StartTime = DateTime.Now.ToString("g"), EndTime = endTime.ToString("g")
+                };
+                if (ConnectionString == null)
+                    throw new Exception("The static property ConnectionString has not been assigned.",
+                        new Exception(
+                            "Please assign a value to the static property ConnectionString before calling any methods"));
+                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                dbHandler.Receipts.Add(receipt);
+                dbHandler.SaveChanges();
+                return receipt;
+            }
+        }
         public class AccountManagement
         {
             public AccountManagement()
@@ -52,28 +88,61 @@ namespace StarWarsApi.Database
 
                 return result;
             }
-            public bool ValidateLogin(string accountName, string passwordInput)
+            public Account ValidateLogin(string accountName, string passwordInput)
             {
-                var result = false;
+                var account = new Account();
                 var thread = new Thread(() =>
                 {
-                    result = validateLogin(accountName, PasswordHashing.HashPassword(passwordInput));
+                    account = validateLogin(accountName, PasswordHashing.HashPassword(passwordInput));
                 });
                 thread.Start();
                 thread.Join(); //By doing join it will wait for the method to finish
-                return result;
+                return account;
             }
-            private bool validateLogin(string accountName, string passwordInput)
+            private Account validateLogin(string accountName, string passwordInput)
             {
-                var result = false;
+                Account resultingAccount = null;
                 var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
                 foreach (var account in dbHandler.Accounts)
+                {
                     if (account.AccountName == accountName)
+                    {
                         if (account.Password == passwordInput)
-                            result = true;
-                return result; //return user account?
+                        {
+                            resultingAccount = account;
+                        }   
+                    }
+                }
+                
+                return resultingAccount; //return user account
             }
-
+            private List<Receipt> GetAccountReceipts(string accountName)
+            {
+                var receiptList = new List<Receipt>();
+                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                foreach (var receipt in dbHandler.Receipts)
+                {
+                    if (receipt.Account.AccountName == accountName)
+                    {
+                        receiptList.Add(receipt);
+                    }
+                }
+                return receiptList;
+            }
+            private List<Receipt> GetAccountReceipts(int accountId)
+            {
+                var receiptList = new List<Receipt>();
+                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                foreach (var receipt in dbHandler.Receipts)
+                {
+                    if (receipt.Account.AccountID == accountId)
+                    {
+                        receiptList.Add(receipt);
+                    }
+                }
+                return receiptList;
+            }
+            
             private static Account testAccount;
             public static bool IdentifyWithQuestion(string username, Func<string, string> getSecurityAnswer)
             {
