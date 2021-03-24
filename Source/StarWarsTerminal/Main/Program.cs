@@ -5,15 +5,12 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Threading;
 using System.IO;
-using StarWarsApi.Networking;
 using Newtonsoft.Json;
-using StarWarsApi.Database;
 
 namespace StarWarsTerminal.Main
 {
     static partial class Program
     {
-
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
         private static IntPtr ThisConsole = GetConsoleWindow();
@@ -33,7 +30,7 @@ namespace StarWarsTerminal.Main
             NewAccount,
             Exit
         }
-        public enum LoginMenuOptions
+        public enum AccountMenuOptions
         {
             Park,
             CheckReceipts,
@@ -60,7 +57,7 @@ namespace StarWarsTerminal.Main
             //ConsoleWriter.ClearScreen();
             //ChooseShipScreen(GetLocalShips());
             //StartFlow();
-            //AccountScreen();
+            AccountScreen();
             //ShipScreen();
             Console.ReadLine();
         }
@@ -91,15 +88,15 @@ namespace StarWarsTerminal.Main
 
             switch (option)
             {
-                case LoginMenuOptions.Park:
+                case AccountMenuOptions.Park:
                     break;
-                case LoginMenuOptions.CheckReceipts:
+                case AccountMenuOptions.CheckReceipts:
                     break;
-                case LoginMenuOptions.ReRegisterShip:
+                case AccountMenuOptions.ReRegisterShip:
                     break;
-                case LoginMenuOptions.GoToHomeplanet:
+                case AccountMenuOptions.GoToHomeplanet:
                     break;
-                case LoginMenuOptions.Exit:
+                case AccountMenuOptions.Exit:
                     ExitScreen();
                     break;
                 default:

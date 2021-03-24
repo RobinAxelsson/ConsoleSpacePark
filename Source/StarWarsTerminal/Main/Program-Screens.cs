@@ -1,12 +1,8 @@
 ﻿using System;
 using StarWarsApi.Models;
 using StarWarsTerminal.UI;
-using System.Runtime.InteropServices;
-using System.Collections.Generic;
 using System.Threading;
 using System.IO;
-using StarWarsApi.Networking;
-using Newtonsoft.Json;
 using StarWarsApi.Database;
 using System.Linq;
 
@@ -175,7 +171,7 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.Update();
             return GetNamePass(loginText);
         }
-        public static LoginMenuOptions AccountScreen()
+        public static AccountMenuOptions AccountScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/6.logged-in-menu.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
@@ -185,9 +181,16 @@ namespace StarWarsTerminal.Main
             var nameCoord = parameterCoords[0];
             var shipCoord = parameterCoords[1];
 
-            var selectionList = new SelectionList<LoginMenuOptions>(ForegroundColor, '$');
+            var selectionList = new SelectionList<AccountMenuOptions>(ForegroundColor, '$');
             selectionList.GetCharPositions(drawables);
-            selectionList.AddSelections(new LoginMenuOptions[] { LoginMenuOptions.Park, LoginMenuOptions.CheckReceipts, LoginMenuOptions.ReRegisterShip, LoginMenuOptions.GoToHomeplanet, LoginMenuOptions.Exit });
+            selectionList.AddSelections(new AccountMenuOptions[] 
+            {
+                AccountMenuOptions.Park, 
+                AccountMenuOptions.CheckReceipts,
+                AccountMenuOptions.ReRegisterShip,
+                AccountMenuOptions.GoToHomeplanet,
+                AccountMenuOptions.Exit 
+            });
             ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();
 
