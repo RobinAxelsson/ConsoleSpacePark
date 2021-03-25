@@ -36,7 +36,8 @@ namespace StarWarsTerminal.Main
             //ConsoleWriter.ClearScreen();
             //ChooseShipScreen(GetLocalShips());
             //StartFlow();
-            AccountScreen();
+            //AccountFlow();
+            ParkingScreen();
             //ShipScreen();
             Console.ReadLine();
         }
@@ -82,6 +83,7 @@ namespace StarWarsTerminal.Main
             switch (option)
             {
                 case AccountMenuOptions.Park:
+                    ParkingFlow();
                     break;
                 case AccountMenuOptions.CheckReceipts:
                     break;
@@ -101,25 +103,8 @@ namespace StarWarsTerminal.Main
             PurchaseTicket,
             ReEnterhours,
             BackToLogin
+        }
 
-        }
-        public static void ParkingFlow()
-        {
-            var option = ParkingScreen();
-            ConsoleWriter.ClearScreen();
-            switch (option)
-            {
-                case ParkingMenuOptions.PurchaseTicket:
-                    break;
-                case ParkingMenuOptions.ReEnterhours:
-                    break;
-                case ParkingMenuOptions.BackToLogin:
-                    AccountFlow();
-                    break;
-                default:
-                    break;
-            }
-        }
         public static SpaceShip[] GetLocalShips()
         {
             string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");

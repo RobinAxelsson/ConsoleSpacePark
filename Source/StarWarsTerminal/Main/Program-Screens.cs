@@ -202,17 +202,60 @@ namespace StarWarsTerminal.Main
 
             return selectionList.GetSelection();
         }
-        public static ParkingMenuOptions ParkingScreen()
+        public static void ParkingScreen()
         {
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/6.logged-in-menu.txt");
+            string[] lines = File.ReadAllLines(@"UI/TextFrames/7.parking-menu.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             var selectionList = new SelectionList<ParkingMenuOptions>(ForegroundColor, '$');
             selectionList.GetCharPositions(drawables);
-            selectionList.AddSelections(new ParkingMenuOptions[] { ParkingMenuOptions.PurchaseTicket, ParkingMenuOptions.ReEnterhours, ParkingMenuOptions.BackToLogin });
-            ConsoleWriter.TryAppend(drawables);
+            selectionList.AddSelections(new ParkingMenuOptions[]
+            {
+                ParkingMenuOptions.PurchaseTicket,
+                ParkingMenuOptions.ReEnterhours,
+                ParkingMenuOptions.BackToLogin
+            });
+
+            var drawProps = drawables.FindAll(x => x.Chars == "¤");
+            var props = drawProps.Select(x => (x.CoordinateX, x.CoordinateY)).ToList();
+            var parkFromXY = props[0];
+            var pricePerHourXY = props[1];
+            var shipLengthXY = props[2];
+            
+            var calculatedPriceXY = props[3];
+            var enterHoursXY = props[4];
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            LineTools.SetCursor(parkFromXY);
+            Console.Write("Now");
+            LineTools.SetCursor(pricePerHourXY);
+            Console.Write("10");
+            LineTools.SetCursor(shipLengthXY);
+            Console.Write("45");
+            ConsoleWriter.TryAppend(drawables.Except(drawProps).ToList());
             ConsoleWriter.Update();
-            return selectionList.GetSelection();
+
+            Func<double, double, double> calculate = (double length, double hours)
+               => length * hours / 10;
+            ParkingMenuOptions menuSel;
+            var priceGetter = new PriceGetter(enterHoursXY, calculatedPriceXY, 10000, calculate);
+            do
+            {
+                double price = priceGetter.GetPrice(45);
+                menuSel = selectionList.GetSelection();
+            } while (menuSel == ParkingMenuOptions.ReEnterhours);
+            
+            switch (menuSel)
+            {
+                case ParkingMenuOptions.PurchaseTicket:
+                    //Display Ticket, create ticket
+                    break;
+                case ParkingMenuOptions.BackToLogin:
+                    AccountFlow();
+                    break;
+                default:
+                    break;
+            }
         }
         public static void ExitScreen()
         {
