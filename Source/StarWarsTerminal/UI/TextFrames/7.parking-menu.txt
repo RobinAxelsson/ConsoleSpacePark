@@ -7,17 +7,17 @@
 | _|    /__/     \__\ | _| `._____||__|\__\ |__| |__| \__|  \______| 
                                                                      
 
-Parking is available in Hangar ¤ (Parking is not available in Hangar ¤ until 12pm)
-Price is x per hour
-
+Parking is available from: ¤
+Price per hour and ship length: ¤
+Your shiplength: ¤
  ____________________________
 |                            |
-| Calculated Price:          |
+| Calculated Price: ¤        |
 |____________________________|
 
  ____________________________
 |                            |
-|  Enter Hours:              |
+|  Enter Hours: ¤            |
 |____________________________|
 
 $ Purchase ticket

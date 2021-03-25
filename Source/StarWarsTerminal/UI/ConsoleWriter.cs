@@ -67,5 +67,21 @@ namespace StarWarsTerminal.UI
             ScreenMemory.Clear();
             Console.Clear();
         }
+        public static void UpdateDynamicString(string input, (int X, int Y) Coord)
+        {
+            for (int i = 0; i < input.Length; i++)
+            {
+                TryAppend(
+                        new TextDrawable()
+                        {
+                            CoordinateX = Coord.X + i,
+                            CoordinateY = Coord.Y,
+                            ForegroundColor = ConsoleColor.Green,
+                            Chars = input[i].ToString()
+                        }
+                    );
+            }
+            Update();
+        }
     }
 }
