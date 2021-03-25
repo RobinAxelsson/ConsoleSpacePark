@@ -8,8 +8,9 @@ using System.Linq;
 
 namespace StarWarsTerminal.Main
 {
-    static partial class Program
+    public static partial class Program
     {
+        
         public static void WelcomeScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/1.welcome-screen.txt");
@@ -88,6 +89,7 @@ namespace StarWarsTerminal.Main
                     var ship = ShipScreen();
                     DatabaseManagement.AccountManagement.Register(ship, RegistrationScreen);
                     ConsoleWriter.ClearScreen();
+                    StartFlow();
                     //Takes user and ship
 
                 }
@@ -299,4 +301,5 @@ namespace StarWarsTerminal.Main
             Environment.Exit(0);
         }
     }
+
 }

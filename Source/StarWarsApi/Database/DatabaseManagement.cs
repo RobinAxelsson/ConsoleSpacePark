@@ -16,6 +16,7 @@ namespace StarWarsApi.Database
         public static int ParkingSlots = 5;
         public class ParkingManagement
         {
+            
             //Checks if space park is open or closed, if closed, when is nextAvailable slot?
             public (bool isOpen, DateTime nextAvailable) CheckParkingStatus()
             {
@@ -171,7 +172,7 @@ namespace StarWarsApi.Database
                 return receiptList;
             }
             
-            private static Account testAccount;
+            private static Account testAccount = new Account();
             public static bool IdentifyWithQuestion(string username, Func<string, string> getSecurityAnswer)
             {
                 var inputUser = APICollector.ParseUserAsync(username);
@@ -187,11 +188,11 @@ namespace StarWarsApi.Database
             }
             public static bool IsRegistrated()
             {
-                DatabaseManagement.ConnectionString = @"Server=90.229.161.68,52578;Database=StarWarsProject2.2;User Id=adminuser;Password=starwars;";
                 var am = new DatabaseManagement.AccountManagement();
 
                 return am.Exists(testAccount.User);
             }
+            //remove below
             public static void Register(SpaceShip ship, Func<(string accountName, string password)> registerScreen)
             {
                 //testAccount add ship
@@ -200,6 +201,14 @@ namespace StarWarsApi.Database
                 var password = userinput.password;
                 var am = new DatabaseManagement.AccountManagement();
                 am.Register(testAccount.User, ship, userName, password); //add spaceship
+            }
+            public static void Register(SpaceShip ship, (string accountName, string password) namepass)
+            {
+                var userinput = namepass;
+                var userName = userinput.accountName;
+                var password = userinput.password;
+                var am = new DatabaseManagement.AccountManagement();
+                am.Register(testAccount.User, ship, userName, password);
             }
             public static (string question, string answer) GetSecurityQuestion(User inputUser)
             {

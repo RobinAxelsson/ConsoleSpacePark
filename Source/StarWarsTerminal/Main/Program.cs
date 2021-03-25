@@ -6,11 +6,33 @@ using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using Newtonsoft.Json;
+using StarWarsTerminal.UI.Screen;
+using StarWarsApi.Database;
 
 namespace StarWarsTerminal.Main
 {
     static partial class Program
     {
+        static Program()
+        {
+            DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.3; User Id = adminuser; Password = starwars;";
+        }
+        public enum Option
+        {
+            StartScreen,
+            Login,
+            Park,
+            CheckReceipts,
+            RegisterLogin,
+            ReRegisterShip,
+            RegisterShip,
+            GoToHomeplanet,
+            NewAccount,
+            GotoAccount,
+            ReEnterhours,
+            PurchaseTicket,
+            Exit
+        }
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
         private static IntPtr ThisConsole = GetConsoleWindow();
@@ -24,22 +46,59 @@ namespace StarWarsTerminal.Main
         private const int RESTORE = 9;
 
         public const ConsoleColor ForegroundColor = ConsoleColor.Green;
+
+        private static Account _account { get; set; } = new Account();
+        public static SpaceShip _ship { get; set; } = new SpaceShip();
+        public static (string accountName, string password) _namepass { get; set; }
         static void Main(string[] args)
         {
             ShowWindow(ThisConsole, MAXIMIZE);
             Console.CursorVisible = false;
             Thread.Sleep(500);
-            //IdentificationScreen();
-            //RegistrationScreen();
-            //WelcomeScreen();
-            //Console.ReadLine();
-            //ConsoleWriter.ClearScreen();
-            //ChooseShipScreen(GetLocalShips());
-            //StartFlow();
-            AccountFlow();
-            //ParkingScreen();
-            //ShipScreen();
-            Console.ReadLine();
+            Screen.Welcome();
+            var option = Option.StartScreen;
+
+            while(option != Option.Exit)
+            {
+                switch (option)
+                {
+                    case Option.StartScreen:
+                        option = Screen.StartScreen();
+                        break;
+                    case Option.Login:
+                        option = Screen.LoginPasswordScreen();
+                        break;
+                    case Option.GotoAccount:
+                        option = Screen.AccountScreen();
+                        break;
+                    case Option.Park:
+                        option = Screen.ParkingScreen();
+                        break;
+                    case Option.CheckReceipts:
+                        break;
+                    case Option.RegisterShip:
+                        option = Screen.ShipScreen();
+                        break;
+                    case Option.RegisterLogin:
+                        option = Screen.RegistrationScreen();
+                        break;
+                    case Option.ReRegisterShip:
+                        option = Screen.ShipScreen();
+                        break;
+                    case Option.GoToHomeplanet:
+                        option = Screen.HomePlanetScreen();
+                        break;
+                    case Option.NewAccount:
+                        option = Screen.IdentificationScreen();
+                        break;
+                    case Option.PurchaseTicket:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Screen.ExitScreen();
+            Thread.Sleep(2000);
         }
         public enum StartMenuOptions
         {
@@ -88,7 +147,10 @@ namespace StarWarsTerminal.Main
                 case AccountMenuOptions.CheckReceipts:
                     break;
                 case AccountMenuOptions.ReRegisterShip:
-                    ShipScreen();
+                    var newShip = ShipScreen();
+                    if (newShip != null)
+                        _account.SpaceShip = newShip;
+                    AccountFlow();
                     break;
                 case AccountMenuOptions.GoToHomeplanet:
                     HomePlanetScreen();
