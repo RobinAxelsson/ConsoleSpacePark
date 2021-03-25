@@ -72,7 +72,7 @@ namespace StarWarsApi.Database
                             "Please assign a value to the static property ConnectionString before calling any methods"));
                 var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
                 dbHandler.Receipts.Add(receipt);
-                dbHandler.SaveChanges();
+                dbHandler.SaveChanges(); //TODO
                 return receipt;
             }
         }

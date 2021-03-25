@@ -271,10 +271,10 @@ namespace StarWarsTerminal.Main
             var parking = new DatabaseManagement.ParkingManagement();
 
             ParkingMenuOptions menuSel;
-            var priceGetter = new PriceGetter(enterHoursXY, calculatedPriceXY, 10000, parking.CalculatePrice);
+            var priceGetter = new TimeGetter(enterHoursXY, calculatedPriceXY, 10000, parking.CalculatePrice);
             do
             {
-                double price = priceGetter.GetPrice(_ship);
+                double price = priceGetter.GetHours(_ship);
                 menuSel = selectionList.GetSelection();
             } while (menuSel == ParkingMenuOptions.ReEnterhours);
             

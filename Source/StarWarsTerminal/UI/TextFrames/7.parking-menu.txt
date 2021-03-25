@@ -8,7 +8,7 @@
                                                                      
 
 Parking is available from: ¤
-Price per hour and ship length: ¤
+Your price per hour: ¤
 Your shiplength: ¤
  ____________________________
 |                            |
@@ -25,3 +25,5 @@ $ Purchase ticket
 $ Re-enter hours
 
 $ Back to login page
+
+¤

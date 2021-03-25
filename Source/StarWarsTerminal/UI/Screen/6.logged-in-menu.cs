@@ -36,9 +36,9 @@ namespace StarWarsTerminal.UI.Screen
 
             Console.ForegroundColor = ConsoleColor.Green;
             LineTools.SetCursor(nameCoord);
-            Console.Write("Test Name");
+            Console.Write(_account.User.Name);
             LineTools.SetCursor(shipCoord);
-            Console.Write("Test Ship");
+            Console.Write(_account.SpaceShip.Model);
 
             return selectionList.GetSelection();
         }

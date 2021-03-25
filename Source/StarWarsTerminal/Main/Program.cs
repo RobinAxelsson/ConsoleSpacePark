@@ -92,6 +92,7 @@ namespace StarWarsTerminal.Main
                         option = Screen.IdentificationScreen();
                         break;
                     case Option.PurchaseTicket:
+
                         break;
                     default:
                         break;

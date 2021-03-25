@@ -1,11 +1,7 @@
 ﻿using StarWarsApi.Database;
-using StarWarsTerminal.Main;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screen
@@ -24,7 +20,7 @@ namespace StarWarsTerminal.UI.Screen
             {
                 Option.PurchaseTicket,
                 Option.ReEnterhours,
-                Option.Login
+                Option.GotoAccount
             });
 
             var drawProps = drawables.FindAll(x => x.Chars == "¤");
@@ -35,28 +31,48 @@ namespace StarWarsTerminal.UI.Screen
 
             var calculatedPriceXY = props[3];
             var enterHoursXY = props[4];
+            var receiptXY = props[5];
+
+            var parking = new DatabaseManagement.ParkingManagement();
 
             Console.ForegroundColor = ConsoleColor.Green;
             LineTools.SetCursor(parkFromXY);
             Console.Write("Now");
             LineTools.SetCursor(pricePerHourXY);
-            Console.Write("10");
+            Console.Write(parking.CalculatePrice(_account.SpaceShip, 1));
             LineTools.SetCursor(shipLengthXY);
-            Console.Write("45");
+            Console.Write(_account.SpaceShip.ShipLength);
+
             ConsoleWriter.TryAppend(drawables.Except(drawProps).ToList());
             ConsoleWriter.Update();
 
-            var parking = new DatabaseManagement.ParkingManagement();
-
             Option menuSel;
-            var priceGetter = new PriceGetter(enterHoursXY, calculatedPriceXY, 10000, parking.CalculatePrice);
+            double hours;
+
+            var timeGetter = new TimeGetter(enterHoursXY, calculatedPriceXY, 10000, parking.CalculatePrice);
             do
             {
-                double price = priceGetter.GetPrice(_ship);
+                hours = timeGetter.GetHours(_account.SpaceShip);
                 menuSel = selectionList.GetSelection();
             } while (menuSel == Option.ReEnterhours);
 
-            return menuSel;
+            if (Option.PurchaseTicket == menuSel)
+            {
+                var receipt = parking.SendInvoice(_account, hours);
+                string[] receiptString = new string[]
+                {
+                    "Ticket Holder: " + receipt.Account.AccountName,
+                    "Start time: " + receipt.StartTime,
+                    "End time: " + receipt.EndTime,
+                    "Price: " + receipt.Price
+                };
+                string test = String.Join('\n', receiptString);
+                LineTools.SetCursor(receiptXY);
+                Console.Write(test);
+                Console.ReadKey();
+            }
+
+            return Option.GotoAccount;
         }
     }
 }
