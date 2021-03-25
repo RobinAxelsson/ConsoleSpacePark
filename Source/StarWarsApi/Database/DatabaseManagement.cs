@@ -27,7 +27,6 @@ namespace StarWarsApi.Database
                 var isOpen = false;
                 if(ongoingParkings.Count >= ParkingSlots)
                 {
-                    isOpen = false;
                     //Setting nextAvailable 10 years ahead so the loop will always start running.
                     nextAvailable = DateTime.Now.AddYears(10);
                     foreach (var receipt in ongoingParkings)
