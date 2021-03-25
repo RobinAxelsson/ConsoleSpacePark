@@ -23,22 +23,16 @@ namespace StarWarsApi.Database
             {
                 var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
                 var ongoingParkings = dbHandler.Receipts.Where(r => DateTime.Parse(r.EndTime) > DateTime.Now).ToList();
-
-                DateTime nextAvailable = DateTime.Now;
-
-                bool isOpen = false;
-                
+                var nextAvailable = DateTime.Now;
+                var isOpen = false;
                 if(ongoingParkings.Count >= ParkingSlots)
                 {
                     isOpen = false;
-
                     //Setting nextAvailable 10 years ahead so the loop will always start running.
                     nextAvailable = DateTime.Now.AddYears(10);
-
                     foreach (var receipt in ongoingParkings)
                     {
                         var endTime = DateTime.Parse(receipt.EndTime);
-
                         if (endTime > DateTime.Now && endTime < nextAvailable)
                         {
                             nextAvailable = endTime;
