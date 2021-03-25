@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StarWarsTerminal.Main;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,15 +32,16 @@ namespace StarWarsTerminal.UI.Screen
 
             Console.ForegroundColor = ConsoleColor.Green;
 
-            home.Update("tatoine");
-            rotation.Update("rot");
-            orbital.Update("orb");
-            diameter.Update("d");
-            climate.Update("cold");
-            pop.Update("100001");
+            var homeplanet = _account.User.Homeplanet;
+
+            home.Update(homeplanet.Name);
+            rotation.Update(homeplanet.RotationPeriod);
+            orbital.Update(homeplanet.OrbitalPeriod);
+            diameter.Update(homeplanet.Diameter);
+            climate.Update(homeplanet.Climate);
+            pop.Update(homeplanet.Population);
 
             Console.ReadLine();
-            ConsoleWriter.ClearScreen();
             return Option.GotoAccount;
         }
     }

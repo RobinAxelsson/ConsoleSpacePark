@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using StarWarsApi.Database;
 using StarWarsApi.Models;
+using StarWarsTerminal.Main;
 using System;
 using System.Collections.Generic;
 using System.IO;

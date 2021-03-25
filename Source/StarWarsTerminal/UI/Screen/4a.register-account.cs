@@ -1,4 +1,5 @@
 ﻿using StarWarsApi.Database;
+using StarWarsTerminal.Main;
 using System;
 using System.Collections.Generic;
 using System.IO;

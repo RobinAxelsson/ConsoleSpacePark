@@ -17,41 +17,13 @@ namespace StarWarsTerminal.Main
         {
             DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.3; User Id = adminuser; Password = starwars;";
         }
-        public enum Option
-        {
-            StartScreen,
-            Login,
-            Park,
-            CheckReceipts,
-            RegistrationScreen,
-            ReRegisterShip,
-            RegisterShip,
-            GoToHomeplanet,
-            NewAccount,
-            GotoAccount,
-            ReEnterhours,
-            PurchaseTicket,
-            Exit
-        }
-        [DllImport("kernel32.dll", ExactSpelling = true)]
-        private static extern IntPtr GetConsoleWindow();
-        private static IntPtr ThisConsole = GetConsoleWindow();
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-        private const int HIDE = 0;
-        private const int MAXIMIZE = 3;
-        private const int MINIMIZE = 6;
-        private const int RESTORE = 9;
-
+       
         public const ConsoleColor ForegroundColor = ConsoleColor.Green;
-
         public static Account _account { get; set; } = new Account();
         public static (string accountName, string password) _namepass { get; set; }
         static void Main(string[] args)
         {
-            ShowWindow(ThisConsole, MAXIMIZE);
+            ShowWindow(ThisConsole, 3);
             Console.CursorVisible = false;
             Screen.Welcome();
             Console.ReadLine();
@@ -98,5 +70,12 @@ namespace StarWarsTerminal.Main
             Screen.ExitScreen();
             Thread.Sleep(2000);
         }
+
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern IntPtr GetConsoleWindow();
+        private static IntPtr ThisConsole = GetConsoleWindow();
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
     }
 }
