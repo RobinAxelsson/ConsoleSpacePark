@@ -1,4 +1,5 @@
-﻿using StarWarsTerminal.Main;
+﻿using StarWarsApi.Database;
+using StarWarsTerminal.Main;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,14 +32,17 @@ namespace StarWarsTerminal.UI.Screen
             LineTools.ClearAt((nameLine.X, nameLine.Y), accountName);
             LineTools.ClearAt((passwordLine.X, passwordLine.Y), password);
 
-            _namepass = (accountName, password);
+            var accountManagement = new DatabaseManagement.AccountManagement();
 
-            //_account = 
-
-            if (true) 
+            _account = accountManagement.ValidateLogin(accountName, password);
+            if (_account != null)
+            {
                 return Option.GotoAccount;
-            else 
+            }
+            else
+            {
                 return Option.StartScreen;
+            }
         }
     }
 }

@@ -47,7 +47,7 @@ namespace StarWarsTerminal.Main
 
         public const ConsoleColor ForegroundColor = ConsoleColor.Green;
 
-        private static Account _account { get; set; } = new Account();
+        public static Account _account { get; set; } = new Account();
         public static SpaceShip _ship { get; set; } = new SpaceShip();
         public static (string accountName, string password) _namepass { get; set; }
         static void Main(string[] args)

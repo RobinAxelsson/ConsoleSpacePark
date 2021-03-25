@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StarWarsApi.Models;
+using System;
 
 namespace StarWarsTerminal.UI
 {
@@ -9,15 +10,15 @@ namespace StarWarsTerminal.UI
         private int MaxValue { get; set; }
         public double Price { get; set; } = 0;
         public double HoursSelected { get; set; } = 0;
-        private Func<double, double, double> Calculate { get; set; }
-        public PriceGetter((int X, int Y) hourXY, (int X, int Y) priceXY, int maxValue, Func<double, double, double> calculate)
+        private Func<SpaceShip, double, double> Calculate { get; set; }
+        public PriceGetter((int X, int Y) hourXY, (int X, int Y) priceXY, int maxValue, Func<SpaceShip, double, double> calculate)
         {
             HourXY = hourXY;
             PriceXY = priceXY;
             MaxValue = maxValue;
             Calculate = calculate;
         }
-        public double GetPrice(double shipLength)
+        public double GetPrice(SpaceShip ship)
         {
             Console.CursorVisible = false;
             Console.ForegroundColor = ConsoleColor.Green;
@@ -36,7 +37,7 @@ namespace StarWarsTerminal.UI
                 if (keyInfo.Key == ConsoleKey.UpArrow && hoursSelected <= MaxValue)
                 {
                     hoursSelected++;
-                    price = Calculate(shipLength, hoursSelected);
+                    price = Calculate(ship, hoursSelected);
                     Console.CursorVisible = false;
                     priceData.Update(price.ToString());
                     Console.CursorVisible = true;
@@ -45,7 +46,7 @@ namespace StarWarsTerminal.UI
                 if (keyInfo.Key == ConsoleKey.DownArrow && hoursSelected != 0)
                 {
                     hoursSelected--;
-                    price = Calculate(shipLength, hoursSelected);
+                    price = Calculate(ship, hoursSelected);
                     Console.CursorVisible = false;
                     priceData.Update(price.ToString());
                     Console.CursorVisible = true;

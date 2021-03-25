@@ -47,8 +47,8 @@ namespace StarWarsApi.Database
             }
             public double CalculatePrice(SpaceShip ship, double minutes)
             {
-                var price = (double.Parse(ship.ShipLength) * minutes) / PriceMultiplier;
-                return price;   
+                var price = (double.Parse(ship.ShipLength.Replace(".", ",")) * minutes) / PriceMultiplier;
+                return price;
             }
             public Receipt SendInvoice(Account account, double minutes)
             {
@@ -142,7 +142,14 @@ namespace StarWarsApi.Database
                         }   
                     }
                 }
-                
+                foreach (var user in dbHandler.Users)
+                {
+                    //if(user.UserId == resultingAccount.
+                }
+                foreach (var s in dbHandler.SpaceShips)
+                {
+                    //
+                }
                 return resultingAccount; //return user account
             }
             private List<Receipt> GetAccountReceipts(string accountName)
