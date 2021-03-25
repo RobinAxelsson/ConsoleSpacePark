@@ -36,8 +36,8 @@ namespace StarWarsTerminal.Main
             //ConsoleWriter.ClearScreen();
             //ChooseShipScreen(GetLocalShips());
             //StartFlow();
-            //AccountFlow();
-            ParkingScreen();
+            AccountFlow();
+            //ParkingScreen();
             //ShipScreen();
             Console.ReadLine();
         }
@@ -83,13 +83,15 @@ namespace StarWarsTerminal.Main
             switch (option)
             {
                 case AccountMenuOptions.Park:
-                    ParkingFlow();
+                    ParkingScreen();
                     break;
                 case AccountMenuOptions.CheckReceipts:
                     break;
                 case AccountMenuOptions.ReRegisterShip:
+                    ShipScreen();
                     break;
                 case AccountMenuOptions.GoToHomeplanet:
+                    HomePlanetScreen();
                     break;
                 case AccountMenuOptions.Exit:
                     ExitScreen();
