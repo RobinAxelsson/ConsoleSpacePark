@@ -13,9 +13,7 @@ namespace StarWarsApi.Database
     {
         public static double PriceMultiplier = 10;
         public static string ConnectionString { get; set; }
-
         public static int ParkingSlots = 5;
-
         public class ParkingManagement
         {
             //Checks if space park is open or closed, if closed, when is nextAvailable slot?
@@ -29,10 +27,12 @@ namespace StarWarsApi.Database
                 {
                     //Setting nextAvailable 10 years ahead so the loop will always start running.
                     nextAvailable = DateTime.Now.AddYears(10);
+                    var cachedNow = DateTime.Now; 
+                    //Caching DateTimeNow in case loops takes longer than expected, to ensure that time moving forward doesn't break the loop.
                     foreach (var receipt in ongoingParkings)
                     {
                         var endTime = DateTime.Parse(receipt.EndTime);
-                        if (endTime > DateTime.Now && endTime < nextAvailable)
+                        if (endTime > cachedNow && endTime < nextAvailable)
                         {
                             nextAvailable = endTime;
                         }
@@ -42,7 +42,6 @@ namespace StarWarsApi.Database
                 {
                     isOpen = true;
                 }
-
                 return (isOpen, nextAvailable);
             }
             public double CalculatePrice(SpaceShip ship, double minutes)
