@@ -13,13 +13,41 @@ namespace StarWarsApi.Database
     {
         public static double PriceMultiplier = 10;
         public static string ConnectionString { get; set; }
-
+        public static int ParkingSlots = 5;
         public class ParkingManagement
         {
+            //Checks if space park is open or closed, if closed, when is nextAvailable slot?
+            public (bool isOpen, DateTime nextAvailable) CheckParkingStatus()
+            {
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
+                var ongoingParkings = dbHandler.Receipts.Where(r => DateTime.Parse(r.EndTime) > DateTime.Now).ToList();
+                var nextAvailable = DateTime.Now;
+                var isOpen = false;
+                if(ongoingParkings.Count >= ParkingSlots)
+                {
+                    //Setting nextAvailable 10 years ahead so the loop will always start running.
+                    nextAvailable = DateTime.Now.AddYears(10);
+                    var cachedNow = DateTime.Now; 
+                    //Caching DateTimeNow in case loops takes longer than expected, to ensure that time moving forward doesn't break the loop.
+                    foreach (var receipt in ongoingParkings)
+                    {
+                        var endTime = DateTime.Parse(receipt.EndTime);
+                        if (endTime > cachedNow && endTime < nextAvailable)
+                        {
+                            nextAvailable = endTime;
+                        }
+                    }
+                }
+                else
+                {
+                    isOpen = true;
+                }
+                return (isOpen, nextAvailable);
+            }
             public double CalculatePrice(SpaceShip ship, double minutes)
             {
                 var price = (double.Parse(ship.ShipLength) * minutes) / PriceMultiplier;
-                return price;
+                return price;   
             }
             public Receipt SendInvoice(Account account, double minutes)
             {
