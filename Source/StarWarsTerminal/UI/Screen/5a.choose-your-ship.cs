@@ -1,4 +1,5 @@
-﻿using StarWarsApi.Database;
+﻿using Newtonsoft.Json;
+using StarWarsApi.Database;
 using StarWarsApi.Models;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,8 @@ namespace StarWarsTerminal.UI.Screen
             string[] lines = File.ReadAllLines(@"UI/TextFrames/5a.choose-your-ship.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             int nextLine = drawables.Max(x => x.CoordinateY);
-            var localShips = GetLocalShips();
+            string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
+            var localShips = JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
             string[] shipLines = localShips.Select(x => "$ " + x.Model).ToArray();
             drawables.AddRange(TextEditor.Add.DrawablesAt(shipLines, nextLine + 3));
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
@@ -29,8 +31,8 @@ namespace StarWarsTerminal.UI.Screen
             ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();
 
-            _ship = selectionList.GetSelection();
-            DatabaseManagement.AccountManagement.Register(_ship, _namepass);
+            var ship = selectionList.GetSelection();
+            DatabaseManagement.AccountManagement.Register(ship, _namepass);
 
             return Option.Login;
         }

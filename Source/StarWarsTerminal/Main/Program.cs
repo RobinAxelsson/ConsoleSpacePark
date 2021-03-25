@@ -11,7 +11,7 @@ using StarWarsApi.Database;
 
 namespace StarWarsTerminal.Main
 {
-    static partial class Program
+    public static partial class Program
     {
         static Program()
         {
@@ -48,7 +48,6 @@ namespace StarWarsTerminal.Main
         public const ConsoleColor ForegroundColor = ConsoleColor.Green;
 
         public static Account _account { get; set; } = new Account();
-        public static SpaceShip _ship { get; set; } = new SpaceShip();
         public static (string accountName, string password) _namepass { get; set; }
         static void Main(string[] args)
         {
@@ -56,8 +55,8 @@ namespace StarWarsTerminal.Main
             Console.CursorVisible = false;
             Screen.Welcome();
             Console.ReadLine();
-            var option = Option.StartScreen;
 
+            var option = Option.StartScreen;
             while(option != Option.Exit)
             {
                 switch (option)
@@ -75,6 +74,7 @@ namespace StarWarsTerminal.Main
                         option = Screen.ParkingScreen();
                         break;
                     case Option.CheckReceipts:
+                        //TODO: screen needed here? or just text?
                         break;
                     case Option.RegisterShip:
                         option = Screen.RegisterShip();
@@ -91,103 +91,12 @@ namespace StarWarsTerminal.Main
                     case Option.NewAccount:
                         option = Screen.IdentificationScreen();
                         break;
-                    case Option.PurchaseTicket:
-
-                        break;
                     default:
                         break;
                 }
             }
             Screen.ExitScreen();
             Thread.Sleep(2000);
-        }
-        public enum StartMenuOptions
-        {
-            Login,
-            NewAccount,
-            Exit
-        }
-        public static void StartFlow()
-        {
-            var startOption = StartScreen();
-            ConsoleWriter.ClearScreen();
-
-            switch (startOption)
-            {
-                case StartMenuOptions.Login:
-                    var accountPass = LoginPasswordScreen();
-                    break;
-                case StartMenuOptions.NewAccount:
-                    IdentificationScreen();
-                    break;
-                case StartMenuOptions.Exit:
-                    ExitScreen();
-                    break;
-                default:
-                    break;
-            }
-        }
-        public enum AccountMenuOptions
-        {
-            Park,
-            CheckReceipts,
-            ReRegisterShip,
-            GoToHomeplanet,
-            Exit
-        }
-        public static void AccountFlow()
-        {
-            var option = AccountScreen();
-            ConsoleWriter.ClearScreen();
-
-            switch (option)
-            {
-                case AccountMenuOptions.Park:
-                    ParkingScreen();
-                    break;
-                case AccountMenuOptions.CheckReceipts:
-                    break;
-                case AccountMenuOptions.ReRegisterShip:
-                    var newShip = ShipScreen();
-                    if (newShip != null)
-                        _account.SpaceShip = newShip;
-                    AccountFlow();
-                    break;
-                case AccountMenuOptions.GoToHomeplanet:
-                    HomePlanetScreen();
-                    break;
-                case AccountMenuOptions.Exit:
-                    ExitScreen();
-                    break;
-                default:
-                    break;
-            }
-        }
-        public enum ParkingMenuOptions
-        {
-            PurchaseTicket,
-            ReEnterhours,
-            BackToLogin
-        }
-
-        public static SpaceShip[] GetLocalShips()
-        {
-            string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
-            return JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
-        }
-        public static (string FullName, string Password) GetNamePass(List<IDrawable> drawables)
-        {
-            var colons = drawables.FindAll(x => x.Chars == ":");
-            var nameLine = new InputLine(colons[0], 50, ForegroundColor);
-
-            string fullname = nameLine.GetInputString(false);
-            var passwordLine = new InputLine(colons[1], 50, ForegroundColor);
-            string password = passwordLine.GetInputString(isPassword: true);
-
-            LineTools.ClearAt((nameLine.X, nameLine.Y), fullname);
-            LineTools.ClearAt((passwordLine.X, passwordLine.Y), password);
-            
-            return (fullname, password);
         }
     }
 }
