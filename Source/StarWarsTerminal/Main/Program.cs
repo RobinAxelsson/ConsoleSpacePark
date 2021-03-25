@@ -6,11 +6,19 @@ using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using Newtonsoft.Json;
+using StarWarsApi.Database;
 
 namespace StarWarsTerminal.Main
 {
     static partial class Program
     {
+        static Program()
+        {
+            DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.3; User Id = adminuser; Password = starwars;";
+        }
+
+        private static Account _account { get; set; }
+
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
         private static IntPtr ThisConsole = GetConsoleWindow();
@@ -35,8 +43,8 @@ namespace StarWarsTerminal.Main
             //Console.ReadLine();
             //ConsoleWriter.ClearScreen();
             //ChooseShipScreen(GetLocalShips());
-            //StartFlow();
-            AccountFlow();
+            StartFlow();
+            //AccountFlow();
             //ParkingScreen();
             //ShipScreen();
             Console.ReadLine();
@@ -55,7 +63,7 @@ namespace StarWarsTerminal.Main
             switch (startOption)
             {
                 case StartMenuOptions.Login:
-                    var accountPass = LoginPasswordScreen();
+                    LoginPasswordScreen();
                     break;
                 case StartMenuOptions.NewAccount:
                     IdentificationScreen();
@@ -112,7 +120,7 @@ namespace StarWarsTerminal.Main
             string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
             return JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
         }
-        public static (string FullName, string Password) GetNamePass(List<IDrawable> drawables)
+        public static (string AccountName, string Password) GetNamePass(List<IDrawable> drawables)
         {
             var colons = drawables.FindAll(x => x.Chars == ":");
             var nameLine = new InputLine(colons[0], 50, ForegroundColor);
@@ -123,7 +131,7 @@ namespace StarWarsTerminal.Main
 
             LineTools.ClearAt((nameLine.X, nameLine.Y), fullname);
             LineTools.ClearAt((passwordLine.X, passwordLine.Y), password);
-            
+
             return (fullname, password);
         }
     }

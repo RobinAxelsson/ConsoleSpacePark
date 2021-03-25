@@ -46,7 +46,7 @@ namespace StarWarsApi.Database
             }
             public double CalculatePrice(SpaceShip ship, double minutes)
             {
-                var price = (double.Parse(ship.ShipLength) * minutes) / PriceMultiplier;
+                var price = (double.Parse(ship.ShipLength.Replace(".",",")) * minutes) / PriceMultiplier;
                 return price;   
             }
             public Receipt SendInvoice(Account account, double minutes)
@@ -141,6 +141,15 @@ namespace StarWarsApi.Database
                         }   
                     }
                 }
+                foreach(var user in dbHandler.Users)
+                {
+                    //if(user.UserId == resultingAccount.
+                }
+
+                foreach(var s in dbHandler.SpaceShips)
+                {
+                    //
+                }
                 
                 return resultingAccount; //return user account
             }
@@ -171,7 +180,8 @@ namespace StarWarsApi.Database
                 return receiptList;
             }
             
-            private static Account testAccount;
+            private static Account testAccount = new Account();
+
             public static bool IdentifyWithQuestion(string username, Func<string, string> getSecurityAnswer)
             {
                 var inputUser = APICollector.ParseUserAsync(username);
@@ -187,7 +197,6 @@ namespace StarWarsApi.Database
             }
             public static bool IsRegistrated()
             {
-                DatabaseManagement.ConnectionString = @"Server=90.229.161.68,52578;Database=StarWarsProject2.2;User Id=adminuser;Password=starwars;";
                 var am = new DatabaseManagement.AccountManagement();
 
                 return am.Exists(testAccount.User);

@@ -12,6 +12,7 @@ namespace StarWarsTerminal.Main
     {
         public static void WelcomeScreen()
         {
+
             string[] lines = File.ReadAllLines(@"UI/TextFrames/1.welcome-screen.txt");
             var welcomeText = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.AllUnitsInXDir(welcomeText, Console.WindowWidth);
@@ -89,7 +90,7 @@ namespace StarWarsTerminal.Main
                     DatabaseManagement.AccountManagement.Register(ship, RegistrationScreen);
                     ConsoleWriter.ClearScreen();
                     //Takes user and ship
-
+                    StartFlow();
                 }
                 else
                 {
@@ -103,6 +104,8 @@ namespace StarWarsTerminal.Main
         }
         public static (string AccountName, string Password) RegistrationScreen()
         {
+            ConsoleWriter.ClearScreen();
+
             string[] lines = File.ReadAllLines(@"UI/TextFrames/4a.register-account.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.AllUnitsInXDir(drawables, Console.WindowWidth);
@@ -161,7 +164,7 @@ namespace StarWarsTerminal.Main
 
             return selectionList.GetSelection();
         }
-        public static (string AccountName, string Password) LoginPasswordScreen()
+        public static void LoginPasswordScreen()
         {
             string[] lines = File.ReadAllLines(@"UI/TextFrames/3b.login.txt");
             var loginText = TextEditor.Add.DrawablesAt(lines, 0);
@@ -169,10 +172,21 @@ namespace StarWarsTerminal.Main
             TextEditor.Center.InYDir(loginText, Console.WindowHeight);
             ConsoleWriter.TryAppend(loginText);
             ConsoleWriter.Update();
-            return GetNamePass(loginText);
+            var namePass = GetNamePass(loginText);
+            var accountManagement = new DatabaseManagement.AccountManagement();
+            _account = accountManagement.ValidateLogin(namePass.AccountName, namePass.Password);
+            if(_account != null)
+            {
+                AccountFlow();
+            }
+            else
+            {
+                StartFlow();
+            }
         }
         public static AccountMenuOptions AccountScreen()
         {
+            ConsoleWriter.ClearScreen();
             string[] lines = File.ReadAllLines(@"UI/TextFrames/6.logged-in-menu.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
@@ -196,9 +210,10 @@ namespace StarWarsTerminal.Main
 
             Console.ForegroundColor = ConsoleColor.Green;
             LineTools.SetCursor(nameCoord);
-            Console.Write("Test Name");
+            var account = _account;
+            Console.Write(_account.User.Name);
             LineTools.SetCursor(shipCoord);
-            Console.Write("Test Ship");
+            Console.Write(_account.SpaceShip.Model);
 
             return selectionList.GetSelection();
         }
@@ -266,13 +281,15 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.TryAppend(drawables.Except(drawProps).ToList());
             ConsoleWriter.Update();
 
-            Func<double, double, double> calculate = (double length, double hours)
-               => length * hours / 10;
+            var parking = new DatabaseManagement.ParkingManagement();
+
+            //Func<double, double, double> calculate = (double length, double hours)
+            //   => length * hours / 10;
             ParkingMenuOptions menuSel;
-            var priceGetter = new PriceGetter(enterHoursXY, calculatedPriceXY, 10000, calculate);
+            var priceGetter = new PriceGetter(enterHoursXY, calculatedPriceXY, 10000, parking.CalculatePrice);
             do
             {
-                double price = priceGetter.GetPrice(45);
+                double price = priceGetter.GetPrice(_account.SpaceShip);
                 menuSel = selectionList.GetSelection();
             } while (menuSel == ParkingMenuOptions.ReEnterhours);
             
