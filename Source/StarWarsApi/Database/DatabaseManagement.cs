@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using Microsoft.EntityFrameworkCore;
 using StarWarsApi.Models;
 using StarWarsApi.Networking;
 
@@ -129,29 +130,8 @@ namespace StarWarsApi.Database
             }
             private Account validateLogin(string accountName, string passwordInput)
             {
-                Account resultingAccount = null;
                 var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
-                foreach (var account in dbHandler.Accounts)
-                {
-                    if (account.AccountName == accountName)
-                    {
-                        if (account.Password == passwordInput)
-                        {
-                            resultingAccount = account;
-                        }   
-                    }
-                }
-                foreach(var user in dbHandler.Users)
-                {
-                    //if(user.UserId == resultingAccount.
-                }
-
-                foreach(var s in dbHandler.SpaceShips)
-                {
-                    //
-                }
-                
-                return resultingAccount; //return user account
+                return dbHandler.Accounts.Where(a => a.AccountName == accountName && a.Password == passwordInput).Include(a => a.User).Include(a => a.SpaceShip).Single();
             }
             private List<Receipt> GetAccountReceipts(string accountName)
             {
