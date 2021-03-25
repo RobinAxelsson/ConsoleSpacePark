@@ -268,13 +268,13 @@ namespace StarWarsTerminal.Main
             ConsoleWriter.TryAppend(drawables.Except(drawProps).ToList());
             ConsoleWriter.Update();
 
-            Func<double, double, double> calculate = (double length, double hours)
-               => length * hours / 10;
+            var parking = new DatabaseManagement.ParkingManagement();
+
             ParkingMenuOptions menuSel;
-            var priceGetter = new PriceGetter(enterHoursXY, calculatedPriceXY, 10000, calculate);
+            var priceGetter = new PriceGetter(enterHoursXY, calculatedPriceXY, 10000, parking.CalculatePrice);
             do
             {
-                double price = priceGetter.GetPrice(45);
+                double price = priceGetter.GetPrice(_ship);
                 menuSel = selectionList.GetSelection();
             } while (menuSel == ParkingMenuOptions.ReEnterhours);
             

@@ -1,4 +1,5 @@
-﻿using StarWarsTerminal.Main;
+﻿using StarWarsApi.Database;
+using StarWarsTerminal.Main;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,13 +46,13 @@ namespace StarWarsTerminal.UI.Screen
             ConsoleWriter.TryAppend(drawables.Except(drawProps).ToList());
             ConsoleWriter.Update();
 
-            Func<double, double, double> calculate = (double length, double hours)
-               => length * hours / 10;
+            var parking = new DatabaseManagement.ParkingManagement();
+
             Option menuSel;
-            var priceGetter = new PriceGetter(enterHoursXY, calculatedPriceXY, 10000, calculate);
+            var priceGetter = new PriceGetter(enterHoursXY, calculatedPriceXY, 10000, parking.CalculatePrice);
             do
             {
-                double price = priceGetter.GetPrice(45);
+                double price = priceGetter.GetPrice(_ship);
                 menuSel = selectionList.GetSelection();
             } while (menuSel == Option.ReEnterhours);
 

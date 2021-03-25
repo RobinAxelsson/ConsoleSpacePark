@@ -54,8 +54,8 @@ namespace StarWarsTerminal.Main
         {
             ShowWindow(ThisConsole, MAXIMIZE);
             Console.CursorVisible = false;
-            Thread.Sleep(500);
             Screen.Welcome();
+            Console.ReadLine();
             var option = Option.StartScreen;
 
             while(option != Option.Exit)
