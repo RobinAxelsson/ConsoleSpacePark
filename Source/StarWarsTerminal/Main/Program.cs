@@ -23,7 +23,7 @@ namespace StarWarsTerminal.Main
             Login,
             Park,
             CheckReceipts,
-            RegisterLogin,
+            RegistrationScreen,
             ReRegisterShip,
             RegisterShip,
             GoToHomeplanet,
@@ -77,13 +77,13 @@ namespace StarWarsTerminal.Main
                     case Option.CheckReceipts:
                         break;
                     case Option.RegisterShip:
-                        option = Screen.ShipScreen();
+                        option = Screen.RegisterShip();
                         break;
-                    case Option.RegisterLogin:
+                    case Option.RegistrationScreen:
                         option = Screen.RegistrationScreen();
                         break;
                     case Option.ReRegisterShip:
-                        option = Screen.ShipScreen();
+                        option = Screen.RegisterShip();
                         break;
                     case Option.GoToHomeplanet:
                         option = Screen.HomePlanetScreen();

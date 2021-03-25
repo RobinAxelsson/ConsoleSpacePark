@@ -1,4 +1,5 @@
-﻿using StarWarsApi.Models;
+﻿using StarWarsApi.Database;
+using StarWarsApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,7 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static Option ShipScreen()
+        public static Option RegisterShip()
         {
             ConsoleWriter.ClearScreen();
             string[] lines = File.ReadAllLines(@"UI/TextFrames/5a.choose-your-ship.txt");
@@ -29,7 +30,9 @@ namespace StarWarsTerminal.UI.Screen
             ConsoleWriter.Update();
 
             _ship = selectionList.GetSelection();
-            return Option.RegisterLogin;
+            DatabaseManagement.AccountManagement.Register(_ship, _namepass);
+
+            return Option.Login;
         }
     }
 }

@@ -51,10 +51,10 @@ namespace StarWarsTerminal.UI.Screen
                 LineTools.ClearAt(pass2Coord, password2);
 
             } while (password1 != password2 || accountName.Length <= 5 || password1.Length <= 5);
+            _namepass = (accountName, password1);
+            
 
-            DatabaseManagement.AccountManagement.Register(_ship, (accountName, password1));
-
-            return Option.StartScreen;
+            return Option.RegisterShip;
         }
     }
 }
