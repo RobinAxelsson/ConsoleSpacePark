@@ -21,10 +21,7 @@ namespace StarWarsTerminal.UI.Screen
             TextEditor.Center.AllUnitsInXDir(drawables, Console.WindowWidth);
             ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();
-
-            var am = new DatabaseManagement.AccountManagement();
-            var receipts = am.GetAccountReceipts(_account);
-
+            var receipts = DatabaseManagement.AccountManagement.GetAccountReceipts(_account);
             var receiptStrings = new List<string>();
             foreach (var receipt in receipts)
             {

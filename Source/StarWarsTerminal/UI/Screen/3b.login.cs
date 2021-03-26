@@ -31,10 +31,7 @@ namespace StarWarsTerminal.UI.Screen
 
             LineTools.ClearAt((nameLine.X, nameLine.Y), accountName);
             LineTools.ClearAt((passwordLine.X, passwordLine.Y), password);
-
-            var accountManagement = new DatabaseManagement.AccountManagement();
-
-            _account = accountManagement.ValidateLogin(accountName, password);
+            _account = DatabaseManagement.AccountManagement.ValidateLogin(accountName, password);
             if (_account != null)
             {
                 return Option.GotoAccount;

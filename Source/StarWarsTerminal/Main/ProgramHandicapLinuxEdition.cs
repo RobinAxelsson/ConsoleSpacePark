@@ -14,8 +14,7 @@ namespace StarWarsTerminal.Main
         }
         public static void ViewReceipts(Account account)
         {
-            var am = new DatabaseManagement.AccountManagement();
-            var receipts = am.GetAccountReceipts(account);
+            var receipts = DatabaseManagement.AccountManagement.GetAccountReceipts(account);
             foreach (var receipt in receipts)
             {
                 string[] receiptString = new string[]
@@ -25,16 +24,14 @@ namespace StarWarsTerminal.Main
                     "End time: " + receipt.EndTime,
                     "Price: " + receipt.Price
                 };
-                string test = String.Join('\n', receiptString);
+                var test = String.Join('\n', receiptString);
 
                 Console.Write(test + '\n' + '\n');
             }
         }
         public static void BuyTicket(Account account, int hours)
         {
-           
-            var parking = new DatabaseManagement.ParkingManagement();
-            var receipt = parking.SendInvoice(account, hours);
+            var receipt = DatabaseManagement.ParkingManagement.SendInvoice(account, hours);
 
             string[] receiptString = new string[]
                 {
@@ -50,8 +47,7 @@ namespace StarWarsTerminal.Main
         {
             string accountName = "darth123";
             string password = "darth123";
-            var accountManagement = new DatabaseManagement.AccountManagement();
-            var account = accountManagement.ValidateLogin(accountName, password);
+            var account = DatabaseManagement.AccountManagement.ValidateLogin(accountName, password);
             if (account == null) throw new Exception("Login didn't work");
             return account;
         }

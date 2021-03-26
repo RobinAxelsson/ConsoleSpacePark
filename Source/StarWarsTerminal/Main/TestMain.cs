@@ -19,20 +19,17 @@ namespace StarWarsTerminal.Main
         }
         public static bool IsParkingAvailable()
         {
-            var parking = new DatabaseManagement.ParkingManagement();
-            return parking.CheckParkingStatus().isOpen;
+            return DatabaseManagement.ParkingManagement.CheckParkingStatus().isOpen;
         }
         public static void ConsoleIsParkingAvailable()
         {
-            var parking = new DatabaseManagement.ParkingManagement();
-            var response = parking.CheckParkingStatus();
+            var response = DatabaseManagement.ParkingManagement.CheckParkingStatus();
             if (response.isOpen) Console.WriteLine("Parking available");
             else Console.WriteLine("parking is available at: " + response.nextAvailable);
         }
         public static void ViewReceipts(Account account)
         {
-            var am = new DatabaseManagement.AccountManagement();
-            var receipts = am.GetAccountReceipts(account);
+            var receipts = DatabaseManagement.AccountManagement.GetAccountReceipts(account);
             foreach (var receipt in receipts)
             {
                 string[] receiptString = new string[]
@@ -49,9 +46,7 @@ namespace StarWarsTerminal.Main
         }
         public static void BuyTicket(Account account, int hours)
         {
-
-            var parking = new DatabaseManagement.ParkingManagement();
-            var receipt = parking.SendInvoice(account, hours);
+            var receipt = DatabaseManagement.ParkingManagement.SendInvoice(account, hours);
 
             string[] receiptString = new string[]
                 {
@@ -67,15 +62,13 @@ namespace StarWarsTerminal.Main
         {
             string accountName = "darth123";
             string password = "darth123";
-            var accountManagement = new DatabaseManagement.AccountManagement();
-            var account = accountManagement.ValidateLogin(accountName, password);
+            var account = DatabaseManagement.AccountManagement.ValidateLogin(accountName, password);
             if (account == null) throw new Exception("Login didn't work");
             return account;
         }
         public static Account Login(string accountName, string password)
         {
-            var accountManagement = new DatabaseManagement.AccountManagement();
-            var account = accountManagement.ValidateLogin(accountName, password);
+            var account = DatabaseManagement.AccountManagement.ValidateLogin(accountName, password);
             if (account == null) throw new Exception("Login didn't work");
             return account;
         }
@@ -83,8 +76,7 @@ namespace StarWarsTerminal.Main
         {
             string accountName = "darth123";
             string password = "darth123";
-            var accountManagement = new DatabaseManagement.AccountManagement();
-            var account = accountManagement.ValidateLogin(accountName, password);
+            var account = DatabaseManagement.AccountManagement.ValidateLogin(accountName, password);
             if (account == null) throw new Exception("Login didn't work");
             return account;
         }
@@ -124,14 +116,12 @@ namespace StarWarsTerminal.Main
             string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
             var localShips = JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
             var ship = localShips[0];
-            var am = new DatabaseManagement.AccountManagement();
-            am.Register(user, ship, accountName, password1);
+            DatabaseManagement.AccountManagement.Register(user, ship, accountName, password1);
             Console.WriteLine(user.Name + " registered successfully!");
         }
         public static void IsParkingAvailable(Account account)
         {
-            var parking = new DatabaseManagement.ParkingManagement();
-            var response = parking.CheckParkingStatus();
+            var response = DatabaseManagement.ParkingManagement.CheckParkingStatus();
             if (response.isOpen) Console.WriteLine("Parking available");
             else Console.WriteLine("parking is available at: " + response.nextAvailable);
         }

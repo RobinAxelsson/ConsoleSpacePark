@@ -64,7 +64,7 @@ namespace StarWarsTerminal.UI.Screen
             }
             else
             {
-                bool registrationExists = DatabaseManagement.AccountManagement.IsRegistered();
+                var registrationExists = DatabaseManagement.AccountManagement.Exists(username, false);
                 if (registrationExists == false)
                 { 
                     return Option.RegistrationScreen;

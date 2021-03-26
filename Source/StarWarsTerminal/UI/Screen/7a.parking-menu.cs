@@ -33,9 +33,7 @@ namespace StarWarsTerminal.UI.Screen
             var calculatedPriceXY = props[3];
             var enterHoursXY = props[4];
             var receiptXY = props[5];
-
-            var parking = new DatabaseManagement.ParkingManagement();
-            var openNext = parking.CheckParkingStatus();
+            var openNext = DatabaseManagement.ParkingManagement.CheckParkingStatus();
 
             Console.ForegroundColor = ConsoleColor.Green;
             LineTools.SetCursor(parkFromXY);
@@ -46,7 +44,7 @@ namespace StarWarsTerminal.UI.Screen
                 Console.Write(openNext.nextAvailable);
 
             LineTools.SetCursor(pricePerHourXY);
-            Console.Write(parking.CalculatePrice(_account.SpaceShip, 1));
+            Console.Write(DatabaseManagement.ParkingManagement.CalculatePrice(_account.SpaceShip, 1));
             LineTools.SetCursor(shipLengthXY);
             Console.Write(_account.SpaceShip.ShipLength);
 
@@ -57,7 +55,7 @@ namespace StarWarsTerminal.UI.Screen
             double hours;
 
 
-            var timeGetter = new TimeGetter(enterHoursXY, calculatedPriceXY, 10000, parking.CalculatePrice);
+            var timeGetter = new TimeGetter(enterHoursXY, calculatedPriceXY, 10000, DatabaseManagement.ParkingManagement.CalculatePrice);
 
             if(openNext.isOpen == false)
             {
@@ -77,7 +75,7 @@ namespace StarWarsTerminal.UI.Screen
 
             if (Option.PurchaseTicket == menuSel)
             {
-                var receipt = parking.SendInvoice(_account, hours);
+                var receipt = DatabaseManagement.ParkingManagement.SendInvoice(_account, hours);
                 string[] receiptString = new string[]
                 {
                     "Ticket Holder: " + receipt.Account.AccountName,
