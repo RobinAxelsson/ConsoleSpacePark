@@ -13,9 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Jobjects\small-ships.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="UI\TestText.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
