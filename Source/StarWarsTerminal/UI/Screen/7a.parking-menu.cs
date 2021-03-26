@@ -67,9 +67,14 @@ namespace StarWarsTerminal.UI.Screen
                     "End time: " + receipt.EndTime,
                     "Price: " + receipt.Price
                 };
-                string test = String.Join('\n', receiptString);
                 LineTools.SetCursor(receiptXY);
-                Console.Write(test);
+
+                foreach (var line in receiptString)
+                {
+                    Console.WriteLine(line);
+                    Console.CursorLeft = receiptXY.CoordinateX;
+                }
+                
                 Console.ReadKey();
             }
 

@@ -8,6 +8,7 @@ using System.IO;
 using Newtonsoft.Json;
 using StarWarsTerminal.UI.Screen;
 using StarWarsApi.Database;
+using System.Globalization;
 
 namespace StarWarsTerminal.Main
 {
@@ -15,14 +16,16 @@ namespace StarWarsTerminal.Main
     {
         static Program()
         {
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
             DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.3; User Id = adminuser; Password = starwars;";
         }
        
         public const ConsoleColor ForegroundColor = ConsoleColor.Green;
         public static Account _account { get; set; } = new Account();
         public static (string accountName, string password) _namepass { get; set; }
-        static void Main(string[] args)
+        static void Main3(string[] args)
         {
+
             ShowWindow(ThisConsole, 3);
             Console.CursorVisible = false;
             Screen.Welcome();

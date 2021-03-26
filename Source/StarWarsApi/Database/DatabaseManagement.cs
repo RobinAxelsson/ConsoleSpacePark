@@ -71,7 +71,7 @@ namespace StarWarsApi.Database
                         new Exception(
                             "Please assign a value to the static property ConnectionString before calling any methods"));
                 var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
-                dbHandler.Receipts.Add(receipt);
+                dbHandler.Receipts.Update(receipt);
                 dbHandler.SaveChanges(); //TODO
                 return receipt;
             }
@@ -151,6 +151,21 @@ namespace StarWarsApi.Database
                     //
                 }
                 return resultingAccount; //return user account
+            }
+            public List<Receipt> GetAccountReceipts(Account account)
+            {
+                var receiptList = new List<Receipt>();
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
+                var receipts = dbHandler.Receipts;
+
+                foreach (var receipt in receipts)
+                {
+                    if (receipt.Account.AccountName == account.AccountName)
+                    {
+                        receiptList.Add(receipt);
+                    }
+                }
+                return receiptList;
             }
             private List<Receipt> GetAccountReceipts(string accountName)
             {
