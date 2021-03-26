@@ -19,7 +19,7 @@ namespace SpaceX_Tests.UnitTests
 
             string expectedEyeColor = "blue";
 
-            Assert.True(expectedEyeColor == user.eyeColor);
+            Assert.True(expectedEyeColor == user.EyeColor);
             //Assert.Equal(expectedEyeColor, user.eyeColor);
         }
 
@@ -36,11 +36,9 @@ namespace SpaceX_Tests.UnitTests
         [Fact]
         public void CalculatePrice_RightInput_ExpectPricePerMinuteForCorvette()
         {
-            var pm = new ParkingManagement();
-
             var ship = APICollector.ParseShipAsync("CR90 corvette");
-
-            decimal price = pm.CalculatePrice(ship, 1);
+            
+            decimal price = ParkingManagement.CalculatePrice(ship, 1);
 
             decimal expectedPrice = 15;
 
@@ -52,11 +50,9 @@ namespace SpaceX_Tests.UnitTests
         {
             ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.3; User Id = adminuser; Password = starwars;";
 
-            var am = new AccountManagement();
-            
             var user = APICollector.ParseUserAsync("Darth Maul");
 
-            var expectedResult = am.Exists(user.Name);
+            var expectedResult = AccountManagement.Exists(user.Name, false);
 
             Assert.True(expectedResult);
         }
