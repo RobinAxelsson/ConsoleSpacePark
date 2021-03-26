@@ -78,7 +78,6 @@ namespace StarWarsTerminal.Main
                         break;
                     default:
                         throw new Exception("Something wrong with the options");
-                        break;
                 }
         }
 

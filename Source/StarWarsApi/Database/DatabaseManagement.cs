@@ -351,6 +351,8 @@ namespace StarWarsApi.Database
             public static User IdentifyWithQuestion(string username, Func<string, string> getSecurityAnswer)
             {
                 var inputUser = APICollector.ParseUserAsync(username);
+                if (inputUser == null) return null;
+
                 var (question, answer) = GetSecurityQuestion(inputUser);
                 var inputAnswer = getSecurityAnswer(question);
                 if (inputAnswer.ToLower() == answer.ToLower()) return inputUser;

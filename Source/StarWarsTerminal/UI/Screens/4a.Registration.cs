@@ -53,7 +53,7 @@ namespace StarWarsTerminal.UI.Screens
                 LineTools.SetCursor(nameCoord);
                 Console.Write("Account name is already taken!");
                 Console.ReadLine();
-                return Option.Registration;
+                return Option.Start;
             }
 
             return Option.RegisterShip;

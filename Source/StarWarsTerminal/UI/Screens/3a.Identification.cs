@@ -52,22 +52,27 @@ namespace StarWarsTerminal.UI.Screens
 
             if (user == null)
             {
-                Console.WriteLine("Wrong answer");
-                Thread.Sleep(500);
+                ConsoleWriter.ClearScreen();
+                LineTools.SetCursor(fCoord);
+                Console.Write("Incorrect answer or incorrect name input");
+                Console.ReadKey(true);
                 return Option.Start;
             }
 
             var registrationExists = DatabaseManagement.AccountManagement.Exists(username, true);
-            if (registrationExists == false)
+            var userExists = DatabaseManagement.AccountManagement.Exists(user.Name, false);
+
+            if (registrationExists == false && userExists == false)
             {
                 _account.User = user;
                 return Option.Registration;
             }
 
+
             LineTools.SetCursor(fCoord);
             Console.WriteLine("User is already registered");
-            Thread.Sleep(500);
-            return Option.Login;
+            Thread.Sleep(1000);
+            return Option.Start;
         }
     }
 }

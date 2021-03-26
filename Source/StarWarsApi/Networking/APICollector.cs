@@ -118,7 +118,7 @@ namespace StarWarsApi.Networking
 
             if (foundUser)
                 return user;
-            throw new Exception("Could not find a user based on " + name + ". Did you enter the name correctly?");
+            else return null;
         }
 
         public static User
