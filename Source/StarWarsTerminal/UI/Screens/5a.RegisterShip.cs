@@ -4,6 +4,7 @@ using StarWarsApi.Models;
 using System;
 using System.IO;
 using System.Linq;
+using StarWarsApi.Networking;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens
@@ -16,15 +17,14 @@ namespace StarWarsTerminal.UI.Screens
             var lines = Map.GetMap(Option.RegisterShip);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             var nextLine = drawables.Max(x => x.CoordinateY);
-            var jsonString = File.ReadAllText(@"UI/json/small-ships.json");
-            var localShips = JsonConvert.DeserializeObject<SpaceShip[]>(jsonString);
-            var shipLines = localShips.Select(x => "$ " + x.Model).ToArray();
+            var ships = APICollector.ReturnShipsAsync().Where(s => double.Parse(s.ShipLength) <= 150).ToArray();
+            var shipLines = ships.Select(x => "$ " + x.Model).ToArray();
             drawables.AddRange(TextEditor.Add.DrawablesAt(shipLines, nextLine + 3));
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
 
             var selectionList = new SelectionList<SpaceShip>(ForegroundColor, '$');
             selectionList.GetCharPositions(drawables);
-            selectionList.AddSelections(localShips);
+            selectionList.AddSelections(ships);
             ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();
 

@@ -128,30 +128,6 @@ namespace StarWarsApi.Database
                         new Exception(
                             "Please assign a value to the static property ConnectionString before calling any methods"));
             } //Instantiation. This will help us throw if ConnectionString is null.
-
-            private static class PasswordHashing
-            {
-                private const string Salt = "78378265240709988066";
-
-                //Salting password to enhance security by adding data to the password before the SHA256 conversion.
-                //This makes it more difficult(impossible) to datamine.
-                public static string HashPassword(string input)
-                {
-                    var hashedData = ComputeSha256Hash(input + Salt);
-                    return hashedData;
-                }
-
-                private static string ComputeSha256Hash(string rawData)
-                {
-                    using var sha256Hash = SHA256.Create();
-                    var bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData + Salt));
-                    var builder = new StringBuilder();
-                    foreach (var t in bytes)
-                        builder.Append(t.ToString("x2"));
-                    return builder.ToString();
-                }
-            }
-
             #region Instantiated Methods
 
             #region Overloads
@@ -364,10 +340,43 @@ namespace StarWarsApi.Database
                 var am = new AccountManagement();
                 return am._Exists(name, isAccountName);
             }
-
+            
+            #region Overloads
+            public static bool Exists(User user)
+            {
+                var am = new AccountManagement();
+                return am._Exists(user);
+            }
+            #endregion
+            
+            
             #endregion
 
             #endregion
+            private static class PasswordHashing
+            {
+                private const string Salt = "78378265240709988066";
+
+                //Salting password to enhance security by adding data to the password before the SHA256 conversion.
+                //This makes it more difficult(impossible) to datamine.
+                public static string HashPassword(string input)
+                {
+                    var hashedData = ComputeSha256Hash(input + Salt);
+                    return hashedData;
+                }
+
+                private static string ComputeSha256Hash(string rawData)
+                {
+                    using var sha256Hash = SHA256.Create();
+                    var bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData + Salt));
+                    var builder = new StringBuilder();
+                    foreach (var t in bytes)
+                        builder.Append(t.ToString("x2"));
+                    return builder.ToString();
+                }
+            }
+
+       
         }
     }
 }

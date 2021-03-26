@@ -24,9 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="UI\json\small-ships.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="UI\maps\3a.Identification.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
