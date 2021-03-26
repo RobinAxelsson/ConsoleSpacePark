@@ -7,19 +7,10 @@ namespace StarWarsTerminal.Main
 {
     static class ProgramHandicapLinuxEdition
     {
-        static void Main4(string[] args)
+        static void Main(string[] args)
         {
-            DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.6; User Id = adminuser; Password = starwars;";
-            var pm = new DatabaseManagement.ParkingManagement();
-            var result = pm.CheckParkingStatus();
-            Console.WriteLine(result.isOpen);
-        }
-             public static void IsParkingAvailable(Account account)
-        {
-            var parking = new DatabaseManagement.ParkingManagement();
-            var response = parking.CheckParkingStatus();
-            if (response.isOpen) Console.WriteLine("Parking available");
-            else Console.WriteLine("parking is available at: " + response.nextAvailable);
+        //    DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.6; User Id = adminuser; Password = starwars;";
+      //  Console.WriteLine(DatabaseManagement.AccountManagement.DoExists("darth123"));
         }
         public static void ViewReceipts(Account account)
         {

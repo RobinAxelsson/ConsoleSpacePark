@@ -36,7 +36,7 @@ namespace StarWarsTerminal.UI.Screen
 
             if(reRegister == true)
             {
-                DatabaseManagement.AccountManagement.ReregisterShip(_account, ship);
+                DatabaseManagement.AccountManagement.ReRegisterShip(_account, ship);
                 return Option.GotoAccount;
             }
             else
