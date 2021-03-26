@@ -15,7 +15,7 @@ namespace StarWarsTerminal.UI.Screen
         public static Option Login()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/3b.login.txt");
+            string[] lines = Map.GetMap(Option.Login);
             var loginText = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.AllUnitsInXDir(loginText, Console.WindowWidth);
             TextEditor.Center.InYDir(loginText, Console.WindowHeight);
@@ -33,6 +33,10 @@ namespace StarWarsTerminal.UI.Screen
             LineTools.ClearAt((passwordLine.X, passwordLine.Y), password);
 
             var accountManagement = new DatabaseManagement.AccountManagement();
+            ConsoleWriter.ClearScreen();
+            Console.SetCursorPosition(nameLine.X, nameLine.Y);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Validating login...");
 
             _account = accountManagement.ValidateLogin(accountName, password);
             if (_account != null)

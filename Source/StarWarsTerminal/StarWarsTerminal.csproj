@@ -66,8 +66,4 @@
     <ProjectReference Include="..\StarWarsApi\StarWarsApi.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UI\FileIO\" />
-  </ItemGroup>
-
 </Project>

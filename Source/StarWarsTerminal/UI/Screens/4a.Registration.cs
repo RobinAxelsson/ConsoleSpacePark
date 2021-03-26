@@ -15,7 +15,7 @@ namespace StarWarsTerminal.UI.Screen
         public static Option Registration()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/4a.register-account.txt");
+            string[] lines = Map.GetMap(Option.Registration);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.AllUnitsInXDir(drawables, Console.WindowWidth);
             TextEditor.Center.InYDir(drawables, Console.WindowHeight);

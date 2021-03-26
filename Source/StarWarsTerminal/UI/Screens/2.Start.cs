@@ -14,7 +14,7 @@ namespace StarWarsTerminal.UI.Screen
         public static Option Start()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/2.menu.txt");
+            string[] lines = Map.GetMap(Option.Start);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             var selectionList = new SelectionList<Option>(ConsoleColor.Green, '$');

@@ -17,7 +17,7 @@ namespace StarWarsTerminal.UI.Screen
         public static Option RegisterShip(bool reRegister = false)
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/5a.choose-your-ship.txt");
+            string[] lines = Map.GetMap(Option.RegisterShip);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             int nextLine = drawables.Max(x => x.CoordinateY);
             string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");

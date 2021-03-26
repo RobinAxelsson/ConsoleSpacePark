@@ -16,7 +16,7 @@ namespace StarWarsTerminal.UI.Screen
         public static Option Identification()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/3a.Identification.txt");
+            string[] lines = Map.GetMap(Option.Identification);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             ConsoleWriter.TryAppend(drawables);

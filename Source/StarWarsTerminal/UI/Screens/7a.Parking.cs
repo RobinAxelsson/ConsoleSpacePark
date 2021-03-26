@@ -12,7 +12,8 @@ namespace StarWarsTerminal.UI.Screen
         public static Option Parking()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/7.parking-menu.txt");
+
+            string[] lines = Map.GetMap(Option.Parking);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             var selectionList = new SelectionList<Option>(ConsoleColor.Green, '$');
@@ -61,7 +62,7 @@ namespace StarWarsTerminal.UI.Screen
 
             if(openNext.isOpen == false)
             {
-                Console.ReadLine();
+                Console.ReadKey(true);
                 return Option.Account;
             }
 

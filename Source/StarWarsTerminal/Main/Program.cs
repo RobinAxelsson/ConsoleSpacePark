@@ -23,24 +23,36 @@ namespace StarWarsTerminal.Main
         public const ConsoleColor ForegroundColor = ConsoleColor.Green;
         public static Account _account { get; set; } = new Account();
         public static (string accountName, string password) _namepass { get; set; }
-        static void Main1(string[] args)
+        static void Main(string[] args)
         {
 
             ShowWindow(ThisConsole, 3);
             Console.CursorVisible = false;
-            Screen.Welcome();
-            Thread.Sleep(1000);
-            
-            var option = Option.Start;
-            while(option != Option.Exit)
+
+            var option = Option.Welcome;
+
+            while(true)
             {
                 switch (option)
                 {
+                    case Option.Welcome:
+                        option = Screen.Welcome();
+                        Thread.Sleep(1000);
+                        break;
                     case Option.Start:
                         option = Screen.Start();
                         break;
+                    case Option.Identification:
+                        option = Screen.Identification();
+                        break;
                     case Option.Login:
                         option = Screen.Login();
+                        break;
+                    case Option.Registration:
+                        option = Screen.Registration();
+                        break;
+                    case Option.RegisterShip:
+                        option = Screen.RegisterShip();
                         break;
                     case Option.Account:
                         option = Screen.Account();
@@ -48,34 +60,30 @@ namespace StarWarsTerminal.Main
                     case Option.Parking:
                         option = Screen.Parking();
                         break;
+                    case Option.Homeplanet:
+                        option = Screen.HomePlanet();
+                        break;
                     case Option.Receipts:
                         option = Screen.Receipts();
                         break;
-                    case Option.RegisterShip:
-                        option = Screen.RegisterShip();
-                        break;
-                    case Option.Registration:
-                        option = Screen.Registration();
+                    case Option.Exit:
+                        Screen.Exit();
+                        Thread.Sleep(2000);
+                        Environment.Exit(0);
                         break;
                     case Option.ReRegisterShip:
                         option = Screen.RegisterShip(reRegister: true);
-                        break;
-                    case Option.Homeplanet:
-                        option = Screen.HomePlanet();
                         break;
                     case Option.Logout:
                         _account = null;
                         option = Screen.Start();
                         break;
-                    case Option.Identification:
-                        option = Screen.Identification();
-                        break;
                     default:
+                        throw new Exception("Something wrong with the options");
                         break;
                 }
             }
-            Screen.Exit();
-            Thread.Sleep(2000);
+            
         }
 
         [DllImport("kernel32.dll", ExactSpelling = true)]

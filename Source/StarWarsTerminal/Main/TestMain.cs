@@ -9,7 +9,7 @@ namespace StarWarsTerminal.Main
 {
     public static partial class Program
     {
-        static void Main(string[] args)
+        static void Main111(string[] args)
         {
             DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.6; User Id = adminuser; Password = starwars;";
 

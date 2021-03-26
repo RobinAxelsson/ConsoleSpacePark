@@ -14,7 +14,7 @@ namespace StarWarsTerminal.UI.Screen
         public static Option HomePlanet()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/7.homeplanet-info.txt");
+            string[] lines = Map.GetMap(Option.Homeplanet);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
 

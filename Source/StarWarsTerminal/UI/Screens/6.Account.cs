@@ -14,7 +14,7 @@ namespace StarWarsTerminal.UI.Screen
          public static Option Account()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/6.logged-in-menu.txt");
+            string[] lines = Map.GetMap(Option.Account);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             var parameterCoords = drawables.FindAll(x => x.Chars == "¤").ToList().Select(x => (x.CoordinateX, x.CoordinateY)).ToList();

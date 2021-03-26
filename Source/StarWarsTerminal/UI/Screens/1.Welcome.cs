@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StarWarsTerminal.Main;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,14 +10,16 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static void Welcome()
+        public static Option Welcome()
         {
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/1.welcome-screen.txt");
+            ConsoleWriter.ClearScreen();
+            string[] lines = Map.GetMap(Option.Welcome);
             var welcomeText = TextEditor.Add.DrawablesAt(lines, 0);
-            TextEditor.Center.AllUnitsInXDir(welcomeText, Console.WindowWidth);
-            TextEditor.Center.InYDir(welcomeText, Console.WindowHeight);
+            TextEditor.Center.ToScreen(welcomeText, Console.WindowWidth, Console.WindowHeight);
             ConsoleWriter.TryAppend(welcomeText);
             ConsoleWriter.Update();
+
+            return Option.Start;
         }
     }
 }
