@@ -1,4 +1,4 @@
-﻿namespace StarWarsTerminal.Main
+﻿namespace StarWarsTerminal.UI.Screens
 {
         public enum Option
         {

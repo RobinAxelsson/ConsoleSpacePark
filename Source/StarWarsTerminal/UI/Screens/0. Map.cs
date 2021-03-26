@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StarWarsTerminal.UI.Screen
+namespace StarWarsTerminal.UI.Screens
 {
     public static partial class Screen
     {

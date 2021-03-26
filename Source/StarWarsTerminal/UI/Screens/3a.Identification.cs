@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static StarWarsTerminal.Main.Program;
 
-namespace StarWarsTerminal.UI.Screen
+namespace StarWarsTerminal.UI.Screens
 {
     public static partial class Screen
     {
@@ -52,11 +52,11 @@ namespace StarWarsTerminal.UI.Screen
                 return Console.ReadLine();
             };
 
-            var userExists = DatabaseManagement.AccountManagement.IdentifyWithQuestion(username, getSecurityAnswer);
+            var user = DatabaseManagement.AccountManagement.IdentifyWithQuestion(username, getSecurityAnswer);
 
             LineTools.ClearAt(fCoord, "Security question loading... plus the long answer that i cleared now!");
 
-            if (userExists == false)
+            if (user == null)
             {
                 Console.WriteLine("Wrong answer");
                 Thread.Sleep(500);
@@ -64,9 +64,10 @@ namespace StarWarsTerminal.UI.Screen
             }
             else
             {
-                bool registrationExists = DatabaseManagement.AccountManagement.IsRegistrated();
+                var registrationExists = DatabaseManagement.AccountManagement.Exists(username, true);
                 if (registrationExists == false)
-                { 
+                {
+                    _account.User = user;
                     return Option.Registration;
                 }
                 else

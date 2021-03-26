@@ -8,21 +8,22 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StarWarsTerminal.UI.Screens;
 using static StarWarsTerminal.Main.Program;
 
-namespace StarWarsTerminal.UI.Screen
+namespace StarWarsTerminal.UI.Screens
 {
     public static partial class Screen
     {
         public static Option RegisterShip(bool reRegister = false)
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = Map.GetMap(Option.RegisterShip);
+            var lines = Map.GetMap(Option.RegisterShip);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
-            int nextLine = drawables.Max(x => x.CoordinateY);
-            string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
-            var localShips = JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
-            string[] shipLines = localShips.Select(x => "$ " + x.Model).ToArray();
+            var nextLine = drawables.Max(x => x.CoordinateY);
+            var jsonString = File.ReadAllText(@"UI/json/small-ships.json");
+            var localShips = JsonConvert.DeserializeObject<SpaceShip[]>(jsonString);
+            var shipLines = localShips.Select(x => "$ " + x.Model).ToArray();
             drawables.AddRange(TextEditor.Add.DrawablesAt(shipLines, nextLine + 3));
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
 
@@ -36,12 +37,12 @@ namespace StarWarsTerminal.UI.Screen
 
             if(reRegister == true)
             {
-                DatabaseManagement.AccountManagement.ReregisterShip(_account, ship);
+                DatabaseManagement.AccountManagement.ReRegisterShip(_account, ship);
                 return Option.Account;
             }
             else
             {
-                DatabaseManagement.AccountManagement.Register(ship, _namepass);
+                DatabaseManagement.AccountManagement.Register(_account.User, ship, _namepass.accountName, _namepass.password);
                 return Option.Login;
             }
 

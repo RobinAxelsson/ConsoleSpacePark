@@ -1,15 +1,10 @@
 using System;
 using StarWarsApi.Models;
-using StarWarsTerminal.UI;
 using System.Runtime.InteropServices;
-using System.Collections.Generic;
 using System.Threading;
-using System.IO;
-using Newtonsoft.Json;
-using StarWarsTerminal.UI.Screen;
 using StarWarsApi.Database;
 using System.Globalization;
-
+using StarWarsTerminal.UI.Screens;
 namespace StarWarsTerminal.Main
 {
     public static partial class Program
@@ -88,7 +83,7 @@ namespace StarWarsTerminal.Main
 
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
-        private static IntPtr ThisConsole = GetConsoleWindow();
+        private static readonly IntPtr ThisConsole = GetConsoleWindow();
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);

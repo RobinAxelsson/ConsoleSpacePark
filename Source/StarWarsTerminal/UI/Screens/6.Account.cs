@@ -5,9 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StarWarsTerminal.UI.Screens;
 using static StarWarsTerminal.Main.Program;
 
-namespace StarWarsTerminal.UI.Screen
+namespace StarWarsTerminal.UI.Screens
 {
     public static partial class Screen
     {

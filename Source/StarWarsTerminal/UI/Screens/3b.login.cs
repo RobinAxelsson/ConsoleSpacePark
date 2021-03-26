@@ -6,16 +6,17 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StarWarsTerminal.UI.Screens;
 using static StarWarsTerminal.Main.Program;
 
-namespace StarWarsTerminal.UI.Screen
+namespace StarWarsTerminal.UI.Screens
 {
     public static partial class Screen
     {
         public static Option Login()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = Map.GetMap(Option.Login);
+            var lines = Map.GetMap(Option.Login);
             var loginText = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.AllUnitsInXDir(loginText, Console.WindowWidth);
             TextEditor.Center.InYDir(loginText, Console.WindowHeight);
@@ -31,22 +32,12 @@ namespace StarWarsTerminal.UI.Screen
 
             LineTools.ClearAt((nameLine.X, nameLine.Y), accountName);
             LineTools.ClearAt((passwordLine.X, passwordLine.Y), password);
-
-            var accountManagement = new DatabaseManagement.AccountManagement();
             ConsoleWriter.ClearScreen();
             Console.SetCursorPosition(nameLine.X, nameLine.Y);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Validating login...");
-
-            _account = accountManagement.ValidateLogin(accountName, password);
-            if (_account != null)
-            {
-                return Option.Account;
-            }
-            else
-            {
-                return Option.Start;
-            }
+            _account = DatabaseManagement.AccountManagement.ValidateLogin(accountName, password);
+            return _account != null ? Option.Account : Option.Start;
         }
     }
 }
