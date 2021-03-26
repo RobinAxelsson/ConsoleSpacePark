@@ -9,27 +9,30 @@ namespace StarWarsTerminal.Main
 {
     public static partial class Program
     {
-        static void Main22(string[] args)
+        static void Main111(string[] args)
         {
             DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.6; User Id = adminuser; Password = starwars;";
-                //BROKEN!
-            var account = Login("leia123", "abc123");
+
+            //var account = Login("leia123", "abc123");
             //LoginDarthVader();
             Console.ReadLine();
         }
         public static bool IsParkingAvailable()
         {
-            return DatabaseManagement.ParkingManagement.CheckParkingStatus().isOpen;
+            var parking = new DatabaseManagement.ParkingManagement();
+            return parking.CheckParkingStatus().isOpen;
         }
         public static void ConsoleIsParkingAvailable()
         {
-            var response = DatabaseManagement.ParkingManagement.CheckParkingStatus();
+            var parking = new DatabaseManagement.ParkingManagement();
+            var response = parking.CheckParkingStatus();
             if (response.isOpen) Console.WriteLine("Parking available");
             else Console.WriteLine("parking is available at: " + response.nextAvailable);
         }
         public static void ViewReceipts(Account account)
         {
-            var receipts = DatabaseManagement.AccountManagement.GetAccountReceipts(account);
+            var am = new DatabaseManagement.AccountManagement();
+            var receipts = am.GetAccountReceipts(account);
             foreach (var receipt in receipts)
             {
                 string[] receiptString = new string[]
@@ -46,7 +49,9 @@ namespace StarWarsTerminal.Main
         }
         public static void BuyTicket(Account account, int hours)
         {
-            var receipt = DatabaseManagement.ParkingManagement.SendInvoice(account, hours);
+
+            var parking = new DatabaseManagement.ParkingManagement();
+            var receipt = parking.SendInvoice(account, hours);
 
             string[] receiptString = new string[]
                 {
@@ -62,13 +67,15 @@ namespace StarWarsTerminal.Main
         {
             string accountName = "darth123";
             string password = "darth123";
-            var account = DatabaseManagement.AccountManagement.ValidateLogin(accountName, password);
+            var accountManagement = new DatabaseManagement.AccountManagement();
+            var account = accountManagement.ValidateLogin(accountName, password);
             if (account == null) throw new Exception("Login didn't work");
             return account;
         }
         public static Account Login(string accountName, string password)
         {
-            var account = DatabaseManagement.AccountManagement.ValidateLogin(accountName, password);
+            var accountManagement = new DatabaseManagement.AccountManagement();
+            var account = accountManagement.ValidateLogin(accountName, password);
             if (account == null) throw new Exception("Login didn't work");
             return account;
         }
@@ -76,7 +83,8 @@ namespace StarWarsTerminal.Main
         {
             string accountName = "darth123";
             string password = "darth123";
-            var account = DatabaseManagement.AccountManagement.ValidateLogin(accountName, password);
+            var accountManagement = new DatabaseManagement.AccountManagement();
+            var account = accountManagement.ValidateLogin(accountName, password);
             if (account == null) throw new Exception("Login didn't work");
             return account;
         }
@@ -116,12 +124,14 @@ namespace StarWarsTerminal.Main
             string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
             var localShips = JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
             var ship = localShips[0];
-           // DatabaseManagement.AccountManagement.Register(user, ship, accountName, password1);
+            var am = new DatabaseManagement.AccountManagement();
+            am.Register(user, ship, accountName, password1);
             Console.WriteLine(user.Name + " registered successfully!");
         }
         public static void IsParkingAvailable(Account account)
         {
-            var response = DatabaseManagement.ParkingManagement.CheckParkingStatus();
+            var parking = new DatabaseManagement.ParkingManagement();
+            var response = parking.CheckParkingStatus();
             if (response.isOpen) Console.WriteLine("Parking available");
             else Console.WriteLine("parking is available at: " + response.nextAvailable);
         }

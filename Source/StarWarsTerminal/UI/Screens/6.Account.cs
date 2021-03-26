@@ -11,10 +11,10 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-         public static Option AccountScreen()
+         public static Option Account()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/6.logged-in-menu.txt");
+            string[] lines = Map.GetMap(Option.Account);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             var parameterCoords = drawables.FindAll(x => x.Chars == "¤").ToList().Select(x => (x.CoordinateX, x.CoordinateY)).ToList();
@@ -26,10 +26,10 @@ namespace StarWarsTerminal.UI.Screen
             selectionList.GetCharPositions(drawables);
             selectionList.AddSelections(new Option[] 
             {
-                Option.Park, 
-                Option.CheckReceipts,
+                Option.Parking, 
+                Option.Receipts,
                 Option.ReRegisterShip,
-                Option.GoToHomeplanet,
+                Option.Homeplanet,
                 Option.Logout,
                 Option.Exit 
             });

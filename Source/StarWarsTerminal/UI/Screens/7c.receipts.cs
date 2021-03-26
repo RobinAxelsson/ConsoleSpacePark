@@ -12,10 +12,10 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static Option ReceiptScreen()
+        public static Option Receipts()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/7.receipt-screen.txt");
+            string[] lines = Map.GetMap(Option.Receipts);
 
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.AllUnitsInXDir(drawables, Console.WindowWidth);
@@ -52,7 +52,7 @@ namespace StarWarsTerminal.UI.Screen
             }
 
             Console.ReadLine();
-            return Option.GotoAccount;
+            return Option.Account;
         }
     }
 }

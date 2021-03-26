@@ -13,10 +13,10 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static Option IdentificationScreen()
+        public static Option Identification()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/3a.Identification.txt");
+            string[] lines = Map.GetMap(Option.Identification);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             ConsoleWriter.TryAppend(drawables);
@@ -52,23 +52,22 @@ namespace StarWarsTerminal.UI.Screen
                 return Console.ReadLine();
             };
 
-            var user = DatabaseManagement.AccountManagement.IdentifyWithQuestion(username, getSecurityAnswer);
+            var userExists = DatabaseManagement.AccountManagement.IdentifyWithQuestion(username, getSecurityAnswer);
 
             LineTools.ClearAt(fCoord, "Security question loading... plus the long answer that i cleared now!");
 
-            if (user == null)
+            if (userExists == false)
             {
                 Console.WriteLine("Wrong answer");
                 Thread.Sleep(500);
-                return Option.StartScreen;
+                return Option.Start;
             }
             else
             {
-                var registrationExists = DatabaseManagement.AccountManagement.Exists(username, false);
+                bool registrationExists = DatabaseManagement.AccountManagement.IsRegistrated();
                 if (registrationExists == false)
-                {
-                    _account.User = user;
-                    return Option.RegistrationScreen;
+                { 
+                    return Option.Registration;
                 }
                 else
                 {

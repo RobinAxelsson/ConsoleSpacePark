@@ -28,54 +28,62 @@ namespace StarWarsTerminal.Main
 
             ShowWindow(ThisConsole, 3);
             Console.CursorVisible = false;
-            Screen.Welcome();
-            Thread.Sleep(1000);
-            
-            var option = Option.StartScreen;
-            while(option != Option.Exit)
+
+            var option = Option.Welcome;
+
+            while(true)
             {
                 switch (option)
                 {
-                    case Option.StartScreen:
-                        option = Screen.StartScreen();
+                    case Option.Welcome:
+                        option = Screen.Welcome();
+                        Thread.Sleep(1000);
+                        break;
+                    case Option.Start:
+                        option = Screen.Start();
+                        break;
+                    case Option.Identification:
+                        option = Screen.Identification();
                         break;
                     case Option.Login:
-                        option = Screen.LoginPasswordScreen();
+                        option = Screen.Login();
                         break;
-                    case Option.GotoAccount:
-                        option = Screen.AccountScreen();
-                        break;
-                    case Option.Park:
-                        option = Screen.ParkingScreen();
-                        break;
-                    case Option.CheckReceipts:
-                        option = Screen.ReceiptScreen();
+                    case Option.Registration:
+                        option = Screen.Registration();
                         break;
                     case Option.RegisterShip:
                         option = Screen.RegisterShip();
                         break;
-                    case Option.RegistrationScreen:
-                        option = Screen.RegistrationScreen();
+                    case Option.Account:
+                        option = Screen.Account();
+                        break;
+                    case Option.Parking:
+                        option = Screen.Parking();
+                        break;
+                    case Option.Homeplanet:
+                        option = Screen.HomePlanet();
+                        break;
+                    case Option.Receipts:
+                        option = Screen.Receipts();
+                        break;
+                    case Option.Exit:
+                        Screen.Exit();
+                        Thread.Sleep(2000);
+                        Environment.Exit(0);
                         break;
                     case Option.ReRegisterShip:
                         option = Screen.RegisterShip(reRegister: true);
                         break;
-                    case Option.GoToHomeplanet:
-                        option = Screen.HomePlanetScreen();
-                        break;
                     case Option.Logout:
                         _account = null;
-                        option = Screen.StartScreen();
-                        break;
-                    case Option.NewAccount:
-                        option = Screen.IdentificationScreen();
+                        option = Screen.Start();
                         break;
                     default:
+                        throw new Exception("Something wrong with the options");
                         break;
                 }
             }
-            Screen.ExitScreen();
-            Thread.Sleep(2000);
+            
         }
 
         [DllImport("kernel32.dll", ExactSpelling = true)]

@@ -12,10 +12,10 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static Option RegistrationScreen()
+        public static Option Registration()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/4a.register-account.txt");
+            string[] lines = Map.GetMap(Option.Registration);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.AllUnitsInXDir(drawables, Console.WindowWidth);
             TextEditor.Center.InYDir(drawables, Console.WindowHeight);
@@ -59,7 +59,7 @@ namespace StarWarsTerminal.UI.Screen
                 LineTools.SetCursor(nameCoord);
                 Console.Write("Account name is already taken!");
                 Console.ReadLine();
-                return Option.RegistrationScreen;
+                return Option.Registration;
             }
 
             return Option.RegisterShip;

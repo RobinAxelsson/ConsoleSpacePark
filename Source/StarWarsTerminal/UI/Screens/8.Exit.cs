@@ -10,10 +10,10 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static void ExitScreen()
+        public static void Exit()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/8.exit-screen.txt");
+            string[] lines = Map.GetMap(Main.Option.Exit);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             ConsoleWriter.TryAppend(drawables);

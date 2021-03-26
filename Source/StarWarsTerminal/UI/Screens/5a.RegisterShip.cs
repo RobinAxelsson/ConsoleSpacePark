@@ -17,7 +17,7 @@ namespace StarWarsTerminal.UI.Screen
         public static Option RegisterShip(bool reRegister = false)
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = File.ReadAllLines(@"UI/TextFrames/5a.choose-your-ship.txt");
+            string[] lines = Map.GetMap(Option.RegisterShip);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             int nextLine = drawables.Max(x => x.CoordinateY);
             string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
@@ -36,13 +36,12 @@ namespace StarWarsTerminal.UI.Screen
 
             if(reRegister == true)
             {
-                DatabaseManagement.AccountManagement.ReRegisterShip(_account, ship);
-                return Option.GotoAccount;
+                DatabaseManagement.AccountManagement.ReregisterShip(_account, ship);
+                return Option.Account;
             }
             else
             {
-                var account = _account;
-                DatabaseManagement.AccountManagement.Register(_account.User, ship, _namepass.accountName, _namepass.password);
+                DatabaseManagement.AccountManagement.Register(ship, _namepass);
                 return Option.Login;
             }
 
