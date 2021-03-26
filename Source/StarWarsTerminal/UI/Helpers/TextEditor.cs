@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace StarWarsTerminal.UI
 {
     public static class TextEditor
     {
-        private static ConsoleColor ForegroundColor { get; set; } = ConsoleColor.Green;
+        private static ConsoleColor ForegroundColor { get; } = ConsoleColor.Green;
+
         public static class Center
         {
             public static void ToScreen(List<IDrawable> drawables, int screenWidth, int screenHeight)
@@ -15,87 +15,96 @@ namespace StarWarsTerminal.UI
                 AllUnitsInXDir(drawables, screenWidth);
                 InYDir(drawables, screenHeight);
             }
+
             public static void InXDir(List<IDrawable> drawables, int screenWidth)
             {
-                int xMax = drawables.Max(x => x.CoordinateX);
-                int xMin = drawables.Min(x => x.CoordinateX);
-                int xDiff = xMax - xMin;
-                int leftColumnPosition = (screenWidth - xDiff) / 2;
-                int move = leftColumnPosition - xMin;
+                var xMax = drawables.Max(x => x.CoordinateX);
+                var xMin = drawables.Min(x => x.CoordinateX);
+                var xDiff = xMax - xMin;
+                var leftColumnPosition = (screenWidth - xDiff) / 2;
+                var move = leftColumnPosition - xMin;
                 drawables.ForEach(x => x.CoordinateX += move);
             }
+
             public static void AllUnitsInXDir(List<IDrawable> drawables, int screenWidth)
             {
                 var listOfLists = Units.GetRowUnits(drawables);
-                foreach (var list in listOfLists)
-                {
-                    InXDir(list, screenWidth);
-                }
+                foreach (var list in listOfLists) InXDir(list, screenWidth);
             }
+
             public static void InYDir(List<IDrawable> drawables, int screenHeight)
             {
-                int yMax = drawables.Max(x => x.CoordinateY);
-                int yMin = drawables.Min(x => x.CoordinateY);
-                int yDiff = yMax - yMin;
-                int topRowPosition = (screenHeight - yDiff) / 2;
-                int move = topRowPosition - yMin;
+                var yMax = drawables.Max(x => x.CoordinateY);
+                var yMin = drawables.Min(x => x.CoordinateY);
+                var yDiff = yMax - yMin;
+                var topRowPosition = (screenHeight - yDiff) / 2;
+                var move = topRowPosition - yMin;
                 drawables.ForEach(x => x.CoordinateY += move);
             }
         }
+
         public static class Units
         {
             public static List<int> GetBlankRows(List<IDrawable> drawables)
             {
                 var blanks = new List<int>();
 
-                int yMin = drawables.Select(x => x.CoordinateY).Min();
-                int yMAx = drawables.Select(x => x.CoordinateY).Max();
+                var yMin = drawables.Select(x => x.CoordinateY).Min();
+                var yMAx = drawables.Select(x => x.CoordinateY).Max();
 
-                for (int y = yMin; y <= yMAx; y++)
+                for (var y = yMin; y <= yMAx; y++)
                 {
-                    bool yExist = drawables.Exists(x => x.CoordinateY == y);
+                    var yExist = drawables.Exists(x => x.CoordinateY == y);
                     if (yExist == false)
                         blanks.Add(y);
                 }
+
                 return blanks;
             }
-            public static List<IDrawable> GetRowUnitAt(List<IDrawable> drawables, int unitIndex) => GetRowUnits(drawables)[unitIndex];
+
+            public static List<IDrawable> GetRowUnitAt(List<IDrawable> drawables, int unitIndex)
+            {
+                return GetRowUnits(drawables)[unitIndex];
+            }
+
             public static List<List<IDrawable>> GetRowUnits(List<IDrawable> drawables)
             {
                 var unitDrawables = new List<List<IDrawable>>();
                 var blankRows = GetBlankRows(drawables);
-                int yMin = drawables.Select(x => x.CoordinateY).Min();
-                int yMAx = drawables.Select(x => x.CoordinateY).Max();
+                var yMin = drawables.Select(x => x.CoordinateY).Min();
+                var yMAx = drawables.Select(x => x.CoordinateY).Max();
 
                 blankRows.Insert(0, yMin);
                 blankRows.Add(yMAx);
 
-                for (int i = 0; i < blankRows.Count - 1; i++)
+                for (var i = 0; i < blankRows.Count - 1; i++)
                 {
-                    var unit = drawables.FindAll(x => x.CoordinateY >= blankRows[i] && x.CoordinateY <= blankRows[i + 1]);
+                    var unit = drawables.FindAll(
+                        x => x.CoordinateY >= blankRows[i] && x.CoordinateY <= blankRows[i + 1]);
                     if (unit.Count != 0)
                         unitDrawables.Add(unit);
                 }
-                return unitDrawables;
 
+                return unitDrawables;
             }
         }
+
         public static class Add
         {
             public static List<IDrawable> DrawablesAt(string[] textLines, int firstRow)
             {
                 var drawables = new List<IDrawable>();
 
-                int x = 0;
-                int y = firstRow;
+                var x = 0;
+                var y = firstRow;
 
                 foreach (var line in textLines)
                 {
-                    foreach (char chr in line)
+                    foreach (var chr in line)
                     {
                         if (chr != ' ')
                         {
-                            var drawable = new TextDrawable()
+                            var drawable = new TextDrawable
                             {
                                 CoordinateX = x,
                                 CoordinateY = y,
@@ -104,8 +113,10 @@ namespace StarWarsTerminal.UI
                             };
                             drawables.Add(drawable);
                         }
+
                         x++;
                     }
+
                     y++;
                     x = 0;
                 }
@@ -120,6 +131,5 @@ namespace StarWarsTerminal.UI
                 drawables.AddRange(newDrawables);
             }
         }
-
     }
 }

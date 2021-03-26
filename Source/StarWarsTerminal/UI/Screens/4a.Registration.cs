@@ -1,12 +1,5 @@
-﻿using StarWarsApi.Database;
-using StarWarsTerminal.Main;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StarWarsTerminal.UI.Screens;
+﻿using System;
+using StarWarsApi.Database;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens
@@ -16,14 +9,14 @@ namespace StarWarsTerminal.UI.Screens
         public static Option Registration()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = Map.GetMap(Option.Registration);
+            var lines = Map.GetMap(Option.Registration);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.AllUnitsInXDir(drawables, Console.WindowWidth);
             TextEditor.Center.InYDir(drawables, Console.WindowHeight);
             ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();
 
-            Func<IDrawable, (int X, int Y)> getCoord = (drawable) => (drawable.CoordinateX + 2, drawable.CoordinateY);
+            Func<IDrawable, (int X, int Y)> getCoord = drawable => (drawable.CoordinateX + 2, drawable.CoordinateY);
 
             var colons = drawables.FindAll(x => x.Chars == ":");
 
@@ -51,8 +44,8 @@ namespace StarWarsTerminal.UI.Screens
                 LineTools.ClearAt(nameCoord, accountName);
                 LineTools.ClearAt(pass1Coord, password1);
                 LineTools.ClearAt(pass2Coord, password2);
-
             } while (password1 != password2 || accountName.Length <= 5 || password1.Length <= 5);
+
             _namepass = (accountName, password1);
             if (DatabaseManagement.AccountManagement.Exists(accountName, true))
             {

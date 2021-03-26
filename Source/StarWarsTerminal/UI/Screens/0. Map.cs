@@ -1,10 +1,5 @@
-﻿using StarWarsTerminal.Main;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StarWarsTerminal.UI.Screens
 {
@@ -12,10 +7,14 @@ namespace StarWarsTerminal.UI.Screens
     {
         public static class Map
         {
-            public static string[] GetMap(Option option) => File.ReadAllLines(GetFilePath(option));
+            public static string[] GetMap(Option option)
+            {
+                return File.ReadAllLines(GetFilePath(option));
+            }
+
             public static string GetFilePath(Option option)
             {
-                string filepath = "";
+                var filepath = "";
                 switch (option)
                 {
                     case Option.Welcome:
@@ -54,6 +53,7 @@ namespace StarWarsTerminal.UI.Screens
                     default:
                         throw new Exception("Option does not exist as filepath.");
                 }
+
                 return filepath;
             }
         }

@@ -1,14 +1,9 @@
-﻿using Newtonsoft.Json;
-using StarWarsApi.Database;
-using StarWarsApi.Models;
-using StarWarsTerminal.Main;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StarWarsTerminal.UI.Screens;
+using Newtonsoft.Json;
+using StarWarsApi.Database;
+using StarWarsApi.Models;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens
@@ -35,17 +30,15 @@ namespace StarWarsTerminal.UI.Screens
 
             var ship = selectionList.GetSelection();
 
-            if(reRegister == true)
+            if (reRegister)
             {
                 DatabaseManagement.AccountManagement.ReRegisterShip(_account, ship);
                 return Option.Account;
             }
-            else
-            {
-                DatabaseManagement.AccountManagement.Register(_account.User, ship, _namepass.accountName, _namepass.password);
-                return Option.Login;
-            }
 
+            DatabaseManagement.AccountManagement.Register(_account.User, ship, _namepass.accountName,
+                _namepass.password);
+            return Option.Login;
         }
     }
 }

@@ -1,9 +1,6 @@
-﻿using StarWarsApi.Database;
-using StarWarsTerminal.Main;
-using System;
-using System.IO;
+﻿using System;
 using System.Linq;
-using StarWarsTerminal.UI.Screens;
+using StarWarsApi.Database;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens
@@ -14,12 +11,12 @@ namespace StarWarsTerminal.UI.Screens
         {
             ConsoleWriter.ClearScreen();
 
-            string[] lines = Map.GetMap(Option.Parking);
+            var lines = Map.GetMap(Option.Parking);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             var selectionList = new SelectionList<Option>(ConsoleColor.Green, '$');
             selectionList.GetCharPositions(drawables);
-            selectionList.AddSelections(new Option[]
+            selectionList.AddSelections(new[]
             {
                 Option.PurchaseTicket,
                 Option.ReEnterhours,
@@ -57,9 +54,10 @@ namespace StarWarsTerminal.UI.Screens
             double hours;
 
 
-            var timeGetter = new TimeGetter(enterHoursXY, calculatedPriceXY, 10000, DatabaseManagement.ParkingManagement.CalculatePrice);
+            var timeGetter = new TimeGetter(enterHoursXY, calculatedPriceXY, 10000,
+                DatabaseManagement.ParkingManagement.CalculatePrice);
 
-            if(openNext.isOpen == false)
+            if (openNext.isOpen == false)
             {
                 Console.ReadKey(true);
                 return Option.Account;
@@ -72,13 +70,12 @@ namespace StarWarsTerminal.UI.Screens
 
                 if (menuSel == Option.PurchaseTicket && hours == 0)
                     menuSel = Option.ReEnterhours;
-
             } while (menuSel == Option.ReEnterhours);
 
             if (Option.PurchaseTicket == menuSel)
             {
                 var receipt = DatabaseManagement.ParkingManagement.SendInvoice(_account, hours);
-                string[] receiptString = new string[]
+                string[] receiptString =
                 {
                     "Ticket Holder: " + receipt.Account.AccountName,
                     "Start time: " + receipt.StartTime,
@@ -92,7 +89,7 @@ namespace StarWarsTerminal.UI.Screens
                     Console.WriteLine(line);
                     Console.CursorLeft = receiptXY.CoordinateX;
                 }
-                
+
                 Console.ReadKey(true);
             }
 

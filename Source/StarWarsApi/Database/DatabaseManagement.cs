@@ -25,27 +25,32 @@ namespace StarWarsApi.Database
                         new Exception(
                             "Please assign a value to the static property ConnectionString before calling any methods"));
             }
-            
-            #region Static Methods 
+
+            #region Static Methods
+
             //These methods instantiate ParkingManagement and call upon the private non-static methods.
             public static (bool isOpen, DateTime nextAvailable) CheckParkingStatus()
             {
                 var pm = new ParkingManagement();
                 return pm._CheckParkingStatus();
-            } 
+            }
+
             public static decimal CalculatePrice(SpaceShip ship, double minutes)
             {
                 var pm = new ParkingManagement();
                 return pm._CalculatePrice(ship, minutes);
             }
+
             public static Receipt SendInvoice(Account account, double minutes)
             {
                 var pm = new ParkingManagement();
                 return pm._SendInvoice(account, minutes);
             }
+
             #endregion
 
             #region Instantiated Methods
+
             private (bool isOpen, DateTime nextAvailable) _CheckParkingStatus()
             {
                 var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
@@ -74,11 +79,13 @@ namespace StarWarsApi.Database
 
                 return (isOpen, nextAvailable);
             }
+
             private decimal _CalculatePrice(SpaceShip ship, double minutes)
             {
                 var price = double.Parse(ship.ShipLength.Replace(".", ",")) * minutes / PriceMultiplier;
                 return (decimal) price;
             }
+
             private Receipt _SendInvoice(Account account, double minutes)
             {
                 var receipt = new Receipt();
@@ -87,6 +94,7 @@ namespace StarWarsApi.Database
                 thread.Join(); //By doing join it will wait for the method to finish
                 return receipt;
             }
+
             private Receipt Execution_SendInvoice(Account account, double minutes)
             {
                 var price = _CalculatePrice(account.SpaceShip, minutes);
@@ -119,8 +127,31 @@ namespace StarWarsApi.Database
                             "Please assign a value to the static property ConnectionString before calling any methods"));
             } //Instantiation. This will help us throw if ConnectionString is null.
 
+            private static class PasswordHashing
+            {
+                private const string Salt = "78378265240709988066";
+
+                //Salting password to enhance security by adding data to the password before the SHA256 conversion.
+                //This makes it more difficult(impossible) to datamine.
+                public static string HashPassword(string input)
+                {
+                    var hashedData = ComputeSha256Hash(input + Salt);
+                    return hashedData;
+                }
+
+                private static string ComputeSha256Hash(string rawData)
+                {
+                    using var sha256Hash = SHA256.Create();
+                    var bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData + Salt));
+                    var builder = new StringBuilder();
+                    foreach (var t in bytes)
+                        builder.Append(t.ToString("x2"));
+                    return builder.ToString();
+                }
+            }
+
             #region Instantiated Methods
-            
+
             #region Overloads
 
             private bool _Exists(User inputUser)
@@ -131,6 +162,7 @@ namespace StarWarsApi.Database
                 thread.Join(); //By doing join it will wait for the method to finish
                 return result;
             }
+
             private List<Receipt> GetAccountReceipts(string accountName)
             {
                 var receiptList = new List<Receipt>();
@@ -140,6 +172,7 @@ namespace StarWarsApi.Database
                         receiptList.Add(receipt);
                 return receiptList;
             }
+
             private List<Receipt> GetAccountReceipts(int accountId)
             {
                 var receiptList = new List<Receipt>();
@@ -149,6 +182,7 @@ namespace StarWarsApi.Database
                         receiptList.Add(receipt);
                 return receiptList;
             }
+
             private bool Execution_Exists(User inputUser)
             {
                 var result = false;
@@ -161,6 +195,7 @@ namespace StarWarsApi.Database
             }
 
             #endregion
+
             //Async method. Below will call upon a private corresponding method in another thread.
             private void _Register(User inputUser, SpaceShip inputShip, string accountName, string password)
             {
@@ -175,12 +210,14 @@ namespace StarWarsApi.Database
                 dbHandler.Accounts.Add(outputAccount);
                 dbHandler.SaveChanges();
             }
+
             private List<Receipt> _GetAccountReceipts(Account account)
             {
                 var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
                 return dbHandler.Receipts.Include(a => a.Account)
                     .Where(receipt => receipt.Account.AccountName == account.AccountName).ToList();
             }
+
             //Async method. Below will call upon a private corresponding method in another thread.
             private bool _Exists(string name, bool isAccountName)
             {
@@ -190,6 +227,7 @@ namespace StarWarsApi.Database
                 thread.Join(); //By doing join it will wait for the method to finish
                 return result;
             }
+
             //Execution method that will do the "work"
             private bool Execution_Exists(string name, bool isAccountName)
             {
@@ -214,6 +252,7 @@ namespace StarWarsApi.Database
                     return result;
                 }
             }
+
             private Account _ValidateLogin(string accountName, string passwordInput)
             {
                 var account = new Account();
@@ -225,6 +264,7 @@ namespace StarWarsApi.Database
                 thread.Join(); //By doing join it will wait for the method to finish
                 return account;
             }
+
             private Account Execution_ValidateLogin(string accountName, string passwordInput)
             {
                 Account accountHolder = null;
@@ -235,12 +275,13 @@ namespace StarWarsApi.Database
                         accountHolder = account;
                 return accountHolder;
             }
-            
+
             #endregion
 
             #region Static Methods
 
             #region Private Methods
+
             private static (string question, string answer) GetSecurityQuestion(User inputUser)
             {
                 var question = string.Empty;
@@ -269,26 +310,30 @@ namespace StarWarsApi.Database
 
                 return (question, answer);
             }
-            
+
             #endregion
-            
+
             #region Public Methods & IEnumerables
+
             //These methods instantiate AccountManagement and call upon the private non-static methods.
             public static IEnumerable<Receipt> GetAccountReceipts(Account account)
             {
                 var am = new AccountManagement();
                 return am._GetAccountReceipts(account);
             }
+
             public static Account ValidateLogin(string accountName, string passwordInput)
             {
                 var am = new AccountManagement();
                 return am._ValidateLogin(accountName, passwordInput);
             }
+
             public static void Register(User inputUser, SpaceShip inputShip, string accountName, string password)
             {
                 var am = new AccountManagement();
                 am._Register(inputUser, inputShip, accountName, password);
             }
+
             public static void ReRegisterShip(Account account, SpaceShip ship)
             {
                 ship.SpaceShipID = account.SpaceShip.SpaceShipID;
@@ -298,14 +343,16 @@ namespace StarWarsApi.Database
                 dbHandler.SpaceShips.Update(ship);
                 dbHandler.SaveChanges();
             }
+
             public static User IdentifyWithQuestion(string username, Func<string, string> getSecurityAnswer)
             {
                 var inputUser = APICollector.ParseUserAsync(username);
                 var (question, answer) = GetSecurityQuestion(inputUser);
                 var inputAnswer = getSecurityAnswer(question);
                 if (inputAnswer.ToLower() == answer.ToLower()) return inputUser;
-                else return null;
+                return null;
             }
+
             public static bool Exists(string name, bool isAccountName)
             {
                 var am = new AccountManagement();
@@ -315,29 +362,6 @@ namespace StarWarsApi.Database
             #endregion
 
             #endregion
-
-            private static class PasswordHashing
-            {
-                private const string Salt = "78378265240709988066";
-
-                //Salting password to enhance security by adding data to the password before the SHA256 conversion.
-                //This makes it more difficult(impossible) to datamine.
-                public static string HashPassword(string input)
-                {
-                    var hashedData = ComputeSha256Hash(input + Salt);
-                    return hashedData;
-                }
-
-                private static string ComputeSha256Hash(string rawData)
-                {
-                    using var sha256Hash = SHA256.Create();
-                    var bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData + Salt));
-                    var builder = new StringBuilder();
-                    foreach (var t in bytes)
-                        builder.Append(t.ToString("x2"));
-                    return builder.ToString();
-                }
-            }
         }
     }
 }

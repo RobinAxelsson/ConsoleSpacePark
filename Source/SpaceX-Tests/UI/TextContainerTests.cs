@@ -1,7 +1,3 @@
-using StarWarsTerminal.UI;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -9,11 +5,10 @@ namespace SpaceX_Tests.UI
 {
     public class TextEditorTests
     {
-    
         [Fact]
         public void Add_Spacing_ExpectTrue()
         {
-            string[] testLines = new[]
+            string[] testLines =
             {
                 "o-",
                 //
@@ -23,14 +18,15 @@ namespace SpaceX_Tests.UI
                 //
                 "l---"
             };
-            int spacings = testLines.Length - 1;
+            var spacings = testLines.Length - 1;
             var list = testLines.ToList();
-            int insert = 1;
-            for (int i = 0; i < spacings; i++)
+            var insert = 1;
+            for (var i = 0; i < spacings; i++)
             {
                 list.Insert(insert, " ");
                 insert += 2;
             }
+
             Assert.True(list.Count == 7);
         }
     }

@@ -1,29 +1,32 @@
-﻿using StarWarsApi.Models;
-using System;
+﻿using System;
+using StarWarsApi.Models;
 
 namespace StarWarsTerminal.UI
 {
     public class TimeGetter
     {
-        private (int X, int Y) HourXY { get; set; }
-        private (int X, int Y) PriceXY { get; set; }
-        private int MaxValue { get; set; }
-        public decimal Price { get; set; } = 0;
-        public double HoursSelected { get; set; } = 0;
-        private Func<SpaceShip, double, decimal> Calculate { get; set; }
-        public TimeGetter((int X, int Y) hourXY, (int X, int Y) priceXY, int maxValue, Func<SpaceShip, double, decimal> calculate)
+        public TimeGetter((int X, int Y) hourXY, (int X, int Y) priceXY, int maxValue,
+            Func<SpaceShip, double, decimal> calculate)
         {
             HourXY = hourXY;
             PriceXY = priceXY;
             MaxValue = maxValue;
             Calculate = calculate;
         }
+
+        private (int X, int Y) HourXY { get; }
+        private (int X, int Y) PriceXY { get; }
+        private int MaxValue { get; }
+        public decimal Price { get; set; }
+        public double HoursSelected { get; set; }
+        private Func<SpaceShip, double, decimal> Calculate { get; }
+
         public double GetMinutes(SpaceShip ship)
         {
             Console.CursorVisible = false;
             Console.ForegroundColor = ConsoleColor.Green;
-            double hoursSelected = HoursSelected;
-            decimal price = Price;
+            var hoursSelected = HoursSelected;
+            var price = Price;
 
             var priceData = new LineData(PriceXY);
             var hourData = new LineData(HourXY);
@@ -43,6 +46,7 @@ namespace StarWarsTerminal.UI
                     Console.CursorVisible = true;
                     hourData.Update(hoursSelected.ToString());
                 }
+
                 if (keyInfo.Key == ConsoleKey.DownArrow && hoursSelected != 0)
                 {
                     hoursSelected--;
@@ -52,8 +56,10 @@ namespace StarWarsTerminal.UI
                     Console.CursorVisible = true;
                     hourData.Update(hoursSelected.ToString());
                 }
+
                 keyInfo = Console.ReadKey(true);
             }
+
             Price = price;
             HoursSelected = hoursSelected;
 

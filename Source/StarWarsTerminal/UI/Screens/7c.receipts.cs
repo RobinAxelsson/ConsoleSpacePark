@@ -1,12 +1,7 @@
-﻿using StarWarsApi.Database;
-using StarWarsTerminal.Main;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StarWarsTerminal.UI.Screens;
+using StarWarsApi.Database;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens
@@ -16,7 +11,7 @@ namespace StarWarsTerminal.UI.Screens
         public static Option Receipts()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = Map.GetMap(Option.Receipts);
+            var lines = Map.GetMap(Option.Receipts);
 
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.AllUnitsInXDir(drawables, Console.WindowWidth);
@@ -34,14 +29,13 @@ namespace StarWarsTerminal.UI.Screens
                     "\n",
                     "Price: " + receipt.Price,
                     "\n",
-                    "\n",
-
+                    "\n"
                 };
                 receiptStrings.AddRange(addReceiptList);
             }
 
-            int maxY = drawables.Max(x => x.CoordinateY);
-            int leftX = drawables.Min(x => x.CoordinateX);
+            var maxY = drawables.Max(x => x.CoordinateY);
+            var leftX = drawables.Min(x => x.CoordinateX);
 
             Console.SetCursorPosition(0, maxY + 3);
 

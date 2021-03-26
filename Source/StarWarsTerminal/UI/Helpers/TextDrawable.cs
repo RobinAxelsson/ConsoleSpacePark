@@ -11,6 +11,7 @@ namespace StarWarsTerminal.UI
         public ConsoleColor ForegroundColor { get; set; } = ConsoleColor.White;
         public bool IsDrawn { get; set; }
         public bool Erase { get; set; }
+
         public bool IsSame(IDrawable drawable)
         {
             if (CoordinateX != drawable.CoordinateX) return false;

@@ -1,11 +1,5 @@
-﻿using StarWarsTerminal.Main;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StarWarsTerminal.UI.Screens;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens
@@ -15,7 +9,7 @@ namespace StarWarsTerminal.UI.Screens
         public static Option HomePlanet()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = Map.GetMap(Option.Homeplanet);
+            var lines = Map.GetMap(Option.Homeplanet);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
 
@@ -44,8 +38,6 @@ namespace StarWarsTerminal.UI.Screens
 
             Console.ForegroundColor = ConsoleColor.Green;
 
-
-           
 
             Console.ReadLine();
             return Option.Account;

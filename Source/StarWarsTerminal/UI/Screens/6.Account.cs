@@ -1,38 +1,33 @@
-﻿using StarWarsTerminal.Main;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StarWarsTerminal.UI.Screens;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens
 {
     public static partial class Screen
     {
-         public static Option Account()
+        public static Option Account()
         {
             ConsoleWriter.ClearScreen();
-            string[] lines = Map.GetMap(Option.Account);
+            var lines = Map.GetMap(Option.Account);
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
-            var parameterCoords = drawables.FindAll(x => x.Chars == "¤").ToList().Select(x => (x.CoordinateX, x.CoordinateY)).ToList();
+            var parameterCoords = drawables.FindAll(x => x.Chars == "¤").ToList()
+                .Select(x => (x.CoordinateX, x.CoordinateY)).ToList();
 
             var nameCoord = parameterCoords[0];
             var shipCoord = parameterCoords[1];
 
             var selectionList = new SelectionList<Option>(ForegroundColor, '$');
             selectionList.GetCharPositions(drawables);
-            selectionList.AddSelections(new Option[] 
+            selectionList.AddSelections(new[]
             {
-                Option.Parking, 
+                Option.Parking,
                 Option.Receipts,
                 Option.ReRegisterShip,
                 Option.Homeplanet,
                 Option.Logout,
-                Option.Exit 
+                Option.Exit
             });
             ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();

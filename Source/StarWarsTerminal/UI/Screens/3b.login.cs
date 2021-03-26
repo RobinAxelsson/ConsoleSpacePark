@@ -1,12 +1,5 @@
-﻿using StarWarsApi.Database;
-using StarWarsTerminal.Main;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StarWarsTerminal.UI.Screens;
+﻿using System;
+using StarWarsApi.Database;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens
@@ -26,9 +19,9 @@ namespace StarWarsTerminal.UI.Screens
             var colons = loginText.FindAll(x => x.Chars == ":");
             var nameLine = new InputLine(colons[0], 50, ForegroundColor);
 
-            string accountName = nameLine.GetInputString(false);
+            var accountName = nameLine.GetInputString(false);
             var passwordLine = new InputLine(colons[1], 50, ForegroundColor);
-            string password = passwordLine.GetInputString(isPassword: true);
+            var password = passwordLine.GetInputString(true);
 
             LineTools.ClearAt((nameLine.X, nameLine.Y), accountName);
             LineTools.ClearAt((passwordLine.X, passwordLine.Y), password);

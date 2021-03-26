@@ -20,6 +20,7 @@ namespace StarWarsApi.Networking
         #region Public Methods
 
         #region Overloads
+
         public static User ParseUser(Uri URL)
         {
             var jsonResult = "";
@@ -45,6 +46,7 @@ namespace StarWarsApi.Networking
 
             throw new Exception("Parse was empty; Is the URL in correct format?");
         }
+
         public static User ParseUserAsync(Uri URL) //This contains a threadstart for the private corresponding method
         {
             var user = new User();
@@ -53,7 +55,9 @@ namespace StarWarsApi.Networking
             thread.Join(); //By doing join it will wait for the method to finish
             return user;
         }
-        public static SpaceShip ParseShipAsync(string model) //This contains a threadstart for the private corresponding method
+
+        public static SpaceShip
+            ParseShipAsync(string model) //This contains a threadstart for the private corresponding method
         {
             var spaceShip = new SpaceShip();
             var thread = new Thread(() => { spaceShip = ParseShip(model); });
@@ -61,6 +65,7 @@ namespace StarWarsApi.Networking
             thread.Join(); //By doing join it will wait for the method to finish
             return spaceShip;
         }
+
         public static SpaceShip ParseShip(Uri URL)
         {
             var jsonResult = "";
@@ -86,7 +91,9 @@ namespace StarWarsApi.Networking
 
             throw new Exception("Parse was empty; Is the URL in correct format?");
         }
+
         #endregion
+
         public static User ParseUser(string name)
         {
             var foundUser = false;
@@ -113,7 +120,9 @@ namespace StarWarsApi.Networking
                 return user;
             throw new Exception("Could not find a user based on " + name + ". Did you enter the name correctly?");
         }
-        public static User ParseUserAsync(string name) //This contains a threadstart for the private corresponding method
+
+        public static User
+            ParseUserAsync(string name) //This contains a threadstart for the private corresponding method
         {
             var user = new User();
             var thread = new Thread(() => { user = ParseUser(name); });
@@ -121,6 +130,7 @@ namespace StarWarsApi.Networking
             thread.Join(); //By doing join it will wait for the method to finish
             return user;
         }
+
         public static SpaceShip ParseShip(string model)
         {
             var foundShip = false; //A check to verify a ship has been found by name
@@ -142,7 +152,9 @@ namespace StarWarsApi.Networking
                 throw new Exception("Could not find a ship based on " + model + ". Did you enter the name correctly?");
             return ship;
         }
-        public static SpaceShip ParseShipAsync(Uri URL) //This contains a threadstart for the private corresponding method
+
+        public static SpaceShip
+            ParseShipAsync(Uri URL) //This contains a threadstart for the private corresponding method
         {
             var spaceShip = new SpaceShip();
             var thread = new Thread(() => { spaceShip = ParseShip(URL); });
@@ -150,6 +162,7 @@ namespace StarWarsApi.Networking
             thread.Join(); //By doing join it will wait for the method to finish
             return spaceShip;
         }
+
         public static SpaceShip[] ReturnShips()
         {
             var spaceShips = new List<SpaceShip>();
@@ -162,6 +175,7 @@ namespace StarWarsApi.Networking
 
             return spaceShips.ToArray();
         }
+
         public static SpaceShip[] ReturnShipsAsync() //This contains a threadstart for the private corresponding method
         {
             var spaceShips = Array.Empty<SpaceShip>();
@@ -174,6 +188,7 @@ namespace StarWarsApi.Networking
         #endregion
 
         #region Private Methods & IEnumerables
+
         private static User.Homeworld returnHomeworld(string URL)
         {
             var jsonResult = "";
@@ -195,6 +210,7 @@ namespace StarWarsApi.Networking
 
             throw ParseFailedIncorrectURL(URL);
         }
+
         private static IEnumerable<SpaceShip> returnSpaceShipsFromList(string URL)
         {
             var spaceShips = new List<SpaceShip>();
@@ -238,6 +254,7 @@ namespace StarWarsApi.Networking
 
             return spaceShips.ToArray();
         }
+
         private static IEnumerable<User> returnUsersFromList(string URL)
         {
             var users = new List<User>();
@@ -273,6 +290,7 @@ namespace StarWarsApi.Networking
 
             return users.ToArray();
         }
+
         private static IEnumerable<JToken> AllChildren(JToken json)
         {
             foreach (var c in json.Children())
