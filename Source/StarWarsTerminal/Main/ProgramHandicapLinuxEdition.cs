@@ -7,7 +7,7 @@ namespace StarWarsTerminal.Main
 {
     static class ProgramHandicapLinuxEdition
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
         //    DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.6; User Id = adminuser; Password = starwars;";
       //  Console.WriteLine(DatabaseManagement.AccountManagement.DoExists("darth123"));

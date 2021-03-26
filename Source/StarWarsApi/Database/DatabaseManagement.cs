@@ -293,12 +293,13 @@ namespace StarWarsApi.Database
                 dbHandler.SpaceShips.Update(ship);
                 dbHandler.SaveChanges();
             }
-            public static bool IdentifyWithQuestion(string username, Func<string, string> getSecurityAnswer)
+            public static User IdentifyWithQuestion(string username, Func<string, string> getSecurityAnswer)
             {
                 var inputUser = APICollector.ParseUserAsync(username);
                 var (question, answer) = GetSecurityQuestion(inputUser);
                 var inputAnswer = getSecurityAnswer(question);
-                return inputAnswer.ToLower() == answer.ToLower();
+                if (inputAnswer.ToLower() == answer.ToLower()) return inputUser;
+                else return null;
             }
             public static bool Exists(string name, bool isAccountName)
             {

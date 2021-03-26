@@ -52,11 +52,11 @@ namespace StarWarsTerminal.UI.Screen
                 return Console.ReadLine();
             };
 
-            var userExists = DatabaseManagement.AccountManagement.IdentifyWithQuestion(username, getSecurityAnswer);
+            var user = DatabaseManagement.AccountManagement.IdentifyWithQuestion(username, getSecurityAnswer);
 
             LineTools.ClearAt(fCoord, "Security question loading... plus the long answer that i cleared now!");
 
-            if (userExists == false)
+            if (user == null)
             {
                 Console.WriteLine("Wrong answer");
                 Thread.Sleep(500);
@@ -66,7 +66,8 @@ namespace StarWarsTerminal.UI.Screen
             {
                 var registrationExists = DatabaseManagement.AccountManagement.Exists(username, false);
                 if (registrationExists == false)
-                { 
+                {
+                    _account.User = user;
                     return Option.RegistrationScreen;
                 }
                 else

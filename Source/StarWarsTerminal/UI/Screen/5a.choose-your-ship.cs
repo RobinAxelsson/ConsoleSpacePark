@@ -41,6 +41,7 @@ namespace StarWarsTerminal.UI.Screen
             }
             else
             {
+                var account = _account;
                 DatabaseManagement.AccountManagement.Register(_account.User, ship, _namepass.accountName, _namepass.password);
                 return Option.Login;
             }
