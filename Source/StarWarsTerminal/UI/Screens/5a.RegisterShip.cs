@@ -1,9 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StarWarsApi.Database;
 using StarWarsApi.Models;
+using System;
+using System.IO;
+using System.Linq;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens

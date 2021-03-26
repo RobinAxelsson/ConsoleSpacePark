@@ -1,5 +1,5 @@
-﻿using System;
-using StarWarsApi.Models;
+﻿using StarWarsApi.Models;
+using System;
 
 namespace StarWarsTerminal.UI
 {

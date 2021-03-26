@@ -1,7 +1,7 @@
-﻿using System;
+﻿using StarWarsApi.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarWarsApi.Database;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens

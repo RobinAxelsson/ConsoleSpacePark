@@ -1,5 +1,5 @@
-﻿using System;
-using StarWarsApi.Database;
+﻿using StarWarsApi.Database;
+using System;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens

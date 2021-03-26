@@ -1,10 +1,10 @@
+using StarWarsApi.Database;
+using StarWarsApi.Models;
+using StarWarsTerminal.UI.Screens;
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Threading;
-using StarWarsApi.Database;
-using StarWarsApi.Models;
-using StarWarsTerminal.UI.Screens;
 
 namespace StarWarsTerminal.Main
 {

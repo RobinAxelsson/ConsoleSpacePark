@@ -12,7 +12,7 @@ namespace StarWarsTerminal.UI.Screens
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             var selectionList = new SelectionList<Option>(ConsoleColor.Green, '$');
             selectionList.GetCharPositions(drawables);
-            selectionList.AddSelections(new[] {Option.Login, Option.Identification, Option.Exit});
+            selectionList.AddSelections(new[] { Option.Login, Option.Identification, Option.Exit });
             ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();
 

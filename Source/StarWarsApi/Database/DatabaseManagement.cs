@@ -1,12 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using StarWarsApi.Models;
+using StarWarsApi.Networking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using Microsoft.EntityFrameworkCore;
-using StarWarsApi.Models;
-using StarWarsApi.Networking;
 
 namespace StarWarsApi.Database
 {
@@ -53,7 +53,7 @@ namespace StarWarsApi.Database
 
             private (bool isOpen, DateTime nextAvailable) _CheckParkingStatus()
             {
-                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
                 var ongoingParkings = new List<Receipt>();
                 foreach (var receipts in dbHandler.Receipts)
                     if (DateTime.Parse(receipts.EndTime) > DateTime.Now)
@@ -83,7 +83,7 @@ namespace StarWarsApi.Database
             private decimal _CalculatePrice(SpaceShip ship, double minutes)
             {
                 var price = double.Parse(ship.ShipLength.Replace(".", ",")) * minutes / PriceMultiplier;
-                return (decimal) price;
+                return (decimal)price;
             }
 
             private Receipt _SendInvoice(Account account, double minutes)
@@ -101,14 +101,16 @@ namespace StarWarsApi.Database
                 var endTime = DateTime.Now.AddMinutes(minutes);
                 var receipt = new Receipt
                 {
-                    Account = account, Price = price, StartTime = DateTime.Now.ToString("g"),
+                    Account = account,
+                    Price = price,
+                    StartTime = DateTime.Now.ToString("g"),
                     EndTime = endTime.ToString("g")
                 };
                 if (ConnectionString == null)
                     throw new Exception("The static property ConnectionString has not been assigned.",
                         new Exception(
                             "Please assign a value to the static property ConnectionString before calling any methods"));
-                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
                 dbHandler.Receipts.Update(receipt);
                 dbHandler.SaveChanges(); //TODO
                 return receipt;
@@ -166,7 +168,7 @@ namespace StarWarsApi.Database
             private List<Receipt> GetAccountReceipts(string accountName)
             {
                 var receiptList = new List<Receipt>();
-                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
                 foreach (var receipt in dbHandler.Receipts)
                     if (receipt.Account.AccountName == accountName)
                         receiptList.Add(receipt);
@@ -176,7 +178,7 @@ namespace StarWarsApi.Database
             private List<Receipt> GetAccountReceipts(int accountId)
             {
                 var receiptList = new List<Receipt>();
-                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
                 foreach (var receipt in dbHandler.Receipts)
                     if (receipt.Account.AccountID == accountId)
                         receiptList.Add(receipt);
@@ -186,7 +188,7 @@ namespace StarWarsApi.Database
             private bool Execution_Exists(User inputUser)
             {
                 var result = false;
-                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
                 foreach (var user in dbHandler.Users)
                     if (user.Name == inputUser.Name)
                         result = true;
@@ -199,10 +201,12 @@ namespace StarWarsApi.Database
             //Async method. Below will call upon a private corresponding method in another thread.
             private void _Register(User inputUser, SpaceShip inputShip, string accountName, string password)
             {
-                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
                 var outputAccount = new Account
                 {
-                    AccountName = accountName, Password = PasswordHashing.HashPassword(password), User = inputUser,
+                    AccountName = accountName,
+                    Password = PasswordHashing.HashPassword(password),
+                    User = inputUser,
                     SpaceShip = inputShip
                 };
                 inputUser.Homeplanet = dbHandler.Homeworlds.FirstOrDefault(g => g.Name == inputUser.Homeplanet.Name) ??
@@ -213,7 +217,7 @@ namespace StarWarsApi.Database
 
             private List<Receipt> _GetAccountReceipts(Account account)
             {
-                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
                 return dbHandler.Receipts.Include(a => a.Account)
                     .Where(receipt => receipt.Account.AccountName == account.AccountName).ToList();
             }
@@ -234,7 +238,7 @@ namespace StarWarsApi.Database
                 if (isAccountName)
                 {
                     var result = false;
-                    var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                    var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
                     foreach (var account in dbHandler.Accounts)
                         if (account.AccountName == name)
                             result = true;
@@ -244,7 +248,7 @@ namespace StarWarsApi.Database
                 else
                 {
                     var result = false;
-                    var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                    var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
                     foreach (var account in dbHandler.Users)
                         if (account.Name == name)
                             result = true;
@@ -268,7 +272,7 @@ namespace StarWarsApi.Database
             private Account Execution_ValidateLogin(string accountName, string passwordInput)
             {
                 Account accountHolder = null;
-                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
                 foreach (var account in dbHandler.Accounts.Include(a => a.User).Include(a => a.SpaceShip)
                     .Include(h => h.User.Homeplanet))
                     if (account.AccountName == accountName && account.Password == passwordInput)
@@ -339,7 +343,7 @@ namespace StarWarsApi.Database
                 ship.SpaceShipID = account.SpaceShip.SpaceShipID;
                 account.SpaceShip = ship;
 
-                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
                 dbHandler.SpaceShips.Update(ship);
                 dbHandler.SaveChanges();
             }
