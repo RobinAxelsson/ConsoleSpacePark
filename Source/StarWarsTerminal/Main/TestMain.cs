@@ -12,7 +12,7 @@ namespace StarWarsTerminal.Main
         static void Main22(string[] args)
         {
             DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.6; User Id = adminuser; Password = starwars;";
-
+                //BROKEN!
             var account = Login("leia123", "abc123");
             //LoginDarthVader();
             Console.ReadLine();
@@ -116,7 +116,7 @@ namespace StarWarsTerminal.Main
             string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
             var localShips = JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
             var ship = localShips[0];
-            DatabaseManagement.AccountManagement.Register(user, ship, accountName, password1);
+           // DatabaseManagement.AccountManagement.Register(user, ship, accountName, password1);
             Console.WriteLine(user.Name + " registered successfully!");
         }
         public static void IsParkingAvailable(Account account)

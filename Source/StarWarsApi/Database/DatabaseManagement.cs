@@ -110,8 +110,6 @@ namespace StarWarsApi.Database
 
         public class AccountManagement
         {
-            private static readonly Account testAccount = new();
-
             private AccountManagement()
             {
                 if (ConnectionString == null)
@@ -269,17 +267,7 @@ namespace StarWarsApi.Database
             }
             
             #endregion
-
-            #region Overloads
-            public static void Register(SpaceShip ship, Func<(string accountName, string password)> registerScreen)
-            {
-                var (userName, password) = registerScreen();
-                var am = new AccountManagement();
-                am._Register(testAccount.User, ship, userName, password); //add spaceship
-            }
             
-            #endregion
-
             #region Public Methods
             public static IEnumerable<Receipt> GetAccountReceipts(Account account)
             {
@@ -291,11 +279,10 @@ namespace StarWarsApi.Database
                 var am = new AccountManagement();
                 return am._ValidateLogin(accountName, passwordInput);
             }
-            public static void Register(SpaceShip ship, (string accountName, string password) namePass)
+            public static void Register(User inputUser, SpaceShip inputShip, string accountName, string password)
             {
-                var (userName, password) = namePass;
                 var am = new AccountManagement();
-                am._Register(testAccount.User, ship, userName, password);
+                am._Register(inputUser, inputShip, accountName, password);
             }
             public static void ReRegisterShip(Account account, SpaceShip ship)
             {
@@ -309,15 +296,9 @@ namespace StarWarsApi.Database
             public static bool IdentifyWithQuestion(string username, Func<string, string> getSecurityAnswer)
             {
                 var inputUser = APICollector.ParseUserAsync(username);
-                var security = GetSecurityQuestion(inputUser);
-                var inputAnswer = getSecurityAnswer(security.question);
-                if (inputAnswer.ToLower() == security.answer.ToLower())
-                {
-                    testAccount.User = inputUser;
-                    return true;
-                }
-
-                return false;
+                var (question, answer) = GetSecurityQuestion(inputUser);
+                var inputAnswer = getSecurityAnswer(question);
+                return inputAnswer.ToLower() == answer.ToLower();
             }
             public static bool Exists(string name, bool isAccountName)
             {
