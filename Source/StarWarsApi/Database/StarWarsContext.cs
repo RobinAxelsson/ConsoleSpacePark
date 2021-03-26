@@ -18,7 +18,7 @@ namespace StarWarsApi.Database
         public DbSet<User.Homeworld> Homeworlds { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsbuilder)
         {
-            //ConnectionString = @"";
+            ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.4; User Id = adminuser; Password = starwars;";
             optionsbuilder.UseSqlServer(ConnectionString);
         }
     }

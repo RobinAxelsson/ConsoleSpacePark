@@ -6,133 +6,79 @@ using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using Newtonsoft.Json;
+using StarWarsTerminal.UI.Screen;
 using StarWarsApi.Database;
+using System.Globalization;
 
 namespace StarWarsTerminal.Main
 {
-    static partial class Program
+    public static partial class Program
     {
         static Program()
         {
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
             DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.3; User Id = adminuser; Password = starwars;";
         }
+       
+        public const ConsoleColor ForegroundColor = ConsoleColor.Green;
+        public static Account _account { get; set; } = new Account();
+        public static (string accountName, string password) _namepass { get; set; }
+        static void Main3(string[] args)
+        {
 
-        private static Account _account { get; set; }
+            ShowWindow(ThisConsole, 3);
+            Console.CursorVisible = false;
+            Screen.Welcome();
+            Console.ReadLine();
+
+            var option = Option.StartScreen;
+            while(option != Option.Exit)
+            {
+                switch (option)
+                {
+                    case Option.StartScreen:
+                        option = Screen.StartScreen();
+                        break;
+                    case Option.Login:
+                        option = Screen.LoginPasswordScreen();
+                        break;
+                    case Option.GotoAccount:
+                        option = Screen.AccountScreen();
+                        break;
+                    case Option.Park:
+                        option = Screen.ParkingScreen();
+                        break;
+                    case Option.CheckReceipts:
+                        //TODO: screen needed here? or just text?
+                        break;
+                    case Option.RegisterShip:
+                        option = Screen.RegisterShip();
+                        break;
+                    case Option.RegistrationScreen:
+                        option = Screen.RegistrationScreen();
+                        break;
+                    case Option.ReRegisterShip:
+                        option = Screen.RegisterShip();
+                        break;
+                    case Option.GoToHomeplanet:
+                        option = Screen.HomePlanetScreen();
+                        break;
+                    case Option.NewAccount:
+                        option = Screen.IdentificationScreen();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Screen.ExitScreen();
+            Thread.Sleep(2000);
+        }
 
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
         private static IntPtr ThisConsole = GetConsoleWindow();
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-        private const int HIDE = 0;
-        private const int MAXIMIZE = 3;
-        private const int MINIMIZE = 6;
-        private const int RESTORE = 9;
-
-        public const ConsoleColor ForegroundColor = ConsoleColor.Green;
-        static void Main(string[] args)
-        {
-            ShowWindow(ThisConsole, MAXIMIZE);
-            Console.CursorVisible = false;
-            Thread.Sleep(500);
-            //IdentificationScreen();
-            //RegistrationScreen();
-            //WelcomeScreen();
-            //Console.ReadLine();
-            //ConsoleWriter.ClearScreen();
-            //ChooseShipScreen(GetLocalShips());
-            StartFlow();
-            //AccountFlow();
-            //ParkingScreen();
-            //ShipScreen();
-            Console.ReadLine();
-        }
-        public enum StartMenuOptions
-        {
-            Login,
-            NewAccount,
-            Exit
-        }
-        public static void StartFlow()
-        {
-            var startOption = StartScreen();
-            ConsoleWriter.ClearScreen();
-
-            switch (startOption)
-            {
-                case StartMenuOptions.Login:
-                    LoginPasswordScreen();
-                    break;
-                case StartMenuOptions.NewAccount:
-                    IdentificationScreen();
-                    break;
-                case StartMenuOptions.Exit:
-                    ExitScreen();
-                    break;
-                default:
-                    break;
-            }
-        }
-        public enum AccountMenuOptions
-        {
-            Park,
-            CheckReceipts,
-            ReRegisterShip,
-            GoToHomeplanet,
-            Exit
-        }
-        public static void AccountFlow()
-        {
-            var option = AccountScreen();
-            ConsoleWriter.ClearScreen();
-
-            switch (option)
-            {
-                case AccountMenuOptions.Park:
-                    ParkingScreen();
-                    break;
-                case AccountMenuOptions.CheckReceipts:
-                    break;
-                case AccountMenuOptions.ReRegisterShip:
-                    ShipScreen();
-                    break;
-                case AccountMenuOptions.GoToHomeplanet:
-                    HomePlanetScreen();
-                    break;
-                case AccountMenuOptions.Exit:
-                    ExitScreen();
-                    break;
-                default:
-                    break;
-            }
-        }
-        public enum ParkingMenuOptions
-        {
-            PurchaseTicket,
-            ReEnterhours,
-            BackToLogin
-        }
-
-        public static SpaceShip[] GetLocalShips()
-        {
-            string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
-            return JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
-        }
-        public static (string AccountName, string Password) GetNamePass(List<IDrawable> drawables)
-        {
-            var colons = drawables.FindAll(x => x.Chars == ":");
-            var nameLine = new InputLine(colons[0], 50, ForegroundColor);
-
-            string fullname = nameLine.GetInputString(false);
-            var passwordLine = new InputLine(colons[1], 50, ForegroundColor);
-            string password = passwordLine.GetInputString(isPassword: true);
-
-            LineTools.ClearAt((nameLine.X, nameLine.Y), fullname);
-            LineTools.ClearAt((passwordLine.X, passwordLine.Y), password);
-
-            return (fullname, password);
-        }
     }
 }

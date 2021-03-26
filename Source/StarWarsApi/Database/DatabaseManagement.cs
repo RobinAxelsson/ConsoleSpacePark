@@ -17,6 +17,7 @@ namespace StarWarsApi.Database
         public static int ParkingSlots = 5;
         public class ParkingManagement
         {
+            
             //Checks if space park is open or closed, if closed, when is nextAvailable slot?
             public (bool isOpen, DateTime nextAvailable) CheckParkingStatus()
             {
@@ -45,10 +46,10 @@ namespace StarWarsApi.Database
                 }
                 return (isOpen, nextAvailable);
             }
-            public double CalculatePrice(SpaceShip ship, double minutes)
+            public decimal CalculatePrice(SpaceShip ship, double minutes)
             {
-                var price = (double.Parse(ship.ShipLength.Replace(".",",")) * minutes) / PriceMultiplier;
-                return price;   
+                var price = (double.Parse(ship.ShipLength.Replace(".", ",")) * minutes) / PriceMultiplier;
+                return (decimal)price;
             }
             public Receipt SendInvoice(Account account, double minutes)
             {
@@ -60,8 +61,8 @@ namespace StarWarsApi.Database
             }
             private Receipt sendInvoice(Account account, double minutes)
             {
-                var price = CalculatePrice(account.SpaceShip, minutes);
-                var endTime = DateTime.Now.AddMinutes(minutes);
+                var price = CalculatePrice(account.SpaceShip, (double)minutes);
+                var endTime = DateTime.Now.AddMinutes((double)minutes);
                 var receipt = new Receipt
                 {
                     Account = account, Price = price, StartTime = DateTime.Now.ToString("g"), EndTime = endTime.ToString("g")
@@ -71,8 +72,8 @@ namespace StarWarsApi.Database
                         new Exception(
                             "Please assign a value to the static property ConnectionString before calling any methods"));
                 var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
-                dbHandler.Receipts.Add(receipt);
-                dbHandler.SaveChanges();
+                dbHandler.Receipts.Update(receipt);
+                dbHandler.SaveChanges(); //TODO
                 return receipt;
             }
         }
@@ -133,6 +134,11 @@ namespace StarWarsApi.Database
                 var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
                 return dbHandler.Accounts.Where(a => a.AccountName == accountName && a.Password == passwordInput).Include(a => a.User).Include(a => a.SpaceShip).Single();
             }
+            public List<Receipt> GetAccountReceipts(Account account)
+            {
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
+                return dbHandler.Receipts.Include(a => a.Account).Where(receipt => receipt.Account.AccountName == account.AccountName).ToList();
+            }
             private List<Receipt> GetAccountReceipts(string accountName)
             {
                 var receiptList = new List<Receipt>();
@@ -161,7 +167,6 @@ namespace StarWarsApi.Database
             }
             
             private static Account testAccount = new Account();
-
             public static bool IdentifyWithQuestion(string username, Func<string, string> getSecurityAnswer)
             {
                 var inputUser = APICollector.ParseUserAsync(username);
@@ -181,6 +186,7 @@ namespace StarWarsApi.Database
 
                 return am.Exists(testAccount.User);
             }
+            //remove below
             public static void Register(SpaceShip ship, Func<(string accountName, string password)> registerScreen)
             {
                 //testAccount add ship
@@ -189,6 +195,14 @@ namespace StarWarsApi.Database
                 var password = userinput.password;
                 var am = new DatabaseManagement.AccountManagement();
                 am.Register(testAccount.User, ship, userName, password); //add spaceship
+            }
+            public static void Register(SpaceShip ship, (string accountName, string password) namepass)
+            {
+                var userinput = namepass;
+                var userName = userinput.accountName;
+                var password = userinput.password;
+                var am = new DatabaseManagement.AccountManagement();
+                am.Register(testAccount.User, ship, userName, password);
             }
             public static (string question, string answer) GetSecurityQuestion(User inputUser)
             {

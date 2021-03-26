@@ -1,20 +1,25 @@
 using System;
-using StarWarsApi.Database;
 using StarWarsApi.Models;
-using StarWarsApi.Networking;
+using StarWarsTerminal.UI;
+using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.Threading;
+using System.IO;
+using Newtonsoft.Json;
+using StarWarsTerminal.UI.Screen;
+using StarWarsApi.Database;
 
 namespace StarWarsTerminal.Main
 {
-    static class ProgramHandicapLinuxEdition
+    public static partial class Program
     {
-        static void Main(string[] args)
+        static void Main4(string[] args)
         {
-            DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.3; User Id = adminuser; Password = starwars;";
             var account = LoginDarthVader();
-            ViewReceipts(account);
+            BuyTicket(account, 5);
             Console.ReadLine();
         }
-             public static void IsParkingAvailable(Account account)
+        public static void IsParkingAvailable(Account account)
         {
             var parking = new DatabaseManagement.ParkingManagement();
             var response = parking.CheckParkingStatus();

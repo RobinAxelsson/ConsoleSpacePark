@@ -3,27 +3,27 @@ using System;
 
 namespace StarWarsTerminal.UI
 {
-    public class PriceGetter
+    public class TimeGetter
     {
         private (int X, int Y) HourXY { get; set; }
         private (int X, int Y) PriceXY { get; set; }
         private int MaxValue { get; set; }
-        public double Price { get; set; } = 0;
+        public decimal Price { get; set; } = 0;
         public double HoursSelected { get; set; } = 0;
-        private Func<SpaceShip, double, double> Calculate { get; set; }
-        public PriceGetter((int X, int Y) hourXY, (int X, int Y) priceXY, int maxValue, Func<SpaceShip, double, double> calculate)
+        private Func<SpaceShip, double, decimal> Calculate { get; set; }
+        public TimeGetter((int X, int Y) hourXY, (int X, int Y) priceXY, int maxValue, Func<SpaceShip, double, decimal> calculate)
         {
             HourXY = hourXY;
             PriceXY = priceXY;
             MaxValue = maxValue;
             Calculate = calculate;
         }
-        public double GetPrice(SpaceShip ship)
+        public double GetHours(SpaceShip ship)
         {
             Console.CursorVisible = false;
             Console.ForegroundColor = ConsoleColor.Green;
             double hoursSelected = HoursSelected;
-            double price = Price;
+            decimal price = Price;
 
             var priceData = new LineData(PriceXY);
             var hourData = new LineData(HourXY);
@@ -37,7 +37,7 @@ namespace StarWarsTerminal.UI
                 if (keyInfo.Key == ConsoleKey.UpArrow && hoursSelected <= MaxValue)
                 {
                     hoursSelected++;
-                    price = Calculate(ship, hoursSelected);
+                    price = Math.Round(Calculate(ship, hoursSelected), 2);
                     Console.CursorVisible = false;
                     priceData.Update(price.ToString());
                     Console.CursorVisible = true;
@@ -46,7 +46,7 @@ namespace StarWarsTerminal.UI
                 if (keyInfo.Key == ConsoleKey.DownArrow && hoursSelected != 0)
                 {
                     hoursSelected--;
-                    price = Calculate(ship, hoursSelected);
+                    price = Math.Round(Calculate(ship, hoursSelected), 2);
                     Console.CursorVisible = false;
                     priceData.Update(price.ToString());
                     Console.CursorVisible = true;
@@ -57,7 +57,7 @@ namespace StarWarsTerminal.UI
             Price = price;
             HoursSelected = hoursSelected;
 
-            return price;
+            return hoursSelected;
         }
     }
 }
