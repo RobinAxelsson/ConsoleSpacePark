@@ -94,7 +94,8 @@ namespace StarWarsApi.Database
                         new Exception(
                             "Please assign a value to the static property ConnectionString before calling any methods"));
             }
-            #region Instantiated Method Groups
+            
+            #region Instantiated Methods
 
             #region Public Methods
            
@@ -204,8 +205,42 @@ namespace StarWarsApi.Database
                 return accountHolder;
             }
             #endregion
+            
             #endregion
+            
             #region Static Methods
+            
+            #region Private Methods
+            private static (string question, string answer) GetSecurityQuestion(User inputUser)
+            {
+                var question = "Vad är Calles favoriträtt?";
+                var answer = "Svar: Svensk husmanskost";
+                var r = new Random();
+                var x = r.Next(1, 4);
+                switch (x)
+                {
+                    case 1:
+                        question = "What is your hair color?";
+                        answer = inputUser.hairColor;
+                        break;
+                    case 2:
+                        question = "What is your skin color?";
+                        answer = inputUser.skinColor;
+                        break;
+                    case 3:
+                        question = "What is your eye color?";
+                        answer = inputUser.eyeColor;
+                        break;
+                    case 4:
+                        question = "What is your birth year?";
+                        answer = inputUser.birthYear;
+                        break;
+                }
+
+                return (question, answer);
+            }
+            
+            #endregion
             
             #region Overloads
             public static void Register(SpaceShip ship, Func<(string accountName, string password)> registerScreen)
@@ -219,6 +254,8 @@ namespace StarWarsApi.Database
             }
             
             #endregion
+            
+            #region Public Methods
             public static void Register(SpaceShip ship, (string accountName, string password) namePass)
             {
                 var (userName, password) = namePass;
@@ -253,40 +290,10 @@ namespace StarWarsApi.Database
 
                 return am.Exists(testAccount.User);
             }
-            #region Private Methods
-            private static (string question, string answer) GetSecurityQuestion(User inputUser)
-            {
-                var question = "Vad är Calles favoriträtt?";
-                var answer = "Svar: Svensk husmanskost";
-                var r = new Random();
-                var x = r.Next(1, 4);
-                switch (x)
-                {
-                    case 1:
-                        question = "What is your hair color?";
-                        answer = inputUser.hairColor;
-                        break;
-                    case 2:
-                        question = "What is your skin color?";
-                        answer = inputUser.skinColor;
-                        break;
-                    case 3:
-                        question = "What is your eye color?";
-                        answer = inputUser.eyeColor;
-                        break;
-                    case 4:
-                        question = "What is your birth year?";
-                        answer = inputUser.birthYear;
-                        break;
-                }
-
-                return (question, answer);
-            }
+            #endregion
             
             #endregion
-      
             
-            #endregion
             private static class PasswordHashing
             {
                 private const string Salt = "78378265240709988066";
