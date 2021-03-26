@@ -8,10 +8,10 @@ namespace StarWarsTerminal.UI
         private (int X, int Y) HourXY { get; set; }
         private (int X, int Y) PriceXY { get; set; }
         private int MaxValue { get; set; }
-        public double Price { get; set; } = 0;
+        public decimal Price { get; set; } = 0;
         public double HoursSelected { get; set; } = 0;
-        private Func<SpaceShip, double, double> Calculate { get; set; }
-        public TimeGetter((int X, int Y) hourXY, (int X, int Y) priceXY, int maxValue, Func<SpaceShip, double, double> calculate)
+        private Func<SpaceShip, double, decimal> Calculate { get; set; }
+        public TimeGetter((int X, int Y) hourXY, (int X, int Y) priceXY, int maxValue, Func<SpaceShip, double, decimal> calculate)
         {
             HourXY = hourXY;
             PriceXY = priceXY;
@@ -23,7 +23,7 @@ namespace StarWarsTerminal.UI
             Console.CursorVisible = false;
             Console.ForegroundColor = ConsoleColor.Green;
             double hoursSelected = HoursSelected;
-            double price = Price;
+            decimal price = Price;
 
             var priceData = new LineData(PriceXY);
             var hourData = new LineData(HourXY);

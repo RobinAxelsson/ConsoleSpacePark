@@ -1,43 +1,68 @@
 using System;
 using StarWarsApi.Database;
+using StarWarsApi.Models;
 using StarWarsApi.Networking;
 
 namespace StarWarsTerminal.Main
 {
     static class ProgramHandicapLinuxEdition
     {
-        static void Main2(string[] args)
+        static void Main(string[] args)
         {
-            Console.WriteLine("Please enter your name:");
-            var username = Console.ReadLine();
-            var inputUser = APICollector.ParseUserAsync(username);
-            //Loading screen "Looking up user in database..."
-            var security = DatabaseManagement.AccountManagement.GetSecurityQuestion(inputUser);
-            Console.WriteLine(security.question);
-            var inputAnswer = Console.ReadLine();
-            if (inputAnswer.ToLower() == security.answer.ToLower())
+            DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.3; User Id = adminuser; Password = starwars;";
+            var account = LoginDarthVader();
+            ViewReceipts(account);
+            Console.ReadLine();
+        }
+             public static void IsParkingAvailable(Account account)
+        {
+            var parking = new DatabaseManagement.ParkingManagement();
+            var response = parking.CheckParkingStatus();
+            if (response.isOpen) Console.WriteLine("Parking available");
+            else Console.WriteLine("parking is available at: " + response.nextAvailable);
+        }
+        public static void ViewReceipts(Account account)
+        {
+            var am = new DatabaseManagement.AccountManagement();
+            var receipts = am.GetAccountReceipts(account);
+            foreach (var receipt in receipts)
             {
-                Console.WriteLine("Correct!"); 
-                DatabaseManagement.ConnectionString = @"Server=90.229.161.68,52578;Database=StarWarsProject2.1;User Id=adminuser;Password=starwars;";
-                var am = new DatabaseManagement.AccountManagement();
-                if (!am.Exists(inputUser))
+                string[] receiptString = new string[]
                 {
-                    Console.WriteLine("Please enter your desired accountname: ");
-                    var accountName = Console.ReadLine();
-                    Console.WriteLine("Please enter your desired password:");
-                    var password = Console.ReadLine();
-                    //am.Register(inputUser, accountName, password);
-                    Console.WriteLine("Successfully Registered!");
-                    //Load register screen which contains only Account Name and Password
-                    //Input userObject, string accountName, string password > Register method
-                    //Then please login
-                }
-                else
-                {
-                    Console.WriteLine("This user is already registered!");
-                }
-               
+                    "Ticket Holder: " + receipt.Account.AccountName,
+                    "Start time: " + receipt.StartTime,
+                    "End time: " + receipt.EndTime,
+                    "Price: " + receipt.Price
+                };
+                string test = String.Join('\n', receiptString);
+
+                Console.Write(test + '\n' + '\n');
             }
+        }
+        public static void BuyTicket(Account account, int hours)
+        {
+           
+            var parking = new DatabaseManagement.ParkingManagement();
+            var receipt = parking.SendInvoice(account, hours);
+
+            string[] receiptString = new string[]
+                {
+                    "Ticket Holder: " + receipt.Account.AccountName,
+                    "Start time: " + receipt.StartTime,
+                    "End time: " + receipt.EndTime,
+                    "Price: " + receipt.Price
+                };
+            string test = String.Join('\n', receiptString);
+            Console.Write(test);
+        }
+        public static Account LoginDarthVader()
+        {
+            string accountName = "darth123";
+            string password = "darth123";
+            var accountManagement = new DatabaseManagement.AccountManagement();
+            var account = accountManagement.ValidateLogin(accountName, password);
+            if (account == null) throw new Exception("Login didn't work");
+            return account;
         }
     }
 }

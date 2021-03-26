@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using Microsoft.EntityFrameworkCore;
 using StarWarsApi.Models;
 using StarWarsApi.Networking;
 
@@ -45,10 +46,10 @@ namespace StarWarsApi.Database
                 }
                 return (isOpen, nextAvailable);
             }
-            public double CalculatePrice(SpaceShip ship, double minutes)
+            public decimal CalculatePrice(SpaceShip ship, double minutes)
             {
                 var price = (double.Parse(ship.ShipLength.Replace(".", ",")) * minutes) / PriceMultiplier;
-                return price;
+                return (decimal)price;
             }
             public Receipt SendInvoice(Account account, double minutes)
             {
@@ -60,8 +61,8 @@ namespace StarWarsApi.Database
             }
             private Receipt sendInvoice(Account account, double minutes)
             {
-                var price = CalculatePrice(account.SpaceShip, minutes);
-                var endTime = DateTime.Now.AddMinutes(minutes);
+                var price = CalculatePrice(account.SpaceShip, (double)minutes);
+                var endTime = DateTime.Now.AddMinutes((double)minutes);
                 var receipt = new Receipt
                 {
                     Account = account, Price = price, StartTime = DateTime.Now.ToString("g"), EndTime = endTime.ToString("g")
@@ -130,42 +131,13 @@ namespace StarWarsApi.Database
             }
             private Account validateLogin(string accountName, string passwordInput)
             {
-                Account resultingAccount = null;
                 var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
-                foreach (var account in dbHandler.Accounts)
-                {
-                    if (account.AccountName == accountName)
-                    {
-                        if (account.Password == passwordInput)
-                        {
-                            resultingAccount = account;
-                        }   
-                    }
-                }
-                foreach (var user in dbHandler.Users)
-                {
-                    //if(user.UserId == resultingAccount.
-                }
-                foreach (var s in dbHandler.SpaceShips)
-                {
-                    //
-                }
-                return resultingAccount; //return user account
+                return dbHandler.Accounts.Where(a => a.AccountName == accountName && a.Password == passwordInput).Include(a => a.User).Include(a => a.SpaceShip).Single();
             }
             public List<Receipt> GetAccountReceipts(Account account)
             {
-                var receiptList = new List<Receipt>();
                 var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
-                var receipts = dbHandler.Receipts;
-
-                foreach (var receipt in receipts)
-                {
-                    if (receipt.Account.AccountName == account.AccountName)
-                    {
-                        receiptList.Add(receipt);
-                    }
-                }
-                return receiptList;
+                return dbHandler.Receipts.Include(a => a.Account).Where(receipt => receipt.Account.AccountName == account.AccountName).ToList();
             }
             private List<Receipt> GetAccountReceipts(string accountName)
             {
