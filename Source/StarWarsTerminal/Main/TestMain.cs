@@ -13,12 +13,8 @@ namespace StarWarsTerminal.Main
         {
             DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.6; User Id = adminuser; Password = starwars;";
 
-            var account = LoginDarthVader();
-
-            while (IsParkingAvailable())
-                BuyTicket(account, 5);
-
-            ViewReceipts(account);
+            var account = Login("leia123", "abc123");
+            //LoginDarthVader();
             Console.ReadLine();
         }
         public static bool IsParkingAvailable()

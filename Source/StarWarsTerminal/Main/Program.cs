@@ -23,14 +23,14 @@ namespace StarWarsTerminal.Main
         public const ConsoleColor ForegroundColor = ConsoleColor.Green;
         public static Account _account { get; set; } = new Account();
         public static (string accountName, string password) _namepass { get; set; }
-        static void Main3(string[] args)
+        static void Main1(string[] args)
         {
 
             ShowWindow(ThisConsole, 3);
             Console.CursorVisible = false;
             Screen.Welcome();
-            Console.ReadLine();
-
+            Thread.Sleep(1000);
+            
             var option = Option.StartScreen;
             while(option != Option.Exit)
             {
@@ -49,7 +49,7 @@ namespace StarWarsTerminal.Main
                         option = Screen.ParkingScreen();
                         break;
                     case Option.CheckReceipts:
-                        //TODO: screen needed here? or just text?
+                        option = Screen.ReceiptScreen();
                         break;
                     case Option.RegisterShip:
                         option = Screen.RegisterShip();
@@ -58,10 +58,14 @@ namespace StarWarsTerminal.Main
                         option = Screen.RegistrationScreen();
                         break;
                     case Option.ReRegisterShip:
-                        option = Screen.RegisterShip();
+                        option = Screen.RegisterShip(reRegister: true);
                         break;
                     case Option.GoToHomeplanet:
                         option = Screen.HomePlanetScreen();
+                        break;
+                    case Option.Logout:
+                        _account = null;
+                        option = Screen.StartScreen();
                         break;
                     case Option.NewAccount:
                         option = Screen.IdentificationScreen();

@@ -30,6 +30,7 @@ namespace StarWarsTerminal.UI.Screen
                 Option.CheckReceipts,
                 Option.ReRegisterShip,
                 Option.GoToHomeplanet,
+                Option.Logout,
                 Option.Exit 
             });
             ConsoleWriter.TryAppend(drawables);

@@ -14,7 +14,7 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static Option RegisterShip()
+        public static Option RegisterShip(bool reRegister = false)
         {
             ConsoleWriter.ClearScreen();
             string[] lines = File.ReadAllLines(@"UI/TextFrames/5a.choose-your-ship.txt");
@@ -33,9 +33,18 @@ namespace StarWarsTerminal.UI.Screen
             ConsoleWriter.Update();
 
             var ship = selectionList.GetSelection();
-            DatabaseManagement.AccountManagement.Register(ship, _namepass);
 
-            return Option.Login;
+            if(reRegister == true)
+            {
+                DatabaseManagement.AccountManagement.ReregisterShip(_account, ship);
+                return Option.GotoAccount;
+            }
+            else
+            {
+                DatabaseManagement.AccountManagement.Register(ship, _namepass);
+                return Option.Login;
+            }
+
         }
     }
 }

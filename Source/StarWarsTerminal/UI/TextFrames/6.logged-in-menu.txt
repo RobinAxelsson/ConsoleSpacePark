@@ -13,6 +13,7 @@ Ship: ¤
   $ Check Receipts
   $ Re-register ship
   $ Go to homeplanet
+  $ Logout
   $ Exit
 
                 c==o

@@ -19,6 +19,7 @@
     <None Remove="UI\TextFrames\6.logged-in-menu.txt" />
     <None Remove="UI\TextFrames\7.homeplanet-info.txt" />
     <None Remove="UI\TextFrames\7.parking-menu.txt" />
+    <None Remove="UI\TextFrames\7.receipt-screen.txt" />
     <None Remove="UI\TextFrames\8.exit-screen.txt" />
   </ItemGroup>
 
@@ -39,6 +40,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\TextFrames\5a.choose-your-ship.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\TextFrames\7.receipt-screen.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\TextFrames\7.homeplanet-info.txt">

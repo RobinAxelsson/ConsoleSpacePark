@@ -19,6 +19,8 @@ namespace StarWarsTerminal.UI.Screen
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
 
             var drawProps = drawables.FindAll(x => x.Chars == "¤");
+            drawables = drawables.Except(drawProps).ToList();
+
             var props = drawProps.Select(x => (x.CoordinateX, x.CoordinateY)).ToList();
             var home = new LineData(props[0]);
             var rotation = new LineData(props[1]);
@@ -27,19 +29,22 @@ namespace StarWarsTerminal.UI.Screen
             var climate = new LineData(props[4]);
             var pop = new LineData(props[5]);
 
-            ConsoleWriter.TryAppend(drawables);
-            ConsoleWriter.Update();
-
-            Console.ForegroundColor = ConsoleColor.Green;
-
             var homeplanet = _account.User.Homeplanet;
-
+            Console.ForegroundColor = ConsoleColor.Green;
             home.Update(homeplanet.Name);
             rotation.Update(homeplanet.RotationPeriod);
             orbital.Update(homeplanet.OrbitalPeriod);
             diameter.Update(homeplanet.Diameter);
             climate.Update(homeplanet.Climate);
             pop.Update(homeplanet.Population);
+
+            ConsoleWriter.TryAppend(drawables);
+            ConsoleWriter.Update();
+
+            Console.ForegroundColor = ConsoleColor.Green;
+
+
+           
 
             Console.ReadLine();
             return Option.GotoAccount;

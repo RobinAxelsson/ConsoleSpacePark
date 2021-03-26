@@ -12,6 +12,7 @@ namespace StarWarsTerminal.UI.Screen
     {
         public static void ExitScreen()
         {
+            ConsoleWriter.ClearScreen();
             string[] lines = File.ReadAllLines(@"UI/TextFrames/8.exit-screen.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);

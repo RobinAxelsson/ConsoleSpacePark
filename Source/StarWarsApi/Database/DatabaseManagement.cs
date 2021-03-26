@@ -107,6 +107,33 @@ namespace StarWarsApi.Database
                 dbHandler.Accounts.Add(outputAccount);
                 dbHandler.SaveChanges();
             }
+            public static void ReregisterShip(Account account, SpaceShip ship)
+            {                
+                ship.SpaceShipID = account.SpaceShip.SpaceShipID;
+                account.SpaceShip = ship;
+
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
+                dbHandler.SpaceShips.Update(ship);
+                dbHandler.SaveChanges();
+            }
+            public bool Exists(string accountName)
+            {
+                var result = false;
+                var thread = new Thread(() => { result = exists(accountName); });
+                thread.Start();
+                thread.Join(); //By doing join it will wait for the method to finish
+                return result;
+            }
+            private bool exists(string accountName)
+            {
+                var result = false;
+                var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
+                foreach (var account in dbHandler.Accounts)
+                    if (account.AccountName == accountName)
+                        result = true;
+
+                return result;
+            }
             public bool Exists(User inputUser)
             {
                 var result = false;
@@ -138,8 +165,15 @@ namespace StarWarsApi.Database
             }
             private Account validateLogin(string accountName, string passwordInput)
             {
-                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
-                return dbHandler.Accounts.Where(a => a.AccountName == accountName && a.Password == passwordInput).Include(a => a.User).Include(a => a.SpaceShip).Single();
+                if(Exists(accountName))
+                {
+                    var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                    return dbHandler.Accounts.Where(a => a.AccountName == accountName && a.Password == passwordInput).Include(a => a.User).Include(a => a.SpaceShip).Include(h => h.User.Homeplanet).Single();
+                }
+                else
+                {
+                    return null;
+                }
             }
             public List<Receipt> GetAccountReceipts(Account account)
             {

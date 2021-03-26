@@ -35,10 +35,16 @@ namespace StarWarsTerminal.UI.Screen
             var receiptXY = props[5];
 
             var parking = new DatabaseManagement.ParkingManagement();
+            var openNext = parking.CheckParkingStatus();
 
             Console.ForegroundColor = ConsoleColor.Green;
             LineTools.SetCursor(parkFromXY);
-            Console.Write("Now");
+
+            if (openNext.isOpen)
+                Console.Write("Now");
+            else
+                Console.Write(openNext.nextAvailable);
+
             LineTools.SetCursor(pricePerHourXY);
             Console.Write(parking.CalculatePrice(_account.SpaceShip, 1));
             LineTools.SetCursor(shipLengthXY);
@@ -50,11 +56,23 @@ namespace StarWarsTerminal.UI.Screen
             Option menuSel;
             double hours;
 
+
             var timeGetter = new TimeGetter(enterHoursXY, calculatedPriceXY, 10000, parking.CalculatePrice);
+
+            if(openNext.isOpen == false)
+            {
+                Console.ReadLine();
+                return Option.GotoAccount;
+            }
+
             do
             {
-                hours = timeGetter.GetHours(_account.SpaceShip);
+                hours = timeGetter.GetMinutes(_account.SpaceShip);
                 menuSel = selectionList.GetSelection();
+
+                if (menuSel == Option.PurchaseTicket && hours == 0)
+                    menuSel = Option.ReEnterhours;
+
             } while (menuSel == Option.ReEnterhours);
 
             if (Option.PurchaseTicket == menuSel)
@@ -75,7 +93,7 @@ namespace StarWarsTerminal.UI.Screen
                     Console.CursorLeft = receiptXY.CoordinateX;
                 }
                 
-                Console.ReadKey();
+                Console.ReadKey(true);
             }
 
             return Option.GotoAccount;

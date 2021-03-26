@@ -18,7 +18,7 @@ namespace StarWarsTerminal.UI
             MaxValue = maxValue;
             Calculate = calculate;
         }
-        public double GetHours(SpaceShip ship)
+        public double GetMinutes(SpaceShip ship)
         {
             Console.CursorVisible = false;
             Console.ForegroundColor = ConsoleColor.Green;
@@ -39,7 +39,7 @@ namespace StarWarsTerminal.UI
                     hoursSelected++;
                     price = Math.Round(Calculate(ship, hoursSelected), 2);
                     Console.CursorVisible = false;
-                    priceData.Update(price.ToString());
+                    priceData.Update((price * 60).ToString());
                     Console.CursorVisible = true;
                     hourData.Update(hoursSelected.ToString());
                 }
@@ -48,7 +48,7 @@ namespace StarWarsTerminal.UI
                     hoursSelected--;
                     price = Math.Round(Calculate(ship, hoursSelected), 2);
                     Console.CursorVisible = false;
-                    priceData.Update(price.ToString());
+                    priceData.Update((price * 60).ToString());
                     Console.CursorVisible = true;
                     hourData.Update(hoursSelected.ToString());
                 }
@@ -57,7 +57,7 @@ namespace StarWarsTerminal.UI
             Price = price;
             HoursSelected = hoursSelected;
 
-            return hoursSelected;
+            return hoursSelected * 60;
         }
     }
 }

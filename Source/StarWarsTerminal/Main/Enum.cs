@@ -4,6 +4,7 @@
         {
             StartScreen,
             Login,
+            Logout,
             Park,
             CheckReceipts,
             RegistrationScreen,

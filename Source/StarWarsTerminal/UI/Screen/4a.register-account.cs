@@ -53,7 +53,16 @@ namespace StarWarsTerminal.UI.Screen
 
             } while (password1 != password2 || accountName.Length <= 5 || password1.Length <= 5);
             _namepass = (accountName, password1);
-            
+
+            var am = new DatabaseManagement.AccountManagement();
+            if (am.Exists(accountName))
+            {
+                ConsoleWriter.ClearScreen();
+                LineTools.SetCursor(nameCoord);
+                Console.Write("Account name is already taken!");
+                Console.ReadLine();
+                return Option.RegistrationScreen;
+            }
 
             return Option.RegisterShip;
         }
