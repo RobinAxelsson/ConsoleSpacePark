@@ -163,18 +163,21 @@ namespace StarWarsApi.Database
                 thread.Join(); //By doing join it will wait for the method to finish
                 return account;
             }
+
             private Account validateLogin(string accountName, string passwordInput)
             {
-                if(Exists(accountName))
+                Account accountHolder = null;
+                var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
+                foreach (var account in dbHandler.Accounts.Include(a => a.User).Include(a => a.SpaceShip).Include(h => h.User.Homeplanet))
                 {
-                    var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
-                    return dbHandler.Accounts.Where(a => a.AccountName == accountName && a.Password == passwordInput).Include(a => a.User).Include(a => a.SpaceShip).Include(h => h.User.Homeplanet).Single();
+                    if (account.AccountName == accountName && account.Password == passwordInput)
+                    {
+                        accountHolder = account;
+                    }
                 }
-                else
-                {
-                    return null;
-                }
+                return accountHolder;
             }
+
             public List<Receipt> GetAccountReceipts(Account account)
             {
                 var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
