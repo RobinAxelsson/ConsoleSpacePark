@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StarWarsApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StarWarsApi.Database
 {
@@ -18,7 +13,7 @@ namespace StarWarsApi.Database
         public DbSet<User.Homeworld> Homeworlds { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsbuilder)
         {
-            ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.4; User Id = adminuser; Password = starwars;";
+            ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.6; User Id = adminuser; Password = starwars;";
             optionsbuilder.UseSqlServer(ConnectionString);
         }
     }

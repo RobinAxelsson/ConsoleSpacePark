@@ -17,7 +17,7 @@ namespace StarWarsTerminal.Main
         static Program()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-            DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.3; User Id = adminuser; Password = starwars;";
+            DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.6; User Id = adminuser; Password = starwars;";
         }
        
         public const ConsoleColor ForegroundColor = ConsoleColor.Green;

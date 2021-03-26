@@ -1,23 +1,76 @@
 using System;
 using StarWarsApi.Models;
-using StarWarsTerminal.UI;
-using System.Runtime.InteropServices;
-using System.Collections.Generic;
-using System.Threading;
 using System.IO;
 using Newtonsoft.Json;
-using StarWarsTerminal.UI.Screen;
 using StarWarsApi.Database;
+using StarWarsApi.Networking;
 
 namespace StarWarsTerminal.Main
 {
     public static partial class Program
     {
-        static void Main4(string[] args)
+        static void Main(string[] args)
         {
+            //CreateUser();
             var account = LoginDarthVader();
             BuyTicket(account, 5);
             Console.ReadLine();
+        }
+        public static Account Login(string accountName, string password)
+        {
+            var accountManagement = new DatabaseManagement.AccountManagement();
+            var account = accountManagement.ValidateLogin(accountName, password);
+            if (account == null) throw new Exception("Login didn't work");
+            return account;
+        }
+        public static Account LoginNewUser()
+        {
+            string accountName = "darth123";
+            string password = "darth123";
+            var accountManagement = new DatabaseManagement.AccountManagement();
+            var account = accountManagement.ValidateLogin(accountName, password);
+            if (account == null) throw new Exception("Login didn't work");
+            return account;
+        }
+        public static void CreateUser()
+        {
+            var accountName = String.Empty;
+            var password1 = String.Empty;
+            var password2 = String.Empty;
+
+            Console.WriteLine("Enter user:");
+            User user = null;
+            do
+            {
+                user = APICollector.ParseUserAsync(Console.ReadLine());
+                if (user == null) Console.WriteLine("user not exist, try again");
+            } while (user == null);
+
+            Console.WriteLine("user exist: " + user.Name);
+
+            bool first = true;
+            do
+            {
+                if (!first)
+                {
+                    Console.WriteLine("try again!");
+                }
+                Console.WriteLine("Enter accountname");
+                accountName = Console.ReadLine();
+                Console.WriteLine("Enter password");
+                password1 = Console.ReadLine();
+                Console.WriteLine("repeat password");
+                password2 = Console.ReadLine();
+
+                first = false;
+            } while (password1 != password2 || accountName.Length <= 5 || password1.Length <= 5);
+
+            string jsonstring = File.ReadAllText(@"UI/json/small-ships.json");
+            var localShips = JsonConvert.DeserializeObject<SpaceShip[]>(jsonstring);
+            var ship = localShips[0];
+            var am = new DatabaseManagement.AccountManagement();
+            am.Register(user, ship, accountName, password1);
+            Console.WriteLine(user.Name + " registered successfully!");
         }
         public static void IsParkingAvailable(Account account)
         {
