@@ -104,7 +104,7 @@ namespace StarWarsApi.Networking
                         ReturnUsersFromList("https://swapi.dev/api/people/?page=" + i);
                     foreach (var s in tempUsers)
                     {
-                        if (s.Name != name) continue;
+                        if (s.Name.ToLower() != name.ToLower()) continue;
                         foundUser = true;
                         user = s;
                         break;
@@ -140,7 +140,7 @@ namespace StarWarsApi.Networking
                     ReturnSpaceShipsFromList("https://swapi.dev/api/starships/?page=" + i);
                 foreach (var s in tempShips)
                 {
-                    if (s.Model != model) continue;
+                    if (s.Model.ToLower() != model.ToLower()) continue;
                     foundShip = true;
                     ship = s;
                 }
