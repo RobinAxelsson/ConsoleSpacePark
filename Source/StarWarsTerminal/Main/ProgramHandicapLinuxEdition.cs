@@ -10,9 +10,9 @@ namespace StarWarsTerminal.Main
         static void Main4(string[] args)
         {
             DatabaseManagement.ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.6; User Id = adminuser; Password = starwars;";
-            var account = LoginDarthVader();
-            ViewReceipts(account);
-            Console.ReadLine();
+            var pm = new DatabaseManagement.ParkingManagement();
+            var result = pm.CheckParkingStatus();
+            Console.WriteLine(result.isOpen);
         }
              public static void IsParkingAvailable(Account account)
         {

@@ -22,7 +22,14 @@ namespace StarWarsApi.Database
             public (bool isOpen, DateTime nextAvailable) CheckParkingStatus()
             {
                 var dbHandler = new StarWarsContext { ConnectionString = ConnectionString };
-                var ongoingParkings = dbHandler.Receipts.Where(r => DateTime.Parse(r.EndTime) > DateTime.Now).ToList();
+                var ongoingParkings = new List<Receipt>();
+                foreach (var receipts in dbHandler.Receipts)
+                {
+                    if (DateTime.Parse(receipts.EndTime) > DateTime.Now)
+                    {
+                        ongoingParkings.Add(receipts);
+                    }
+                }
                 var nextAvailable = DateTime.Now;
                 var isOpen = false;
                 if(ongoingParkings.Count >= ParkingSlots)
