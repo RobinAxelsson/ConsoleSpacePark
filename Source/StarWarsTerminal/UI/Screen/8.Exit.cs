@@ -10,7 +10,7 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static void ExitScreen()
+        public static void Exit()
         {
             ConsoleWriter.ClearScreen();
             string[] lines = File.ReadAllLines(@"UI/TextFrames/8.exit-screen.txt");

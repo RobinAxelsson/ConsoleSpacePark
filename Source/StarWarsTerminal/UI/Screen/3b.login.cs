@@ -12,7 +12,7 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static Option LoginPasswordScreen()
+        public static Option Login()
         {
             ConsoleWriter.ClearScreen();
             string[] lines = File.ReadAllLines(@"UI/TextFrames/3b.login.txt");
@@ -37,11 +37,11 @@ namespace StarWarsTerminal.UI.Screen
             _account = accountManagement.ValidateLogin(accountName, password);
             if (_account != null)
             {
-                return Option.GotoAccount;
+                return Option.Account;
             }
             else
             {
-                return Option.StartScreen;
+                return Option.Start;
             }
         }
     }

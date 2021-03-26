@@ -31,50 +31,50 @@ namespace StarWarsTerminal.Main
             Screen.Welcome();
             Thread.Sleep(1000);
             
-            var option = Option.StartScreen;
+            var option = Option.Start;
             while(option != Option.Exit)
             {
                 switch (option)
                 {
-                    case Option.StartScreen:
-                        option = Screen.StartScreen();
+                    case Option.Start:
+                        option = Screen.Start();
                         break;
                     case Option.Login:
-                        option = Screen.LoginPasswordScreen();
+                        option = Screen.Login();
                         break;
-                    case Option.GotoAccount:
-                        option = Screen.AccountScreen();
+                    case Option.Account:
+                        option = Screen.Account();
                         break;
-                    case Option.Park:
-                        option = Screen.ParkingScreen();
+                    case Option.Parking:
+                        option = Screen.Parking();
                         break;
-                    case Option.CheckReceipts:
-                        option = Screen.ReceiptScreen();
+                    case Option.Receipts:
+                        option = Screen.Receipts();
                         break;
                     case Option.RegisterShip:
                         option = Screen.RegisterShip();
                         break;
-                    case Option.RegistrationScreen:
-                        option = Screen.RegistrationScreen();
+                    case Option.Registration:
+                        option = Screen.Registration();
                         break;
                     case Option.ReRegisterShip:
                         option = Screen.RegisterShip(reRegister: true);
                         break;
-                    case Option.GoToHomeplanet:
-                        option = Screen.HomePlanetScreen();
+                    case Option.Homeplanet:
+                        option = Screen.HomePlanet();
                         break;
                     case Option.Logout:
                         _account = null;
-                        option = Screen.StartScreen();
+                        option = Screen.Start();
                         break;
-                    case Option.NewAccount:
-                        option = Screen.IdentificationScreen();
+                    case Option.Identification:
+                        option = Screen.Identification();
                         break;
                     default:
                         break;
                 }
             }
-            Screen.ExitScreen();
+            Screen.Exit();
             Thread.Sleep(2000);
         }
 

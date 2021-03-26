@@ -11,7 +11,7 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static Option StartScreen()
+        public static Option Start()
         {
             ConsoleWriter.ClearScreen();
             string[] lines = File.ReadAllLines(@"UI/TextFrames/2.menu.txt");
@@ -19,7 +19,7 @@ namespace StarWarsTerminal.UI.Screen
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             var selectionList = new SelectionList<Option>(ConsoleColor.Green, '$');
             selectionList.GetCharPositions(drawables);
-            selectionList.AddSelections(new Option[] { Option.Login, Option.NewAccount, Option.Exit });
+            selectionList.AddSelections(new Option[] { Option.Login, Option.Identification, Option.Exit });
             ConsoleWriter.TryAppend(drawables);
             ConsoleWriter.Update();
 

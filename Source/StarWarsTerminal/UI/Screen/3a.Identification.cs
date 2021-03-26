@@ -13,7 +13,7 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static Option IdentificationScreen()
+        public static Option Identification()
         {
             ConsoleWriter.ClearScreen();
             string[] lines = File.ReadAllLines(@"UI/TextFrames/3a.Identification.txt");
@@ -60,14 +60,14 @@ namespace StarWarsTerminal.UI.Screen
             {
                 Console.WriteLine("Wrong answer");
                 Thread.Sleep(500);
-                return Option.StartScreen;
+                return Option.Start;
             }
             else
             {
                 bool registrationExists = DatabaseManagement.AccountManagement.IsRegistrated();
                 if (registrationExists == false)
                 { 
-                    return Option.RegistrationScreen;
+                    return Option.Registration;
                 }
                 else
                 {

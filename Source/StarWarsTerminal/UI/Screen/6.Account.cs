@@ -11,7 +11,7 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-         public static Option AccountScreen()
+         public static Option Account()
         {
             ConsoleWriter.ClearScreen();
             string[] lines = File.ReadAllLines(@"UI/TextFrames/6.logged-in-menu.txt");
@@ -26,10 +26,10 @@ namespace StarWarsTerminal.UI.Screen
             selectionList.GetCharPositions(drawables);
             selectionList.AddSelections(new Option[] 
             {
-                Option.Park, 
-                Option.CheckReceipts,
+                Option.Parking, 
+                Option.Receipts,
                 Option.ReRegisterShip,
-                Option.GoToHomeplanet,
+                Option.Homeplanet,
                 Option.Logout,
                 Option.Exit 
             });

@@ -9,7 +9,7 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static Option ParkingScreen()
+        public static Option Parking()
         {
             ConsoleWriter.ClearScreen();
             string[] lines = File.ReadAllLines(@"UI/TextFrames/7.parking-menu.txt");
@@ -21,7 +21,7 @@ namespace StarWarsTerminal.UI.Screen
             {
                 Option.PurchaseTicket,
                 Option.ReEnterhours,
-                Option.GotoAccount
+                Option.Account
             });
 
             var drawProps = drawables.FindAll(x => x.Chars == "¤");
@@ -62,7 +62,7 @@ namespace StarWarsTerminal.UI.Screen
             if(openNext.isOpen == false)
             {
                 Console.ReadLine();
-                return Option.GotoAccount;
+                return Option.Account;
             }
 
             do
@@ -96,7 +96,7 @@ namespace StarWarsTerminal.UI.Screen
                 Console.ReadKey(true);
             }
 
-            return Option.GotoAccount;
+            return Option.Account;
         }
     }
 }

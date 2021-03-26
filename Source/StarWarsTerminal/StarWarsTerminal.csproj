@@ -6,64 +6,68 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="UI\maps\1.Welcome.txt" />
     <None Remove="UI\smallShips.json" />
-    <None Remove="UI\TextFrames\1.1WelcomeText.txt" />
-    <None Remove="UI\TextFrames\1.2WelcomeText.txt" />
-    <None Remove="UI\TextFrames\1.4WelcomeText.txt" />
-    <None Remove="UI\TextFrames\1.welcome-screen.txt" />
-    <None Remove="UI\TextFrames\2.menu.txt" />
-    <None Remove="UI\TextFrames\3a.Identification.txt" />
-    <None Remove="UI\TextFrames\3b.login.txt" />
-    <None Remove="UI\TextFrames\4a.register-account.txt" />
-    <None Remove="UI\TextFrames\5a.choose-your-ship.txt" />
-    <None Remove="UI\TextFrames\6.logged-in-menu.txt" />
-    <None Remove="UI\TextFrames\7.homeplanet-info.txt" />
-    <None Remove="UI\TextFrames\7.parking-menu.txt" />
-    <None Remove="UI\TextFrames\7.receipt-screen.txt" />
-    <None Remove="UI\TextFrames\8.exit-screen.txt" />
+    <None Remove="UI\maps\1.1WelcomeText.txt" />
+    <None Remove="UI\maps\1.2WelcomeText.txt" />
+    <None Remove="UI\maps\1.4WelcomeText.txt" />
+    <None Remove="UI\maps\2.Start.txt" />
+    <None Remove="UI\maps\3a.Identification.txt" />
+    <None Remove="UI\maps\3b.login.txt" />
+    <None Remove="UI\maps\4a.Registration.txt" />
+    <None Remove="UI\maps\5a.RegisterShip.txt" />
+    <None Remove="UI\maps\6.Account.txt" />
+    <None Remove="UI\maps\7.Homeplanet.txt" />
+    <None Remove="UI\maps\7.Parking.txt" />
+    <None Remove="UI\maps\7.Receipts.txt" />
+    <None Remove="UI\maps\8.Exit.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="UI\json\small-ships.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\3a.Identification.txt">
+    <Content Include="UI\maps\3a.Identification.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\2.menu.txt">
+    <Content Include="UI\maps\2.Start.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\4a.register-account.txt">
+    <Content Include="UI\maps\4a.Registration.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\3b.login.txt">
+    <Content Include="UI\maps\3b.Login.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\5a.choose-your-ship.txt">
+    <Content Include="UI\maps\5a.RegisterShip.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\7.receipt-screen.txt">
+    <Content Include="UI\maps\7.Receipts.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\7.homeplanet-info.txt">
+    <Content Include="UI\maps\7.Homeplanet.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\8.exit-screen.txt">
+    <Content Include="UI\maps\8.Exit.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\7.parking-menu.txt">
+    <Content Include="UI\maps\7.Parking.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\6.logged-in-menu.txt">
+    <Content Include="UI\maps\6.Account.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="UI\TextFrames\1.welcome-screen.txt">
+    <Content Include="UI\maps\1.Welcome.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\StarWarsApi\StarWarsApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UI\FileIO\" />
   </ItemGroup>
 
 </Project>

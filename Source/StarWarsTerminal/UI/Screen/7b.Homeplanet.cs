@@ -11,7 +11,7 @@ namespace StarWarsTerminal.UI.Screen
 {
     public static partial class Screen
     {
-        public static Option HomePlanetScreen()
+        public static Option HomePlanet()
         {
             ConsoleWriter.ClearScreen();
             string[] lines = File.ReadAllLines(@"UI/TextFrames/7.homeplanet-info.txt");
@@ -47,7 +47,7 @@ namespace StarWarsTerminal.UI.Screen
            
 
             Console.ReadLine();
-            return Option.GotoAccount;
+            return Option.Account;
         }
     }
 }
