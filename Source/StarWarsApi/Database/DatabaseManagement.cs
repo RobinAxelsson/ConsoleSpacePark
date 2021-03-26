@@ -26,12 +26,13 @@ namespace StarWarsApi.Database
                             "Please assign a value to the static property ConnectionString before calling any methods"));
             }
             
-            #region Static Methods
+            #region Static Methods 
+            //These methods instantiate ParkingManagement and call upon the private non-static methods.
             public static (bool isOpen, DateTime nextAvailable) CheckParkingStatus()
             {
                 var pm = new ParkingManagement();
                 return pm._CheckParkingStatus();
-            }
+            } 
             public static decimal CalculatePrice(SpaceShip ship, double minutes)
             {
                 var pm = new ParkingManagement();
@@ -160,6 +161,7 @@ namespace StarWarsApi.Database
             }
 
             #endregion
+            //Async method. Below will call upon a private corresponding method in another thread.
             private void _Register(User inputUser, SpaceShip inputShip, string accountName, string password)
             {
                 var dbHandler = new StarWarsContext {ConnectionString = ConnectionString};
@@ -179,6 +181,7 @@ namespace StarWarsApi.Database
                 return dbHandler.Receipts.Include(a => a.Account)
                     .Where(receipt => receipt.Account.AccountName == account.AccountName).ToList();
             }
+            //Async method. Below will call upon a private corresponding method in another thread.
             private bool _Exists(string name, bool isAccountName)
             {
                 var result = false;
@@ -187,6 +190,7 @@ namespace StarWarsApi.Database
                 thread.Join(); //By doing join it will wait for the method to finish
                 return result;
             }
+            //Execution method that will do the "work"
             private bool Execution_Exists(string name, bool isAccountName)
             {
                 if (isAccountName)
@@ -247,19 +251,19 @@ namespace StarWarsApi.Database
                 {
                     case 1:
                         question = "What is your hair color?";
-                        answer = inputUser.hairColor;
+                        answer = inputUser.HairColor;
                         break;
                     case 2:
                         question = "What is your skin color?";
-                        answer = inputUser.skinColor;
+                        answer = inputUser.SkinColor;
                         break;
                     case 3:
                         question = "What is your eye color?";
-                        answer = inputUser.eyeColor;
+                        answer = inputUser.EyeColor;
                         break;
                     case 4:
                         question = "What is your birth year?";
-                        answer = inputUser.birthYear;
+                        answer = inputUser.BirthYear;
                         break;
                 }
 
@@ -268,7 +272,8 @@ namespace StarWarsApi.Database
             
             #endregion
             
-            #region Public Methods
+            #region Public Methods & IEnumerables
+            //These methods instantiate AccountManagement and call upon the private non-static methods.
             public static IEnumerable<Receipt> GetAccountReceipts(Account account)
             {
                 var am = new AccountManagement();

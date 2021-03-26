@@ -1,5 +1,3 @@
-using System;
-
 namespace StarWarsApi.Models
 {
     public class Receipt

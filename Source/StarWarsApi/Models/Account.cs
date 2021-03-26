@@ -16,15 +16,15 @@ namespace StarWarsApi.Models
         public string Height { get; set; }
         public string Mass { get; set; } //Doing string because some users has "unknown" value of mass
         [JsonProperty("hair_color")]
-        public string hairColor { get; set; }
+        public string HairColor { get; set; }
         [JsonProperty("skin_color")]
-        public string skinColor { get; set; }
+        public string SkinColor { get; set; }
         [JsonProperty("eye_color")]
-        public string eyeColor { get; set; }
+        public string EyeColor { get; set; }
         [JsonProperty("birth_year")]
-        public string birthYear { get; set; }
+        public string BirthYear { get; set; }
         public string Gender { get; set; }
-        public string URL { get; set; }
+        public string Url { get; set; }
         public Homeworld Homeplanet { get; set; }
         public class Homeworld
         {
@@ -38,7 +38,7 @@ namespace StarWarsApi.Models
             public string Climate { get; set; }
             public string Terrain { get; set; }
             public string Population { get; set; }
-            public string URL { get; set; }
+            public string Url { get; set; }
         }
     }
 }

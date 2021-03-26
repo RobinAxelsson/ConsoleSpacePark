@@ -13,7 +13,7 @@ namespace StarWarsApi.Models
         public string Classification { get; set; }
         [JsonProperty("Length")]
         public string ShipLength { get; set; }
-        public string URL { get; set; }
+        public string Url { get; set; }
         //Noticed SWAPI JSON doesn't contain values for height or width. Will we use our own measurements?
      
     }
