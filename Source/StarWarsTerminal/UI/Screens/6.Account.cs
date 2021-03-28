@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using static StarWarsTerminal.Main.Program;
 
@@ -9,7 +10,7 @@ namespace StarWarsTerminal.UI.Screens
         public static Option Account()
         {
             ConsoleWriter.ClearScreen();
-            var lines = Map.GetMap(Option.Account);
+            var lines = File.ReadAllLines(@"UI/maps/6.Account.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             var parameterCoords = drawables.FindAll(x => x.Chars == "¤").ToList()

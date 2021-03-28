@@ -1,5 +1,6 @@
 ﻿using StarWarsApi.Database;
 using System;
+using System.IO;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens
@@ -9,7 +10,7 @@ namespace StarWarsTerminal.UI.Screens
         public static Option Login()
         {
             ConsoleWriter.ClearScreen();
-            var lines = Map.GetMap(Option.Login);
+            var lines = File.ReadAllLines(@"UI/maps/3b.Login.txt");
             var loginText = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.AllUnitsInXDir(loginText, Console.WindowWidth);
             TextEditor.Center.InYDir(loginText, Console.WindowHeight);

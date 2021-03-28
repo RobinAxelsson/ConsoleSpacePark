@@ -1,5 +1,6 @@
 ﻿using StarWarsApi.Database;
 using System;
+using System.IO;
 using static StarWarsTerminal.Main.Program;
 
 namespace StarWarsTerminal.UI.Screens
@@ -9,7 +10,7 @@ namespace StarWarsTerminal.UI.Screens
         public static Option Registration()
         {
             ConsoleWriter.ClearScreen();
-            var lines = Map.GetMap(Option.Registration);
+            var lines = File.ReadAllLines(@"UI/maps/4a.Registration.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.AllUnitsInXDir(drawables, Console.WindowWidth);
             TextEditor.Center.InYDir(drawables, Console.WindowHeight);

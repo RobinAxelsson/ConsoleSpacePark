@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 
 namespace StarWarsTerminal.UI.Screens
@@ -8,7 +9,7 @@ namespace StarWarsTerminal.UI.Screens
         public static void Exit()
         {
             ConsoleWriter.ClearScreen();
-            var lines = Map.GetMap(Option.Exit);
+            var lines = File.ReadAllLines(@"UI/maps/8.Exit.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             ConsoleWriter.TryAppend(drawables);

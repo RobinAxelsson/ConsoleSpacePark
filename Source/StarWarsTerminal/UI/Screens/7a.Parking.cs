@@ -1,5 +1,6 @@
 ﻿using StarWarsApi.Database;
 using System;
+using System.IO;
 using System.Linq;
 using static StarWarsTerminal.Main.Program;
 
@@ -11,7 +12,7 @@ namespace StarWarsTerminal.UI.Screens
         {
             ConsoleWriter.ClearScreen();
 
-            var lines = Map.GetMap(Option.Parking);
+            var lines = File.ReadAllLines(@"UI/maps/7.Parking.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             var selectionList = new SelectionList<Option>(ConsoleColor.Green, '$');
@@ -43,7 +44,7 @@ namespace StarWarsTerminal.UI.Screens
                 Console.Write(openNext.nextAvailable);
 
             LineTools.SetCursor(pricePerHourXY);
-            Console.Write(DatabaseManagement.ParkingManagement.CalculatePrice(_account.SpaceShip, 1));
+            Console.Write(DatabaseManagement.ParkingManagement.CalculatePrice(_account.SpaceShip, 1) * 60);
             LineTools.SetCursor(shipLengthXY);
             Console.Write(_account.SpaceShip.ShipLength);
 
@@ -74,21 +75,22 @@ namespace StarWarsTerminal.UI.Screens
 
             if (Option.PurchaseTicket == menuSel)
             {
+                ConsoleWriter.ClearScreen();
+
                 var receipt = DatabaseManagement.ParkingManagement.SendInvoice(_account, hours);
+                var boxData = new BoxData((Console.WindowWidth/2 - 10, parkFromXY.CoordinateY));
+                boxData.Update(new[] { "Loading receipt..." });
+
                 string[] receiptString =
                 {
+                    "Purchase successful!",
+                    "",
                     "Ticket Holder: " + receipt.Account.AccountName,
                     "Start time: " + receipt.StartTime,
                     "End time: " + receipt.EndTime,
                     "Price: " + receipt.Price
                 };
-                LineTools.SetCursor(receiptXY);
-
-                foreach (var line in receiptString)
-                {
-                    Console.WriteLine(line);
-                    Console.CursorLeft = receiptXY.CoordinateX;
-                }
+                boxData.Update(receiptString);
 
                 Console.ReadKey(true);
             }

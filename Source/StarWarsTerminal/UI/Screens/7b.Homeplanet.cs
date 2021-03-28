@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using static StarWarsTerminal.Main.Program;
 
@@ -9,7 +10,7 @@ namespace StarWarsTerminal.UI.Screens
         public static Option HomePlanet()
         {
             ConsoleWriter.ClearScreen();
-            var lines = Map.GetMap(Option.Homeplanet);
+            var lines = File.ReadAllLines(@"UI/maps/7.Homeplanet.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
 

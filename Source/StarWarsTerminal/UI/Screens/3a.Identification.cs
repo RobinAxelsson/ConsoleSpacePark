@@ -1,5 +1,6 @@
 ﻿using StarWarsApi.Database;
 using System;
+using System.IO;
 using System.Threading;
 using static StarWarsTerminal.Main.Program;
 
@@ -10,7 +11,7 @@ namespace StarWarsTerminal.UI.Screens
         public static Option Identification()
         {
             ConsoleWriter.ClearScreen();
-            var lines = Map.GetMap(Option.Identification);
+            var lines = File.ReadAllLines(@"UI/maps/3a.Identification.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(drawables, Console.WindowWidth, Console.WindowHeight);
             ConsoleWriter.TryAppend(drawables);

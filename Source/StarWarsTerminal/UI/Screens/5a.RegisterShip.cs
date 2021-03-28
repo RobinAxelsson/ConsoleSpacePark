@@ -14,7 +14,7 @@ namespace StarWarsTerminal.UI.Screens
         public static Option RegisterShip(bool reRegister = false)
         {
             ConsoleWriter.ClearScreen();
-            var lines = Map.GetMap(Option.RegisterShip);
+            var lines = File.ReadAllLines(@"UI/maps/5a.RegisterShip.txt");
             var drawables = TextEditor.Add.DrawablesAt(lines, 0);
             var nextLine = drawables.Max(x => x.CoordinateY);
             var ships = APICollector.ReturnShipsAsync().Where(s => double.Parse(s.ShipLength) <= 150).ToArray();

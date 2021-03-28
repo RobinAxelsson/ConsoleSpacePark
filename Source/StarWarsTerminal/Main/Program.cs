@@ -35,7 +35,7 @@ namespace StarWarsTerminal.Main
                 {
                     case Option.Welcome:
                         option = Screen.Welcome();
-                        Thread.Sleep(1000);
+                        Console.ReadKey(true);
                         break;
                     case Option.Start:
                         option = Screen.Start();

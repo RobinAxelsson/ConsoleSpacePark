@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace StarWarsTerminal.UI.Screens
 {
@@ -7,7 +8,7 @@ namespace StarWarsTerminal.UI.Screens
         public static Option Welcome()
         {
             ConsoleWriter.ClearScreen();
-            var lines = Map.GetMap(Option.Welcome);
+            var lines = File.ReadAllLines(@"UI/maps/1.Welcome.txt");
             var welcomeText = TextEditor.Add.DrawablesAt(lines, 0);
             TextEditor.Center.ToScreen(welcomeText, Console.WindowWidth, Console.WindowHeight);
             ConsoleWriter.TryAppend(welcomeText);
