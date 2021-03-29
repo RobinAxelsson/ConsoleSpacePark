@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <None Remove="Jobjects\small-ships.json" />
-    <None Remove="UI\TestText.txt" />
   </ItemGroup>
 
   <ItemGroup>
