@@ -27,7 +27,7 @@ namespace StarWarsTerminal.UI.Screens
             LineTools.ClearAt((nameLine.X, nameLine.Y), accountName);
             LineTools.ClearAt((passwordLine.X, passwordLine.Y), password);
             ConsoleWriter.ClearScreen();
-            Console.SetCursorPosition(nameLine.X, nameLine.Y);
+            Console.SetCursorPosition(Console.WindowWidth/2-10, Console.WindowHeight/2 - 3);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Validating login...");
             _account = DatabaseManagement.AccountManagement.ValidateLogin(accountName, password);
