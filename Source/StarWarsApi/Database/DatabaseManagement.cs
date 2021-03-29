@@ -3,6 +3,7 @@ using StarWarsApi.Models;
 using StarWarsApi.Networking;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,7 +15,9 @@ namespace StarWarsApi.Database
     {
         public static double PriceMultiplier = 10;
         public static int ParkingSlots = 5;
-        public static string ConnectionString { get; set; }
+        private static string ConnectionString { get; set; }
+
+        public static void SetConnectionString(string filePath) { ConnectionString = File.ReadAllText(filePath); }
 
         public class ParkingManagement
         {

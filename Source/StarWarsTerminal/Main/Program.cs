@@ -16,8 +16,7 @@ namespace StarWarsTerminal.Main
         static Program()
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-            DatabaseManagement.ConnectionString =
-                @"Server = 90.229.161.68,52578; Database = StarWarsProjectLive; User Id = adminuser; Password = starwars;";
+            DatabaseManagement.SetConnectionString(@"Database/connection.txt"); //add connectionstring at this path and exact name to work with git ignore
         }
 
         public static Account _account { get; set; } = new();
