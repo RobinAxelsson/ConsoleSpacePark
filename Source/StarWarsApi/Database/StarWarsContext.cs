@@ -15,7 +15,7 @@ namespace StarWarsApi.Database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsbuilder)
         {
             //hard code connectionstring in onconfiguring method when migrating
-            // ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProject2.6; User Id = adminuser; Password = starwars;";
+            ConnectionString = @"Server = 90.229.161.68,52578; Database = StarWarsProjectLive; User Id = adminuser; Password = starwars;";
             optionsbuilder.UseSqlServer(ConnectionString);
         }
     }
