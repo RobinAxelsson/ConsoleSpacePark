@@ -4,7 +4,7 @@ using static StarWarsApi.Database.DatabaseManagement;
 
 namespace SpaceX_Tests.UnitTests
 {
-    public class DbTests
+    public class APICollectorTests
     {
         [Fact]
         public void ParseUserAsync_RightInput_ExpectBlue()
