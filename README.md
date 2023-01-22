@@ -1,6 +1,6 @@
 # Space Park V1 - SpaceX
 
-This is an Console Rest Client project that is based on the Star Wars Web API [swapi.dev/](https://swapi.dev/) and is used to for practicing Http-Requests, concurrency and Code first with Entity Framework Core.
+This is an Console Rest Client project that is based on the Star Wars Web API [swapi.dev/](https://swapi.dev/) and is used to for practicing Http-Requests, concurrency and Code first with Entity Framework Core. It is the precessor to [Space Park V2](https://github.com/RobinAxelsson/SpaceParkV2)
 
 Authors: [Albin Alm,](https://github.com/albinalm) [Robin Axelsson](https://github.com/RobinAxelsson) [Calle Vredin](https://github.com/coachvredin)
 
